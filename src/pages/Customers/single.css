@@ -1,0 +1,60 @@
+.singleContainer {
+  display: block;
+  width: 100%;
+}
+.singleContainer .top {
+  padding: 40px;
+  display: flex;
+  gap: 20px;
+}
+.singleContainer .top .center {
+  flex: 1;
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  padding: 20px;
+  position: relative;
+}
+.singleContainer .top .center .title {
+  margin-bottom: 25px;
+  font-size: 25px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: lightgray;
+}
+.singleContainer .top .center .item {
+  display: flex;
+  gap: 20px;
+}
+.singleContainer .top .center .item .itemImg {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.singleContainer .top .center .item .details .itemTitle {
+  font-size: 23px;
+  margin-bottom: 10px;
+  color: #555;
+}
+.singleContainer .top .center .item .details .detailItem {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.singleContainer .top .center .item .details .detailItem .itemKey {
+  font-weight: bold;
+  color: gray;
+  margin-right: 10px;
+}
+.singleContainer .top .center .item .details .detailItem .itemValue {
+  font-weight: 300;
+}
+.singleContainer .bottom {
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  padding: 20px;
+  margin: 10px 30px;
+}
+.singleContainer .bottom .title {
+  font-size: 18px;
+  color: lightgray;
+  margin-bottom: 10px;
+}/*# sourceMappingURL=single.css.map */
