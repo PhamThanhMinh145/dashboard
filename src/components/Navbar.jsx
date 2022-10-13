@@ -8,7 +8,7 @@ import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import avatar from '../data/pic-6.png';
 import {Notification, Chat, UserProfile } from '.';
 import {useStateContext} from '../contexts/ContextProvider';
-import { PurchaseOrders } from '../pages';
+// import { PurchaseOrders } from '../pages';
 
 const NavButton = ({title, customFunc, icon, color, dotColor}) => (
   <TooltipComponent content={title} position='BottomCenter'>
@@ -89,7 +89,7 @@ const Navbar = () => {
         </div>
         </TooltipComponent>
 
-        {isClicked.cart && <PurchaseOrders/> }
+        {/* {isClicked.cart && <PurchaseOrders/> } */}
         {isClicked.chat && <Chat/> }
         {isClicked.notification && <Notification/> }
         {isClicked.userProfile && <UserProfile/> }
