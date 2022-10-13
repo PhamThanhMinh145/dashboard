@@ -1,6 +1,9 @@
 .datatable {
   height: 480px;
 }
+.datatable .cellId span {
+  font-size: 20px;
+}
 .datatable .cellWithImg {
   display: flex;
   align-items: center;
