@@ -6,20 +6,16 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import {Navbar, Footer, Sidebar, ThemeSetting} from './components'
 
 
-import {Home} from './pages'
+import {Home,PurchaseOrders, Sale} from './pages'
 
 import { useStateContext } from './contexts/ContextProvider';
 import ListEmployees from './pages/Employees/ListEmployees';
 import NewEmployee from './pages/Employees/NewEmployee';
+import EditEmployee  from './pages/Employees/EditEmployee'
 import ListCustomers from './pages/Customers/ListCustomers'
-import ListAuthor from './pages/Authors/ListAuthor';
-import ListPublisher from './pages/Publishers/ListPublisher';
-import ListField from './pages/Fields/ListField';
-import NewField from './pages/Fields/NewField';
-import NewPublisher from './pages/Authors/NewAuthor';
+import ListBook from './pages/Books/listBook'
 import Single from './pages/Customers/Single'
-import {userInputsEmployee, userInputsAuthor, userInputsPublisher, userInputsField} from "./data/formSource"
-import NewAuthor from './pages/Authors/NewAuthor';
+import NewBook from './pages/Books/NewBook';
 
 
 
@@ -79,34 +75,32 @@ const App = () => {
               {/* Accounts */}
               <Route path="employee">
                  <Route index element={<ListEmployees />} />
-                 <Route path='new' element={<NewEmployee inputs={userInputsEmployee} title="Add new Employee"/>} />
-                 <Route path=':userId' element={<Single />} />
+                 <Route path='new' element={<NewEmployee inputs={userInputs} title="Add new Employee"/>} />
+                 <Route path=':userId' element={<EditEmployee />} />
               </Route>
 
               <Route path="customer">
                  <Route index element={<ListCustomers />} />
                  <Route path=':userId' element={<Single />} />
               </Route>
+   
+
+   
+             
 
               {/* Products */}
-              <Route path="authors">
-                 <Route index element={<ListAuthor />} />
-                 <Route path='new' element={<NewAuthor inputs={userInputsAuthor} title="Add new Author"/>} />
-                 <Route path=':userId' element={<Single />} />
-              </Route>
-   
-              <Route path="publishers">
-                 <Route index element={<ListPublisher />} />
-                 <Route path='new' element={<NewPublisher inputs={userInputsPublisher} title="Add new Publisher"/>} />
-                 <Route path=':userId' element={<Single />} />
+              <Route path="books">
+                 <Route index element={<ListBook />} />
+                 <Route path='new' element={<NewBook inputs={userInputs} title="Add new Book"/>} />
               </Route>
              
-              
-              <Route path="Fields">
-                 <Route index element={<ListField />} />
-                 <Route path='new' element={<NewField inputs={userInputsField} title="Add new Field"/>} />
-                 <Route path=':userId' element={<Single />} />
-              </Route>
+
+              {/* Sales */}
+              <Route path="/purchase-orders" element={<PurchaseOrders />} />
+              <Route path="/sale" element={<Sale />}/>
+
+
+
 
             </Routes>
           </div>

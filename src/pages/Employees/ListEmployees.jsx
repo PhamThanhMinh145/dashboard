@@ -1,10 +1,10 @@
 import React from 'react'
 import Datatable from '../../components/datatable/Datatable'
-import "./list.scss"
+
 
 const ListEmployees = () => {
   return (
-    <div className='m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-xl'>
+    <div className='m-2 md:m-5 mt-20 p-2 md:p-8 bg-white rounded-xl h-screen'>
         <Datatable/>
     </div>
   )

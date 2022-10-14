@@ -65,8 +65,9 @@
 }
 .newContainer .top .right form button,
 .newContainer .bottom .right form button {
+  margin-top: 50px;
   width: 200px;
-  padding: 5px;
+  padding: 10px;
   border-radius: 5px;
   font-size: 16px;
   background-color: #12E86B;

@@ -4,7 +4,7 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { display } from "@mui/system";
 import Dropdown from "../../components/dropdown/Dropdown";
 
-const NewEmployee = ({ inputs, title }) => {
+const NewBook = ({ inputs, title }) => {
   const [file, setFile] = useState("");
 
   const [selected, setSelected] = useState("");
@@ -61,4 +61,4 @@ const NewEmployee = ({ inputs, title }) => {
   );
 };
 
-export default NewEmployee;
+export default NewBook;
