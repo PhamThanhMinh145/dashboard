@@ -69,7 +69,7 @@ export const links = [
       title: 'SALES',
       links: [
         {
-          name: 'Purchase orders',
+          name: 'orders',
           icon: <BsFillCartCheckFill />,
         },
         {

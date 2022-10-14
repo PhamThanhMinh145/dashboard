@@ -84,3 +84,40 @@ export const userInputsEmployee = [
     
 
   ];
+
+  export const userInputsAuthor = [
+    {
+      id: 1,
+      label: "Author Name",
+      type: "text",
+      placeholder: "Pham Thanh Minh",
+    },
+    
+  ];
+
+  export const userInputsPublisher = [
+    {
+      id: 1,
+      label: "Publisher Name",
+      type: "text",
+      placeholder: "Pham Thanh Minh",
+    },
+    
+  ];
+
+  export const userInputsField = [
+    {
+      id: 1,
+      label: "Field Name",
+      type: "text",
+      placeholder: "Pham Thanh Minh",
+    },
+
+    {
+      id: 2,
+      label: "Field Description",
+      type: "text",
+      placeholder: "Cools",
+    },
+    
+  ];

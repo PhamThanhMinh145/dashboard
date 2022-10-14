@@ -15,8 +15,8 @@ const DatatablePublisher = () => {
                 <div className='cellAction'>
                     <Link to="test" style={{textDecoration:"none"}}>
                         <div className='editButton'>Edit</div>
-
                     </Link>
+                    <div className="deleteButton">Delete</div>
                 </div>
             )
         }
