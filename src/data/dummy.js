@@ -56,7 +56,7 @@ export const links = [
           icon: <SiAffinitypublisher />,
         },
         {
-          name: 'Authors',
+          name: 'authors',
           icon: <BsPersonLinesFill />,
         },
         {

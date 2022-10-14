@@ -1,4 +1,4 @@
-export const userInputs = [
+export const userInputsEmployee = [
     {
       id: 1,
       label: "Name",
