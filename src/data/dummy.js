@@ -37,7 +37,7 @@ export const links = [
           icon: <IoIosPeople />,
         },
         {
-          name: 'customers',
+          name: 'customer',
           icon: <MdOutlinePeopleAlt />,
         },
         
