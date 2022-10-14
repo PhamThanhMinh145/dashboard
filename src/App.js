@@ -6,16 +6,16 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import {Navbar, Footer, Sidebar, ThemeSetting} from './components'
 
 
-import {Home, Employees, Customers, Books, Publishers, Authors, Fields,
-PurchaseOrders, Sale} from './pages'
+import {Home,PurchaseOrders, Sale} from './pages'
 
 import { useStateContext } from './contexts/ContextProvider';
 import ListEmployees from './pages/Employees/ListEmployees';
 import NewEmployee from './pages/Employees/NewEmployee';
-import  EditEmployee  from './pages/Employees/EditEmployee'
+import EditEmployee  from './pages/Employees/EditEmployee'
 import ListCustomers from './pages/Customers/ListCustomers'
+import ListBook from './pages/Books/listBook'
 import Single from './pages/Customers/Single'
-import {userInputs} from "./data/formSource"
+import NewBook from './pages/Books/NewBook';
 
 
 
@@ -76,7 +76,7 @@ const App = () => {
               <Route path="employee">
                  <Route index element={<ListEmployees />} />
                  <Route path='new' element={<NewEmployee inputs={userInputs} title="Add new Employee"/>} />
-                 <Route path=':userId' element={<Single />} />
+                 <Route path=':userId' element={<EditEmployee />} />
               </Route>
 
               <Route path="customer">
@@ -86,15 +86,14 @@ const App = () => {
    
 
    
-              <Route path="/employees" element={<Employees />}  />
-
-              <Route path="/customers"  />
+             
 
               {/* Products */}
-              <Route path="/books" element={<Books />} />
-              <Route path="/publishers" element={<Publishers />} />
-              <Route path="/authors" element={<Authors />} />
-              <Route path="/Fields" element={<Fields />} />
+              <Route path="books">
+                 <Route index element={<ListBook />} />
+                 <Route path='new' element={<NewBook inputs={userInputs} title="Add new Book"/>} />
+              </Route>
+             
 
               {/* Sales */}
               <Route path="/purchase-orders" element={<PurchaseOrders />} />

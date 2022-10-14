@@ -1,6 +1,6 @@
 import React from 'react'
 import List from '../../components/table/Table'
-import './single.scss'
+import './style/single.scss'
 
 const Single = () => {
   return (
