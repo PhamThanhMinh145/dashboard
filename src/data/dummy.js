@@ -151,6 +151,39 @@ export const links = [
     },
   ];
 
+  export const getRoleCollection = () => (
+    [
+        {id: '1' , title: 'Admin'},
+        {id: '2' , title: 'Staff'},
+        
+    ]
+)
+
+export const getAuthorCollection = () => (
+  [
+      {id: '1' , title: 'Nguyen Nhat Anh'},
+      {id: '2' , title: 'To Huu'},
+      
+  ]
+)
+
+export const getPublisherCollection = () => (
+  [
+      {id: '1' , title: 'NXB Kim Dong'},
+      {id: '2' , title: 'NXB Anh trang'},
+      
+  ]
+)
+
+export const getFieldCollection = () => (
+  [
+      {id: '1' , title: 'Thiller'},
+      {id: '2' , title: 'Science and fiction'},
+      
+  ]
+)
+
+
 
 
   const gridEmployeeProfile = (props) => (

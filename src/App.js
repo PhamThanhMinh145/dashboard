@@ -24,6 +24,8 @@ import NewAuthor from './pages/Authors/NewAuthor';
 import NewField from './pages/Fields/NewField';
 import NewPublisher from './pages/Authors/NewAuthor';
 import {userInputsEmployee , bookInputs , userInputsAuthor, userInputsPublisher, userInputsField} from './data/formSource';
+import NewTest from './pages/Employees/NewTest';
+import BookForm from './pages/Books/BookForm';
 
 
 
@@ -83,7 +85,7 @@ const App = () => {
               {/* Accounts */}
               <Route path="employee">
                  <Route index element={<ListEmployees />} />
-                 <Route path='new' element={<NewEmployee inputs={userInputsEmployee} title="Add new Employee"/>} />
+                 <Route path='new' element={<NewTest title="Add new Employee"/>} />
                  <Route path=':userId' element={<EditEmployee />} />
               </Route>
 
@@ -99,7 +101,7 @@ const App = () => {
               {/* Products */}
               <Route path="books">
                  <Route index element={<ListBook />} />
-                 <Route path='new' element={<NewBook inputs={bookInputs} title="Add new Book"/>} />
+                 <Route path='newbook' element={<BookForm  title="Add new Book"/>} />
               </Route>
              
               <Route path="authors">
