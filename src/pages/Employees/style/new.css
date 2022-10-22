@@ -18,20 +18,18 @@
 .newContainer .top .left,
 .newContainer .bottom .left {
   flex: 1;
-  margin-top: 30px;
-  padding-left: 150px;
 }
 .newContainer .top .left img,
 .newContainer .bottom .left img {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 1000px;
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
 }
 .newContainer .top .right,
 .newContainer .bottom .right {
-  flex: 2;
+  flex: 3;
 }
 .newContainer .top .right form,
 .newContainer .bottom .right form {

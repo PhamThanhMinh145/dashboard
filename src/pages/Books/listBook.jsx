@@ -1,6 +1,6 @@
 import React from "react";
-import Datatable from "../../components/datatable/Datatable";
-import BookTable from "../../components/datatableBook/BookTable";
+
+import BookTable from "../../components/datatable/datatableBook/BookTable";
 
 const listBook = () => {
   return (

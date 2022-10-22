@@ -1,5 +1,5 @@
 import React, { useState }  from 'react'
-import './newAuthor.scss'
+
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 
 

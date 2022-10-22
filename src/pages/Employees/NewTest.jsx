@@ -1,15 +1,6 @@
-import {
-  BrightnessAuto,
-  Event,
-  LocationSearching,
-  MailOutline,
-  PermIdentity,
-  PhoneAndroid,
-  Publish,
-} from "@mui/icons-material";
 import React, { useState } from "react";
+import "./style/new.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import "./style/edit.scss";
 import { Grid } from "@mui/material";
 import Input from "../../components/form/Input";
 import RadioGroupp from "../../components/form/RadioGroup";
@@ -37,7 +28,7 @@ const genderItems = [
   { id: "other", title: "Other" },
 ];
 
-const EditEmployee = () => {
+const NewTest = ({ title }) => {
   const [file, setFile] = useState("");
   const [values, setValues] = useState(initialFValues);
   const [errors, setErrors] = useState({});
@@ -53,15 +44,12 @@ const EditEmployee = () => {
         ? ""
         : "Email is not valid";
     if ("password" in fieldValues)
-      temp.password =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,20}$/.test(
-          fieldValues.password
-        )
-          ? ""
-          : "4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.";
+      temp.password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,20}$/.test(fieldValues.password)
+        ? ""
+        : "4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.";
     if ("phone" in fieldValues)
       temp.phone =
-       /^[0-9]{10}$/.test(fieldValues.phone) ? "" : "Maximum 10 numbers required";
+      /^[0-9]{10}$/.test(fieldValues.phone) ? "" : "Maximum 10 numbers required";
     if ("role" in fieldValues)
       temp.role = fieldValues.role.length != 0 ? "" : "This field is required";
     setErrors({
@@ -94,72 +82,44 @@ const EditEmployee = () => {
   };
 
   return (
-    <div className="employee">
-      <div className="employeeTitleContainer">
-        <h1 className="employeeTitle">Edit Employee</h1>
-        <button className="employeeAddButton">Create</button>
+    <div className="newContainer">
+      <div className="top">
+        <h1>{title}</h1>
       </div>
 
-      <div className="employeeContainer">
-        <div className="show">
-          <div className="showTop">
+      <div className="bottom">
+        <div className="left">
+          <div className="img">
             <img
-              src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-              alt="avatar"
-              className="employeeShowImg"
+              src={
+                file
+                  ? URL.createObjectURL(file)
+                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+              }
             />
-
-            <div className="showTopTitle">
-              <span className="showUserName">Anna Becker</span>
-              <span className="showRole">Admin</span>
-            </div>
-          </div>
-
-          <div className="showBottom">
-            <span className="showTitle">Account Details</span>
-
-            <div className="showInfo">
-              <PermIdentity className="showIcon" />
-              <span className="showInfoTitle">annabeck99</span>
-            </div>
-
-            <div className="showInfo">
-              <Event className="showIcon" />
-              <span className="showInfoTitle">10.12.1999</span>
-            </div>
-
-            <span className="showTitle">Contact Details</span>
-
-            <div className="showInfo">
-              <MailOutline className="showIcon" />
-              <span className="showInfoTitle">annabeck99@gmail.com</span>
-            </div>
-
-            <div className="showInfo">
-              <PhoneAndroid className="showIcon" />
-              <span className="showInfoTitle">0963153985</span>
-            </div>
-
-            <div className="showInfo">
-              <LocationSearching className="showIcon" />
-              <span className="showInfoTitle">District 9</span>
-            </div>
-
-            <div className="showInfo">
-              <BrightnessAuto className="showIcon" />
-              <span className="showInfoTitle">active</span>
-            </div>
           </div>
         </div>
-        <div className="update">
-          <span className="updateTitle">Edit Employee</span>
-
+        <div className="right">
           <form autoComplete="off" onSubmit={handleSubmit}>
             <Grid container>
               <Grid item xs={6} className="gridInput">
+                <div className="imageUpload">
+                  <label htmlFor="file">
+                    {" "}
+                    Image: <DriveFolderUploadOutlinedIcon className="icon" />
+                  </label>
+                  <input
+                    type="file"
+                    id="file"
+                    name="image"
+                    style={{ display: "none" }}
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                </div>
+
                 <div className="input">
                   <Input
-                  className="size"
+                    className="size"
                     name="fullname"
                     label="Full name"
                     value={values.fullname}
@@ -195,13 +155,16 @@ const EditEmployee = () => {
                   <Input
                   className="size"
                     name="phone"
+                    type="number"
                     label="Phone"
                     value={values.phone}
                     onChange={handleInputChange}
                     error={errors.phone}
                   />
                 </div>
+              </Grid>
 
+              <Grid item xs={6} className="gridInput">
                 <div className="input">
                   <Input
                   className="size"
@@ -211,11 +174,9 @@ const EditEmployee = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-              </Grid>
-
-              <Grid item xs={6} className="gridInput">
                 <div className="radio">
                   <RadioGroupp
+                  
                     name="gender"
                     label="Gender"
                     value={values.gender}
@@ -244,38 +205,19 @@ const EditEmployee = () => {
                   />
                 </div>
 
-                <div className="imgUpload">
-                  <div className="image">
-                    <img
-                      src={
-                        file
-                          ? URL.createObjectURL(file)
-                          : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                      }
-                    />
-                  </div>
-
-                  <div className="buttonUpload">
-                    <label htmlFor="file">
-                      {" "}
-                      <DriveFolderUploadOutlinedIcon className="icon" />
-                    </label>
-                    <input
-                      type="file"
-                      id="file"
-                      name="image"
-                      style={{ display: "none" }}
-                      onChange={(e) => setFile(e.target.files[0])}
-                    />
-                  </div>
-                </div>
-
                 <div className="btn">
                   <Button
                     type="submit"
-                    size="large"
+                    size="small"
                     text="Submit"
                     className="submit"
+                  />
+
+                  <Button
+                    text="Reset"
+                    size="small"
+                    className="reset"
+                    onClick={resetForm}
                   />
                 </div>
               </Grid>
@@ -287,4 +229,4 @@ const EditEmployee = () => {
   );
 };
 
-export default EditEmployee;
+export default NewTest;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./style/new.scss";
+
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { display } from "@mui/system";
 import Dropdown from "../../components/dropdown/Dropdown";
