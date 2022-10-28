@@ -1,22 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
-import "../datatablePublisher/style/datatablePublisher.scss";
+import React, { useState, useEffect } from "react";
+import Button from "../../form/Button";
 import useTable from "../useTable";
 import AddIcon from "@mui/icons-material/Add";
+import "./style/tableAuthor.scss";
+import { TableBody, TableCell, TableRow } from "@mui/material";
 import ActionButton from "../../form/ActionButton";
-import PublisherForm from "../../../pages/Publishers/PushlisherForm";
+import AuthorForm from "../../../pages/Authors/AuthorForm";
 import Popup from "../../form/Popup";
 import Notification from "../../Notification";
-import { TableBody, TableCell, TableRow } from "@mui/material";
-import Button from "../../form/Button";
-
+import { useRef } from "react";
 const headCells = [
-  { id: "publisherID", label: "ID" },
-  { id: "publisherName", label: "Publisher name" },
-  { id: "fieldAddress", label: "Address" },
+  { id: "authorID", label: "ID" },
+  { id: "authorName", label: "Author name" },
   { id: "action", label: "Action", disableSorting: true },
 ];
-const DatatablePublisher = ({ onError }) => {
-  const [openPopup, setOpenPopup] = useState(false);
+
+const TableAuthor = ({ onError }) => {
   const [records, setRecords] = useState([]);
   const [record, setRecord] = useState();
   const [filterFn, setFilterFn] = useState({
@@ -24,6 +23,7 @@ const DatatablePublisher = ({ onError }) => {
       return items;
     },
   });
+  const [openPopup, setOpenPopup] = useState(false);
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -34,11 +34,10 @@ const DatatablePublisher = ({ onError }) => {
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
 
-  const urlGet = "https://localhost:7091/Publisher/Get";
- 
+  const url = "https://localhost:7091/Author/Get";
 
-  const fetchPublisher = () => {
-    fetch(urlGet)
+  const fetchAuthor = () => {
+    fetch(url)
       .then((response) => response.json())
       .then((json) => {
         console.log("result", json);
@@ -47,57 +46,54 @@ const DatatablePublisher = ({ onError }) => {
       .catch(() => onError());
   };
 
-  const urlPost = "https://localhost:7091/Publisher/Create";
-  const postPublisher = (publisher) => {
-    fetch(urlPost, {
+  const postAuthor = (author) => {
+    fetch("https://localhost:7091/Author/Create", {
       method: "POST",
       headers: {
         accept: "*/*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        publisherID: publisher.publisherID,
-        publisherName: publisher.publisherName,
-        fieldAddress: publisher.fieldAddress,
+        authorID: author.authorID,
+        authorName: author.authorName,
       }),
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log("publisher add", json);
+        console.log("author add", json);
         setRecord(json);
       })
       .catch(() => onError());
   };
 
-  const putPublisher = (publisher) => {
-    fetch(`https://localhost:7091/Publisher/Update/${publisher.publisherID}`, {
+  const putAuthor = (author) =>{
+    fetch(`https://localhost:7091/Author/Update/${author.authorID}`, {
       method: "PUT",
       headers: {
         accept: "*/*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        publisherID: publisher.publisherID,
-        publisherName: publisher.publisherName,
-        fieldAddress: publisher.fieldAddress,
+        authorID : author.authorID,
+        authorName: author.authorName
       }),
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log("publisher update", json);
+        console.log("author update",json);
         setRecordForEdit(json);
       })
       .catch((e) => console.log(e));
-  };
+  }
 
-  const addOrEditPublisher = (publisher, resetForm) => {
-    if (publisher.publisherID === 0) {
-      postPublisher(publisher);
-    } else {
-      putPublisher(publisher);
+  const addAuthor = (author, resetForm) => {
+    if (author.authorID == 0) {
+      postAuthor(author);
+    }else{
+      putAuthor(author)
     }
     resetForm();
-    setRecordForEdit(null);
+    setRecordForEdit(null)
     setOpenPopup(false);
     setNotify({
       isOpen: true,
@@ -107,8 +103,7 @@ const DatatablePublisher = ({ onError }) => {
   };
 
   useEffect(() => {
-    fetchPublisher();
-
+    fetchAuthor();
   }, [record, recordForEdit]);
 
   const openInPopup = (item) => {
@@ -118,9 +113,9 @@ const DatatablePublisher = ({ onError }) => {
 
   return (
     <>
-      <div className="table">
+      <div className="datatable">
         <div className="title">
-          List Publisher
+          List Author
           <Button
             text="Add New"
             variant="outlined"
@@ -128,20 +123,19 @@ const DatatablePublisher = ({ onError }) => {
             size="small"
             onClick={() => {
               setOpenPopup(true);
-              setRecordForEdit(null);
+              //setRecordForEdit(null);
             }}
-            color="addNewPublisher"
+            color="addNewAuthor"
           />
         </div>
-        
+
         <TblContainer>
           <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
-              <TableRow key={item.publisherID} className="rowPublisher">
-                <TableCell>{item.publisherID}</TableCell>
-                <TableCell>{item.publisherName}</TableCell>
-                <TableCell>{item.fieldAddress}</TableCell>
+              <TableRow key={item.authorID} className="rowAuthor">
+                <TableCell>{item.authorID}</TableCell>
+                <TableCell>{item.authorName}</TableCell>
                 <TableCell className="action">
                   <ActionButton
                     color="edit"
@@ -161,15 +155,15 @@ const DatatablePublisher = ({ onError }) => {
       </div>
 
       <Popup
-        title="Publisher form"
+        title="Author form"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <PublisherForm recordForEdit={recordForEdit} addOrEditPublisher={addOrEditPublisher} />
+        <AuthorForm recordForEdit={recordForEdit} addAuthor={addAuthor} />
       </Popup>
       <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 };
 
-export default DatatablePublisher;
+export default TableAuthor;

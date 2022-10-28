@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { Grid } from "@mui/material";
@@ -7,15 +7,14 @@ import Button from "../../components/form/Button";
 import "./style/publisherForm.scss";
 
 const initialFValues = {
-  id: 0,
-  image: "",
-  name: "",
-  address: "",
+  publisherID: 0,
+  publisherName: "",
+  fieldAddress: ""
 };
 
-const PublisherForm = () => {
+const PublisherForm = ({addOrEditPublisher, recordForEdit}) => {
 
-  const [file, setFile] = useState("");
+
   const [values, setValues] = useState(initialFValues);
   const [errors, setErrors] = useState({});
 
@@ -23,8 +22,8 @@ const PublisherForm = () => {
 
   const validation = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("name" in fieldValues)
-      temp.name = fieldValues.name ? "" : "This field is required";
+    if ("publisherName" in fieldValues)
+      temp.publisherName = fieldValues.publisherName ? "" : "This field is required";
 
     setErrors({
       ...temp,
@@ -46,7 +45,7 @@ const PublisherForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validation()) {
-      // addOrEdit(values, resetForm);
+       addOrEditPublisher(values, resetForm);
     }
   };
 
@@ -54,6 +53,18 @@ const PublisherForm = () => {
     setValues(initialFValues);
     setErrors({});
   };
+
+   // code for edit
+   useEffect(
+    () => {
+      if (recordForEdit != null)
+        setValues({
+          ...recordForEdit,
+        });
+        console.log(recordForEdit);
+    },
+    {recordForEdit} 
+  );
 
   return (
     <div className="container">
@@ -63,20 +74,20 @@ const PublisherForm = () => {
             <div>
               <Input
               className="size"
-                name="name"
+                name="publisherName"
                 label="Publisher name"
-                value={values.name}
+                value={values.publisherName}
                 onChange={handleInputChange}
-                error={errors.name}
+                error={errors.publisherName}
               />
             </div>
 
             <div>
               <Input
               className="size"
-                name="address"
+                name="fieldAddress"
                 label="Address"
-                value={values.address}
+                value={values.fieldAddress}
                 onChange={handleInputChange}
               />
             </div>

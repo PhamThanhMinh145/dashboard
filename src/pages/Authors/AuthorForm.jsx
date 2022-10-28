@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style/authorForm.scss";
 import { Grid } from "@mui/material";
 import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";
 
 const initialFValues = {
-  id: 0,
-  name: "",
+  authorID: 0,
+  authorName: "",
 };
 
-const AuthorForm = () => {
+const AuthorForm = ({addAuthor, recordForEdit}) => {
   const [values, setValues] = useState(initialFValues);
   const [errors, setErrors] = useState({});
 
@@ -17,8 +17,8 @@ const AuthorForm = () => {
 
   const validation = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("name" in fieldValues)
-      temp.name = fieldValues.name ? "" : "This field is required";
+    if ("authorName" in fieldValues)
+      temp.name = fieldValues.authorName ? "" : "This field is required";
 
     setErrors({
       ...temp,
@@ -41,6 +41,7 @@ const AuthorForm = () => {
     e.preventDefault();
     if (validation()) {
       // addOrEdit(values, resetForm);
+       addAuthor(values, resetForm)
     }
   };
 
@@ -49,6 +50,19 @@ const AuthorForm = () => {
     setErrors({});
   };
 
+  // code for edit
+  useEffect(
+    () => {
+      if (recordForEdit != null)
+        setValues({
+          ...recordForEdit,
+        });
+        console.log(recordForEdit);
+    },
+    {recordForEdit} 
+  );
+
+    
   return (
     <div className="container">
       <form autoComplete="off" onSubmit={handleSubmit}>
@@ -56,16 +70,16 @@ const AuthorForm = () => {
           <Grid item xs={6} className="grid">
             <Input
               className="size"
-              name="name"
-              label="Field name"
-              value={values.name}
+              name="authorName"
+              label="Author name"
+              value={values.authorName}
               onChange={handleInputChange}
               error={errors.name}
             />
           </Grid>
 
           <Grid item xs={6} className="grid">
-            <div className="btn" >
+            <div className="btn">
               <Button
                 type="submit"
                 size="small"
