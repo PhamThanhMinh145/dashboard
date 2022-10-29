@@ -1,40 +1,119 @@
 import React, { useState, useRef, useEffect } from "react";
-import "../datatableField/style/datatableField.scss"
-import { DataGrid } from "@mui/x-data-grid";
-import { fieldRows, fieldColums } from "../../../data/datatableSource";
-import { Link } from "react-router-dom";
+import "../datatableAuthor/style/tableAuthor.scss"
 import FieldForm from '../../../pages/Fields/FieldForm'
 import AddIcon from "@mui/icons-material/Add";
 import Button from "../../form/Button";
 import Popup from "../../form/Popup";
+import { TableBody, TableCell, TableRow } from "@mui/material";
+import Notification from "../../Notification";
+import useTable from "../useTable";
+import ActionButton from "../../form/ActionButton";
+const headCells = [
+  { id: "fieldID", label: "ID" },
+  { id: "fieldName", label: "Field name" },
+  { id: "fieldDescription", label: "Description" },
+  { id: "action", label: "Action", disableSorting: true },
+];
 
-const DatatableField = () => {
-  const [openPopup, setOpenPopup] = useState(false);
-  const actionColumn = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 220,
-      renderCell: () => {
-        return (
-          <div className="cellAction">
-            <Button
-              text="Edit"
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                setOpenPopup(true);
-                //setRecordForEdit(null);
-              }}
-              color="editButton"
-            />
-            <div className="deleteButton">Delete</div>
-          </div>
-        );
-      },
+const DatatableField = ({ onError }) => {
+  
+  const [records, setRecords] = useState([]);
+  const [record, setRecord] = useState();
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
     },
-  ];
+  });
+  const [openPopup, setOpenPopup] = useState(false);
+  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
+  const url = "https://localhost:7091/Field/GetAll";
+
+  const fetchField = () => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("result", json);
+        setRecords(json);   
+      })
+      .catch(() => onError());
+  };
+
+  const postField = (field) => {
+    fetch("https://localhost:7091/Field", {
+      method: "POST",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fieldID: field.fieldID,
+        fieldName: field.fieldName,
+        fieldDescription: field.fieldDescription
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("Field add", json);
+        setRecord(json);
+      })
+      .catch(() => onError());
+  };
+
+  const putField = (field)  =>{
+    fetch(`https://localhost:7091/Field/Update/${field.fieldID}`, {
+      method: "PUT",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fieldID: field.fieldID,
+        fieldName:  field.fieldName,
+        fieldDescription: field.fieldDescription
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log("field update",json);
+        setRecordForEdit(json);
+      })
+      .catch((e) => console.log(e));
+  }
+
+  const addField = (field, resetForm) => {
+    if (field.fieldID == 0) {
+      postField(field);
+    }else{
+      putField(field)
+    }
+    resetForm();
+    setRecordForEdit(null)
+    setOpenPopup(false);
+    setNotify({
+      isOpen: true,
+      message: "Submitted Successfully",
+      type: "success",
+    });
+  };
+
+  useEffect(() => {
+    fetchField();
+  }, [record, recordForEdit]);
+
+  const openInPopup = (item) => {
+    setRecordForEdit(item);
+    setOpenPopup(true);
+  };
+
+
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(records, headCells, filterFn);
   return (
     <>
       <div className="datatable">
@@ -49,15 +128,35 @@ const DatatableField = () => {
               setOpenPopup(true);
               //setRecordForEdit(null);
             }}
-            color="addNewField"
+            color="addNewAuthor"
           />
         </div>
-        <DataGrid
-          rows={fieldRows}
-          columns={fieldColums.concat(actionColumn)}
-          pageSize={7}
-          rowsPerPageOptions={[5]}
-        />
+
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((item) => (
+              <TableRow key={item.fieldID} className="rowAuthor">
+                <TableCell>{item.fieldID}</TableCell>
+                <TableCell>{item.fieldName}</TableCell>
+                <TableCell>{item.fieldDescription}</TableCell>
+
+                <TableCell className="action">
+                  <ActionButton
+                    color="edit"
+                    onClick={() => {
+                      openInPopup(item);
+                    }}
+                  >
+                    Edit
+                  </ActionButton>
+                  <ActionButton color="delete">Delete</ActionButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        <TblPagination className="pagination" />
       </div>
 
       <Popup
@@ -65,8 +164,9 @@ const DatatableField = () => {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <FieldForm />
+        <FieldForm recordForEdit={recordForEdit} addField={addField} />
       </Popup>
+      <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 };

@@ -225,7 +225,7 @@ const BookForm = ({ title }) => {
                   onChange={handleInputChange}
                 />
 
-                {/* <div>{parse(values.describe)}</div> */}
+                <div>{parse(values.describe)}</div>
               </Grid>
 
               <Grid item xs={10} className="gridInput">

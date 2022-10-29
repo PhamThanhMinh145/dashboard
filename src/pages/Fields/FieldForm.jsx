@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Grid } from "@mui/material";
 import Input from "../../components/form/Input";
@@ -6,12 +6,12 @@ import Button from "../../components/form/Button";
 import './style/newField.scss'
 
 const initialFValues = {
-  id: 0,
-  name: "",
-  description: "",
+  fieldID: 0,
+  fieldName: "",
+  fieldDescription: "",
 };
 
-const FieldForm = () => {
+const FieldForm = ({addField, recordForEdit}) => {
 
  
   const [values, setValues] = useState(initialFValues);
@@ -21,8 +21,8 @@ const FieldForm = () => {
 
   const validation = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("name" in fieldValues)
-      temp.name = fieldValues.name ? "" : "This field is required";
+    if ("fieldName" in fieldValues)
+      temp.fieldName = fieldValues.fieldName ? "" : "This field is required";
 
     setErrors({
       ...temp,
@@ -44,7 +44,7 @@ const FieldForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validation()) {
-      // addOrEdit(values, resetForm);
+       addField(values, resetForm);
     }
   };
 
@@ -52,6 +52,18 @@ const FieldForm = () => {
     setValues(initialFValues);
     setErrors({});
   };
+
+   // code for edit
+   useEffect(
+    () => {
+      if (recordForEdit != null)
+        setValues({
+          ...recordForEdit,
+        });
+        console.log(recordForEdit);
+    },
+    {recordForEdit} 
+  );
 
   return (
     <div className="container">
@@ -61,20 +73,20 @@ const FieldForm = () => {
             <div>
               <Input
               className="size"
-                name="name"
+                name="fieldName"
                 label="Field name"
-                value={values.name}
+                value={values.fieldName}
                 onChange={handleInputChange}
-                error={errors.name}
+                error={errors.fieldName}
               />
             </div>
 
             <div>
               <Input
               className="size"
-                name="description"
+                name="fieldDescription"
                 label="Address"
-                value={values.description}
+                value={values.fieldDescription}
                 onChange={handleInputChange}
               />
             </div>
