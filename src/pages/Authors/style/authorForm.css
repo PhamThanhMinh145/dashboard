@@ -1,0 +1,25 @@
+.container .gridInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+}
+.container .gridInput .grid .btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+}
+.container .gridInput .grid .btn .submit {
+  background: green;
+  margin-top: 0;
+  width: 150px;
+  margin-right: 20px;
+  color: white;
+}
+.container .gridInput .grid .reset {
+  margin-top: 0;
+  width: 150px;
+  background-color: rgb(187, 193, 194);
+  color: white;
+}/*# sourceMappingURL=authorForm.css.map */

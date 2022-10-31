@@ -25,14 +25,14 @@
   padding: 0;
   margin-top: 20px;
 }
-.newContainer .bottom .left .img {
+.newContainer .bottom .left .i {
   display: flex;
   justify-content: center;
 }
-.newContainer .bottom .left .img img {
+.newContainer .bottom .left .i img {
   width: 150px;
-  height: 150px;
-  border-radius: 50%;
+  height: 200px;
+  border-radius: 20px;
   -o-object-fit: cover;
      object-fit: cover;
   align-content: center;
@@ -55,15 +55,21 @@
 .newContainer .bottom .right .gridInput .input .size {
   width: 70%;
 }
-.newContainer .bottom .right .gridInput .radio,
-.newContainer .bottom .right .gridInput .select,
-.newContainer .bottom .right .gridInput .checkbox {
+.newContainer .bottom .right .gridInput .select {
   margin-bottom: 20px;
+}
+.newContainer .bottom .right .gridInput .date {
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.newContainer .bottom .right .gridInput .date .size {
+  width: 70%;
 }
 .newContainer .bottom .right .gridInput .btn {
   margin-top: 40px;
   display: flex;
   flex-direction: row;
+  margin-bottom: 40px;
 }
 .newContainer .bottom .right .gridInput .btn .submit {
   margin-top: 0;
@@ -77,4 +83,4 @@
   width: 150px;
   background-color: rgb(187, 193, 194);
   color: white;
-}/*# sourceMappingURL=new.css.map */
+}/*# sourceMappingURL=bookForm.css.map */

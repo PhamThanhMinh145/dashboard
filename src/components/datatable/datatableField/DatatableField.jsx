@@ -134,7 +134,7 @@ const DatatableField = ({ onError }) => {
                 </div>
 
                 <TblContainer>
-                    <TblHead />
+                    <TblHead sx={{ height: "40px" }} />
                     <TableBody>
                         {recordsAfterPagingAndSorting().map((item) => (
                             <TableRow key={item.fieldID} className="rowAuthor">

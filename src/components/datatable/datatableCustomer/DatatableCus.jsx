@@ -37,6 +37,7 @@ const DatatableCus = () => {
         return {
             flex: 1,
             minWidth: 150,
+            
             filter: true,
         };
     }, []);
@@ -108,7 +109,7 @@ const DatatableCus = () => {
             <div style={gridStyle} className="ag-theme-alpine">
                 <AgGridReact
                     rowData={rowData}
-                    columnDefs={columnDefs}
+                    columnDefs={columnDefs} 
                     defaultColDef={defaultColDef}
                     //   rowModelType={'serverSide'}
                     pagination

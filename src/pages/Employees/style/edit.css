@@ -1,9 +1,12 @@
 .employee {
   flex: 4;
-  margin: 50px;
+  margin: 20px;
   padding: 20px;
 }
 .employee .employeeTitleContainer {
+  background-color: white;
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -17,7 +20,7 @@
   width: 80px;
   border: none;
   padding: 8px;
-  background-color: #12E86B;
+  background-color: #12e86b;
   color: white;
   border-radius: 5px;
   font-size: 16px;
@@ -82,55 +85,46 @@
   margin-left: 20px;
 }
 .employee .employeeContainer .update .updateTitle {
-  margin-left: 100px;
   font-size: 24px;
   font-weight: 600;
 }
-.employee .employeeContainer .update .updateForm {
-  display: flex;
-  justify-content: space-around;
+.employee .employeeContainer .update .gridInput {
   margin-top: 20px;
 }
-.employee .employeeContainer .update .updateForm .updateLeft .updateItem {
+.employee .employeeContainer .update .gridInput .input {
+  margin-bottom: 20px;
+}
+.employee .employeeContainer .update .gridInput .input .size {
+  width: 70%;
+}
+.employee .employeeContainer .update .gridInput .radio,
+.employee .employeeContainer .update .gridInput .select,
+.employee .employeeContainer .update .gridInput .checkbox {
+  margin-bottom: 20px;
+}
+.employee .employeeContainer .update .gridInput .imgUpload {
   display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-}
-.employee .employeeContainer .update .updateForm .updateLeft .updateItem label {
-  margin-bottom: 5px;
-  font-size: 16px;
-}
-.employee .employeeContainer .update .updateForm .updateLeft .updateItem .employeeUpdateInput {
-  border: none;
-  width: 300px;
-  border-bottom: 1px solid gray;
-  color: none;
-  padding: 10px;
-}
-.employee .employeeContainer .update .updateForm .updateRight {
-  display: flex;
-  flex-direction: column;
-}
-.employee .employeeContainer .update .updateForm .updateRight .updateUpload {
-  display: flex;
+  justify-content: flex-start;
   align-items: center;
 }
-.employee .employeeContainer .update .updateForm .updateRight .updateUpload .updateIMG {
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  -o-object-fit: cover;
-     object-fit: cover;
+.employee .employeeContainer .update .gridInput .imgUpload .image {
   margin-right: 20px;
 }
-.employee .employeeContainer .update .updateForm .updateRight .updateButton {
-  margin-top: 50px;
-  border-radius: 5px;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-  background-color: darkblue;
+.employee .employeeContainer .update .gridInput .imgUpload .image img {
+  width: 120px;
+  height: 120px;
+  border-radius: 20%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  align-content: center;
+}
+.employee .employeeContainer .update .gridInput .imgUpload .buttonUpload .icon {
+  font-size: 30px;
+}
+.employee .employeeContainer .update .gridInput .btn {
+  margin-top: 20px;
+}
+.employee .employeeContainer .update .gridInput .btn .submit {
+  background-color: #12e86b;
   color: white;
-  font-weight: 600;
-  text-align: center;
 }/*# sourceMappingURL=edit.css.map */

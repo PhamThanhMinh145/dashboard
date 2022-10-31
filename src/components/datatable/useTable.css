@@ -1,0 +1,13 @@
+.table {
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  padding: 20px;
+}
+.table .row {
+  background-color: rgba(5, 167, 46, 0.973);
+}
+.table .row .cell {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 10px;
+}/*# sourceMappingURL=useTable.css.map */
