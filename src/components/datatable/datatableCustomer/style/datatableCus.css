@@ -1,9 +1,33 @@
 .ag-theme-alpine .ag-header {
   --ag-header-background-color: #0ba933;
 }
+.ag-theme-alpine .ag-row {
+  vertical-align: middle;
+}
+.ag-theme-alpine .ag-ltr .ag-cell {
+  justify-content: center;
+  align-items: center;
+  display: flex-start;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  padding: 10px;
+}
 
 .ag-header-cell-text {
   color: white;
-  font-weight: 600;
+  font-weight: 750;
   font-size: large;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  color: gray;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }/*# sourceMappingURL=datatableCus.css.map */

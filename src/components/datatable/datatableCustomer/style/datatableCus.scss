@@ -1,85 +1,78 @@
-// .datatable{
-//     height: 480px;
-
-//     .cellWithImg {
-//         display: flex;
-//         align-items: center;
-
-//         .cellImg {
-//             width: 32px;
-//             height: 32px;
-//             border-radius: 50%;
-//             object-fit: cover;
-//             margin-right: 20px;
-//         }
-//     }
-
-//     .cellWithStatus{
-//         padding: 5px;
-//         border-radius: 5px;
-
-//         &.active{
-//             background-color:  rgba(0,128,0, 0.05);
-//             color: green;
-//         }
-
-//         &.passive{
-//             background-color:  rgba(255,0,0, 0.05);
-//             color: crimson;
-//         }
-//     }
-
-//     .cellAction{
-//         display: flex;
-//         align-items: center;
-//         gap: 20px;
-
-//         .viewButton {
-//             padding: 5px 20px;
-//             border-radius: 5px;
-//             color: darkblue;
-//             border: 1px solid rgba(0,0,139,0.596);
-//             cursor: pointer;
-//         }
-
-//         .deleteButton {
-//             padding: 5px 20px;
-//             border-radius: 5px;
-//             color: crimson;
-//             border: 1px solid rgba(220,20,60,0.6);
-//             cursor: pointer;
-//         }
-
-//     }
-
-//     .datatableTitle{
-//         font-size: 24px;
-//         font-weight: 500;
-//         color: gray;
-//         width: 100%;
-//         margin-bottom: 5px;
-//         display: flex;
-//         justify-content: space-between;
-
-//         .link{
-//             text-decoration: none;
-//             color: #12E86B;
-//             font-size: 16px;
-//             border: 1px solid green;
-//             border-radius: 5px;
-//             padding: 6px;
-//         }
-
-//     }
-
-// }
-.ag-theme-alpine .ag-header {
-    --ag-header-background-color: #0ba933;
+.ag-theme-alpine {
     
+    .ag-header {
+        --ag-header-background-color: #0ba933;   
+    }
+
+    .ag-row {
+       vertical-align: middle;
+    }
+
+    .ag-ltr {
+        .ag-cell {
+            justify-content: center;
+            align-items: center;
+            display: flex-start;
+            // margin-left: 5px;
+
+            font-family: "Roboto","Helvetica","Arial",sans-serif;
+            font-weight: 400;
+            font-size: 0.875rem;
+            line-height: 1.43;
+            letter-spacing: 0.01071em;
+            padding: 10px;
+        }
+    }
 }
+
 
 .ag-header-cell-text {
     color: white;
-    font-weight: 600;
+    font-weight: 750;
     font-size: large;
 }
+
+.title {
+    font-size: 24px;
+    font-weight: 500;
+    color: gray;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.ag-root  {
+
+    .ag-unselectable {
+
+        .ag-layout-normal {
+
+            .ag-header {
+    
+                .ag-pivot-off {
+            
+                    .ag-header-viewport {
+            
+                        .ag-header-container {
+            
+                            .ag-header-row {
+                                
+                                .ag-header-row-column {
+                                    
+                                    .ag-header-cell {
+                                        
+                                        .ag-focus-managed {
+    
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } 
+        }
+    }
+    
+} 

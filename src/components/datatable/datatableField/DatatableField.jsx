@@ -31,7 +31,7 @@ const DatatableField = ({ onError }) => {
         type: "",
     });
 
-    const url = "https://localhost:7091/Field/GetAll";
+    const url = "http://192.168.137.36:7132/Field/GetAll";
 
     const fetchField = () => {
         fetch(url)
