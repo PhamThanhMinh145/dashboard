@@ -1,15 +1,10 @@
 import React from 'react'
-import { BsCurrencyDollar } from 'react-icons/bs';
-import {GoPrimitiveDot} from 'react-icons/go';
-
-import { useStateContext } from '../contexts/ContextProvider';
-
 import { earningData } from '../data/dummy';
-import {ReactComponent as ReactLogo} from '../data/welcome-bg.svg';
+
 
 const Home = () => {
 
-  const {currentColor} = useStateContext();
+  // const {currentColor} = useStateContext();
   return (
     <div className='mt-12'>
       <div className='flex flex-wrap lg:flex-nowrap justify-center'>
@@ -28,7 +23,7 @@ const Home = () => {
                 </div>
               </div>
               <div  className='mt-6'>
-              <a href='#' className='font-normal italic hover:not-italic underline underline-offset-1  ' >View net earning</a>
+              <a href='/#'  className='font-normal italic hover:not-italic underline underline-offset-1  ' >View net earning</a>
               </div>
         </div>
 
@@ -51,7 +46,7 @@ const Home = () => {
                   </p>
                   <p className='text-sm text-gray-400 mt-1'>{item.title}</p>
                   <div  className='mt-4'>
-              <a href='#' className='font-normal italic hover:not-italic
+              <a href='/#' className='font-normal italic hover:not-italic
                  underline underline-offset-1'>
                   {item.link}</a>
               </div>

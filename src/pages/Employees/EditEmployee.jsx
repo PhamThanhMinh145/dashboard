@@ -5,13 +5,12 @@ import {
   MailOutline,
   PermIdentity,
   PhoneAndroid,
-  Publish,
 } from "@mui/icons-material";
 import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import "./style/edit.scss";
+import "../Employees/style/editForm.scss";
 import { Grid } from "@mui/material";
-import Input from "../../components/form/Input";
+import Input from "../../components/form/Input"; 
 import RadioGroupp from "../../components/form/RadioGroup";
 import Select from "../../components/form/Select";
 import Checkbox from "../../components/form/Checkbox";
@@ -63,12 +62,12 @@ const EditEmployee = () => {
       temp.phone =
        /^[0-9]{10}$/.test(fieldValues.phone) ? "" : "Maximum 10 numbers required";
     if ("role" in fieldValues)
-      temp.role = fieldValues.role.length != 0 ? "" : "This field is required";
+      temp.role = fieldValues.role.length !== 0 ? "" : "This field is required";
     setErrors({
       ...temp,
     });
 
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values) return Object.values(temp).every((x) => x === "");
   };
 
   const handleInputChange = (e) => {
@@ -88,10 +87,10 @@ const EditEmployee = () => {
     }
   };
 
-  const resetForm = () => {
-    setValues(initialFValues);
-    setErrors({});
-  };
+  // const resetForm = () => {
+  //   setValues(initialFValues);
+  //   setErrors({});
+  // };
 
   return (
     <div className="employee">
@@ -247,6 +246,7 @@ const EditEmployee = () => {
                 <div className="imgUpload">
                   <div className="image">
                     <img
+                    alt=""
                       src={
                         file
                           ? URL.createObjectURL(file)

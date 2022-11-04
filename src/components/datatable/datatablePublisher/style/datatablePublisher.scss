@@ -27,6 +27,18 @@
     }
   
     .rowPublisher {
+
+      .cellID{
+        width: 80px;
+      }
+
+      .cellName{
+        width: 400px;
+      }
+      .cellAdd{
+        width: 400px;
+      }
+
       .action {
        
   
@@ -38,6 +50,7 @@
           border: 1px solid rgba(8, 240, 66, 0.596);
           cursor: pointer;
           margin-right: 20px;
+          // margin-bottom: 10px;
         }
   
         .delete {
@@ -47,6 +60,7 @@
           color: crimson;
           border: 1px solid rgba(220, 20, 60, 0.6);
           cursor: pointer;
+          // margin-top: -10px;
         }
       }
     }

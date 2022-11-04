@@ -15,6 +15,7 @@ const NewAuthor = ({inputs, title}) => {
       <div className='bottom'>
         <div className='left'>
             <img  
+            alt=''
             src={file ? URL.createObjectURL(file) : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} />
         </div>
         <div className='right'>

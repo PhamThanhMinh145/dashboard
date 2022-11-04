@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { Grid } from "@mui/material";
 import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";
@@ -29,7 +27,7 @@ const PublisherForm = ({addOrEditPublisher, recordForEdit}) => {
       ...temp,
     });
 
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values) return Object.values(temp).every((x) => x === "");
   };
 
   const handleInputChange = (e) => {

@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import "../datatableAuthor/style/tableAuthor.scss"
+import React, { useState, useEffect } from "react";
+import "./style/datatableField.scss"
 import FieldForm from '../../../pages/Fields/FieldForm'
 import AddIcon from "@mui/icons-material/Add";
 import Button from "../../form/Button";
@@ -8,6 +8,8 @@ import { TableBody, TableCell, TableRow } from "@mui/material";
 import Notification from "../../Notification";
 import useTable from "../useTable";
 import ActionButton from "../../form/ActionButton";
+import AuthService from "../../../services/auth.service";
+import ConfirmDialog from "../../form/ConfirmDialog";
 const headCells = [
   { id: "fieldID", label: "ID" },
   { id: "fieldName", label: "Field name" },
@@ -32,6 +34,16 @@ const DatatableField = ({ onError }) => {
     type: "",
   });
 
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
+
+
+  const user = AuthService.getCurrentUser();
+
+
   const url = "https://localhost:7091/Field/GetAll";
 
   const fetchField = () => {
@@ -48,7 +60,8 @@ const DatatableField = ({ onError }) => {
     fetch("https://localhost:7091/Field", {
       method: "POST",
       headers: {
-        accept: "*/*",
+        "accept" : "*/*",
+        "Authorization" : "bearer " + user.token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -69,7 +82,8 @@ const DatatableField = ({ onError }) => {
     fetch(`https://localhost:7091/Field/Update/${field.fieldID}`, {
       method: "PUT",
       headers: {
-        accept: "*/*",
+        "accept" : "*/*",
+        "Authorization" : "bearer " + user.token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -86,8 +100,28 @@ const DatatableField = ({ onError }) => {
       .catch((e) => console.log(e));
   }
 
+  const deleteField = (field) => {
+    fetch(`https://localhost:7091/Field/Delete/${field}`, {
+      method: "DELETE",
+      headers: {
+        accept: "*/*",
+        Authorization: "bearer " + user.token,
+      },
+      body: JSON.stringify({
+        fieldID: field.fieldID,
+        fieldName:  field.fieldName,
+        fieldDescription: field.fieldDescription
+      }),
+    })
+    .then(() => {
+      setRecord( fetchField())
+    } )
+    
+    .catch((e) => console.log(e));
+  };
+
   const addField = (field, resetForm) => {
-    if (field.fieldID == 0) {
+    if (field.fieldID === 0) {
       postField(field);
     }else{
       putField(field)
@@ -101,6 +135,22 @@ const DatatableField = ({ onError }) => {
       type: "success",
     });
   };
+
+  const onDelete = (field) => {
+    deleteField(field)
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+
+    setNotify({
+      isOpen: true,
+      message: "Deleted Successfully",
+      type: "error",
+    });
+  };
+
+
 
   useEffect(() => {
     fetchField();
@@ -116,7 +166,7 @@ const DatatableField = ({ onError }) => {
     useTable(records, headCells, filterFn);
   return (
     <>
-      <div className="datatable">
+      <div className="datatableField">
         <div className="title">
           List Field
           <Button
@@ -137,9 +187,9 @@ const DatatableField = ({ onError }) => {
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.fieldID} className="rowAuthor">
-                <TableCell>{item.fieldID}</TableCell>
-                <TableCell>{item.fieldName}</TableCell>
-                <TableCell>{item.fieldDescription}</TableCell>
+                <TableCell className="cellID">{item.fieldID}</TableCell>
+                <TableCell className="cellName">{item.fieldName}</TableCell>
+                <TableCell className="cellDes">{item.fieldDescription}</TableCell>
 
                 <TableCell className="action">
                   <ActionButton
@@ -150,7 +200,21 @@ const DatatableField = ({ onError }) => {
                   >
                     Edit
                   </ActionButton>
-                  <ActionButton color="delete">Delete</ActionButton>
+                  <ActionButton
+                    color="delete"
+                    onClick={() => {
+                      setConfirmDialog({
+                        isOpen: true,
+                        title: "Are you sure to delete this record?",
+                        subTitle: "You can't undo this operation",
+                        onConfirm: () => {
+                          onDelete(item.fieldID);
+                        },
+                      });
+                    }}
+                  >
+                    Delete
+                  </ActionButton>
                 </TableCell>
               </TableRow>
             ))}
@@ -166,6 +230,10 @@ const DatatableField = ({ onError }) => {
       >
         <FieldForm recordForEdit={recordForEdit} addField={addField} />
       </Popup>
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
       <Notification notify={notify} setNotify={setNotify} />
     </>
   );

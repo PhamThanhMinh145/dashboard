@@ -8,7 +8,12 @@ import ActionButton from "../../form/ActionButton";
 import AuthorForm from "../../../pages/Authors/AuthorForm";
 import Popup from "../../form/Popup";
 import Notification from "../../Notification";
-import { useRef } from "react";
+import AuthService from "../../../services/auth.service";
+import ConfirmDialog from "../../form/ConfirmDialog";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+
 const headCells = [
   { id: "authorID", label: "ID" },
   { id: "authorName", label: "Author name" },
@@ -31,13 +36,28 @@ const TableAuthor = ({ onError }) => {
     type: "",
   });
 
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
+
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
 
+  const user = AuthService.getCurrentUser();
   const url = "https://localhost:7091/Author/Get";
 
   const fetchAuthor = () => {
-    fetch(url)
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + user.token);
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      //redirect: "follow",
+    };
+    fetch(url, requestOptions)
       .then((response) => response.json())
       .then((json) => {
         console.log("result", json);
@@ -51,6 +71,7 @@ const TableAuthor = ({ onError }) => {
       method: "POST",
       headers: {
         accept: "*/*",
+        Authorization: "bearer " + user.token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -66,39 +87,73 @@ const TableAuthor = ({ onError }) => {
       .catch(() => onError());
   };
 
-  const putAuthor = (author) =>{
+  const putAuthor = (author) => {
     fetch(`https://localhost:7091/Author/Update/${author.authorID}`, {
       method: "PUT",
       headers: {
         accept: "*/*",
+        Authorization: "bearer " + user.token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        authorID : author.authorID,
-        authorName: author.authorName
+        authorID: author.authorID,
+        authorName: author.authorName,
       }),
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log("author update",json);
+        console.log("author update", json);
         setRecordForEdit(json);
       })
       .catch((e) => console.log(e));
-  }
+  };
+
+  const deleteAuthor = (author) => {
+    fetch(`https://localhost:7091/Author/Delete/${author}`, {
+      method: "DELETE",
+      headers: {
+        accept: "*/*",
+        Authorization: "bearer " + user.token,
+      },
+      body: JSON.stringify({
+        authorID: author.authorID,
+        authorName: author.authorName,
+      }),
+    })
+      .then(() => {
+        setRecord(fetchAuthor());
+      })
+
+      .catch((e) => console.log(e));
+  };
 
   const addAuthor = (author, resetForm) => {
-    if (author.authorID == 0) {
+    if (author.authorID === 0) {
       postAuthor(author);
-    }else{
-      putAuthor(author)
+    } else {
+      putAuthor(author);
     }
     resetForm();
-    setRecordForEdit(null)
+    setRecordForEdit(null);
     setOpenPopup(false);
     setNotify({
       isOpen: true,
       message: "Submitted Successfully",
       type: "success",
+    });
+  };
+
+  const onDelete = (author) => {
+    deleteAuthor(author);
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+
+    setNotify({
+      isOpen: true,
+      message: "Deleted Successfully",
+      type: "error",
     });
   };
 
@@ -113,7 +168,7 @@ const TableAuthor = ({ onError }) => {
 
   return (
     <>
-      <div className="datatable">
+      <div className="datatableAuthor">
         <div className="title">
           List Author
           <Button
@@ -134,18 +189,39 @@ const TableAuthor = ({ onError }) => {
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.authorID} className="rowAuthor">
-                <TableCell>{item.authorID}</TableCell>
-                <TableCell>{item.authorName}</TableCell>
+                <TableCell className="cellID">{item.authorID}</TableCell>
+                <TableCell className="cellName">{item.authorName}</TableCell>
                 <TableCell className="action">
-                  <ActionButton
-                    color="edit"
-                    onClick={() => {
-                      openInPopup(item);
-                    }}
-                  >
-                    Edit
-                  </ActionButton>
-                  <ActionButton color="delete">Delete</ActionButton>
+                  <div className="tip">
+                    <TooltipComponent content="Edit" position="BottomCenter" >
+                      <ActionButton
+                        
+                        color="edit"
+                        onClick={() => {
+                          openInPopup(item);
+                        }}
+                      >
+                        <EditIcon fontSize="small" />
+                      </ActionButton>
+                    </TooltipComponent>
+                    <TooltipComponent content="Delete" position="BottomCenter">
+                      <ActionButton
+                        color="delete"
+                        onClick={() => {
+                          setConfirmDialog({
+                            isOpen: true,
+                            title: "Are you sure to delete this record?",
+                            subTitle: "You can't undo this operation",
+                            onConfirm: () => {
+                              onDelete(item.authorID);
+                            },
+                          });
+                        }}
+                      >
+                        <DeleteIcon />
+                      </ActionButton>
+                    </TooltipComponent>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -161,6 +237,10 @@ const TableAuthor = ({ onError }) => {
       >
         <AuthorForm recordForEdit={recordForEdit} addAuthor={addAuthor} />
       </Popup>
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
       <Notification notify={notify} setNotify={setNotify} />
     </>
   );

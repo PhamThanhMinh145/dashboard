@@ -51,12 +51,12 @@ const NewTest = ({ title }) => {
       temp.phone =
       /^[0-9]{10}$/.test(fieldValues.phone) ? "" : "Maximum 10 numbers required";
     if ("role" in fieldValues)
-      temp.role = fieldValues.role.length != 0 ? "" : "This field is required";
+      temp.role = fieldValues.role.length !== 0 ? "" : "This field is required";
     setErrors({
       ...temp,
     });
 
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values) return Object.values(temp).every((x) => x === "");
   };
 
   const handleInputChange = (e) => {
@@ -91,6 +91,7 @@ const NewTest = ({ title }) => {
         <div className="left">
           <div className="img">
             <img
+            alt=""
               src={
                 file
                   ? URL.createObjectURL(file)

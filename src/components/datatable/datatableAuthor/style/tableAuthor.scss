@@ -1,5 +1,5 @@
-.datatable {
-  height: 480px;
+.datatableAuthor {
+  //height: 480px;
 
   .title {
     font-size: 24px;
@@ -26,32 +26,48 @@
   }
 
   .rowAuthor {
+    .cellID {
+      width: 150px;
+      height: 10px;
+    }
+
+    .cellName {
+      width: 400px;
+    }
     .action {
+      .tip {
+        display: flex;
 
-      .edit {
-        text-transform: capitalize;
-        padding: 5px 20px;
-        border-radius: 5px;
-        color: rgb(37, 240, 10);
-        border: 1px solid rgba(8, 240, 66, 0.596);
-        cursor: pointer;
-        margin-right: 20px;
-      }
+      
+        .edit {
+          text-transform: capitalize;
+          padding: 8px 30px;
+          border-radius: 5px;
+          background-color: lightgreen;
+          color: rgb(26, 153, 26);
+          border: 1px solid rgba(8, 240, 66, 0.596);
+          cursor: pointer;
+          margin-right: 20px;
+        }
 
-      .delete {
-        text-transform: capitalize;
-        padding: 5px 20px;
-        border-radius: 5px;
-        color: crimson;
-        border: 1px solid rgba(220, 20, 60, 0.6);
-        cursor: pointer;
+        .delete {
+          text-transform: capitalize;
+          padding: 5px 30px;
+          border-radius: 5px;
+          background-color: lightpink;
+          color: red;
+          border: 1px solid rgba(220, 20, 60, 0.6);
+          cursor: pointer;
+        }
       }
     }
   }
 
-  .pagination{
+  .pagination {
     -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
     box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
     padding: 10px;
   }
 }
+
+

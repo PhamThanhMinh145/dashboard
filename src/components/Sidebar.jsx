@@ -23,7 +23,7 @@ const Sidebar = () => {
     overflow-auto md:hover:overflow-auto pb-10'>
       {activeMenu && (<>
         <div className='flex justify-between items-center'>
-          <Link to="/" onClick={handleCloseSideBar}
+          <Link to="home" onClick={handleCloseSideBar}
            className='items-center gap-3 ml-3 
           mt-4 flex text-3xl font-extrabold tracking-tight dark:text-green-600
           text-green-400' >

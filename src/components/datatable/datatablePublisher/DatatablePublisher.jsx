@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../datatablePublisher/style/datatablePublisher.scss";
 import useTable from "../useTable";
 import AddIcon from "@mui/icons-material/Add";
@@ -8,7 +8,8 @@ import Popup from "../../form/Popup";
 import Notification from "../../Notification";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 import Button from "../../form/Button";
-
+import AuthService from "../../../services/auth.service";
+import ConfirmDialog from "../../form/ConfirmDialog";
 const headCells = [
   { id: "publisherID", label: "ID" },
   { id: "publisherName", label: "Publisher name" },
@@ -31,14 +32,30 @@ const DatatablePublisher = ({ onError }) => {
     type: "",
   });
 
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
+
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
 
+  const user = AuthService.getCurrentUser();
+
   const urlGet = "https://localhost:7091/Publisher/Get";
- 
 
   const fetchPublisher = () => {
-    fetch(urlGet)
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + user.token);
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      //redirect: "follow",
+    };
+
+    fetch(urlGet, requestOptions)
       .then((response) => response.json())
       .then((json) => {
         console.log("result", json);
@@ -49,10 +66,12 @@ const DatatablePublisher = ({ onError }) => {
 
   const urlPost = "https://localhost:7091/Publisher/Create";
   const postPublisher = (publisher) => {
-    fetch(urlPost, {
+    fetch(urlPost,
+       {
       method: "POST",
       headers: {
-        accept: "*/*",
+        "accept": "*/*",
+        "Authorization" : "bearer " + user.token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -73,7 +92,8 @@ const DatatablePublisher = ({ onError }) => {
     fetch(`https://localhost:7091/Publisher/Update/${publisher.publisherID}`, {
       method: "PUT",
       headers: {
-        accept: "*/*",
+        "accept": "*/*",
+        "Authorization" : "bearer " + user.token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -88,6 +108,26 @@ const DatatablePublisher = ({ onError }) => {
         setRecordForEdit(json);
       })
       .catch((e) => console.log(e));
+  };
+
+  const deletePublisher = (publisher) => {
+    fetch(`https://localhost:7091/Publisher/Delete/${publisher}`, {
+      method: "DELETE",
+      headers: {
+        accept: "*/*",
+        Authorization: "bearer " + user.token,
+      },
+      body: JSON.stringify({
+        publisherID: publisher.publisherID,
+        publisherName: publisher.publisherName,
+        fieldAddress: publisher.fieldAddress,
+      }),
+    })
+    .then(() => {
+      setRecord( fetchPublisher())
+    } )
+    
+    .catch((e) => console.log(e));
   };
 
   const addOrEditPublisher = (publisher, resetForm) => {
@@ -106,9 +146,22 @@ const DatatablePublisher = ({ onError }) => {
     });
   };
 
+  const onDelete = (publisher) => {
+    deletePublisher(publisher);
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+
+    setNotify({
+      isOpen: true,
+      message: "Deleted Successfully",
+      type: "error",
+    });
+  };
+
   useEffect(() => {
     fetchPublisher();
-
   }, [record, recordForEdit]);
 
   const openInPopup = (item) => {
@@ -133,15 +186,15 @@ const DatatablePublisher = ({ onError }) => {
             color="addNewPublisher"
           />
         </div>
-        
+
         <TblContainer>
           <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.publisherID} className="rowPublisher">
-                <TableCell>{item.publisherID}</TableCell>
-                <TableCell>{item.publisherName}</TableCell>
-                <TableCell>{item.fieldAddress}</TableCell>
+                <TableCell className="cellID">{item.publisherID}</TableCell>
+                <TableCell className="cellName">{item.publisherName}</TableCell>
+                <TableCell className="cellAdd">{item.fieldAddress}</TableCell>
                 <TableCell className="action">
                   <ActionButton
                     color="edit"
@@ -151,7 +204,21 @@ const DatatablePublisher = ({ onError }) => {
                   >
                     Edit
                   </ActionButton>
-                  <ActionButton color="delete">Delete</ActionButton>
+                  <ActionButton
+                    color="delete"
+                    onClick={() => {
+                      setConfirmDialog({
+                        isOpen: true,
+                        title: "Are you sure to delete this record?",
+                        subTitle: "You can't undo this operation",
+                        onConfirm: () => {
+                          onDelete(item.publisherID);
+                        },
+                      });
+                    }}
+                  >
+                    Delete
+                  </ActionButton>
                 </TableCell>
               </TableRow>
             ))}
@@ -165,8 +232,15 @@ const DatatablePublisher = ({ onError }) => {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <PublisherForm recordForEdit={recordForEdit} addOrEditPublisher={addOrEditPublisher} />
+        <PublisherForm
+          recordForEdit={recordForEdit}
+          addOrEditPublisher={addOrEditPublisher}
+        />
       </Popup>
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
       <Notification notify={notify} setNotify={setNotify} />
     </>
   );

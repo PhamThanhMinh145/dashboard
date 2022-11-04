@@ -63,20 +63,20 @@ const BookForm = ({ title }) => {
 
     if ("field" in fieldValues)
       temp.field =
-        fieldValues.field.length != 0 ? "" : "This field is required";
+        fieldValues.field.length !== 0 ? "" : "This field is required";
 
     if ("publisher" in fieldValues)
       temp.publisher =
-        fieldValues.publisher.length != 0 ? "" : "This field is required";
+        fieldValues.publisher.length !== 0 ? "" : "This field is required";
 
     if ("author" in fieldValues)
       temp.author =
-        fieldValues.author.length != 0 ? "" : "This field is required";
+        fieldValues.author.length !== 0 ? "" : "This field is required";
     setErrors({
       ...temp,
     });
 
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values) return Object.values(temp).every((x) => x === "");
   };
 
   const handleInputChange = (e) => {
@@ -111,6 +111,7 @@ const BookForm = ({ title }) => {
         <div className="left">
           <div className="i">
             <img
+            alt=""
               src={
                 file
                   ? URL.createObjectURL(file)

@@ -1,73 +1,69 @@
-.datatable{
-    height: 480px;
-
-    .cellId {
-        span{
-            font-size: 16px;
-        }
+.datatableField {
+    //height: 480px;
+  
+    .title {
+      font-size: 24px;
+      font-weight: 500;
+      color: gray;
+      width: 100%;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+  
+      .addNewAuthor {
+        text-decoration: none;
+        color: #12e86b;
+        font-size: 12px;
+        border: 1px solid rgb(90, 196, 90);
+        border-radius: 5px;
+        padding: 5px;
+      }
     }
-    
-    .cellWithImg {
-        display: flex;
-        align-items: center;
-
-        .cellImg {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 20px;
-        }
-        span{
-            font-size: 16px;
-        }
+  
+    .rowAuthor:nth-child(even) {
+      background-color: #f8f8f8;
     }
+  
+    .rowAuthor {
 
-    .cellAction{
-        display: flex;
-        align-items: center;
-        gap: 20px;
-
-        .editButton {
-            text-transform: capitalize;
-            padding: 5px 20px;
-            border-radius: 5px;
-            color: darkblue;
-            border: 1px solid rgba(0,0,139,0.596);
-            cursor: pointer;
+        .cellID{
+            width: 50px;
         }
-
-        .deleteButton {
-            padding: 5px 20px;
-            border-radius: 5px;
-            color: crimson;
-            border: 1px solid rgba(220,20,60,0.6);
-            cursor: pointer;
+        .cellName{
+            width: 400px;
         }
-
-
+        .cellDes{
+            width: 700px;
+        }
+      .action {
+  
+        .edit {
+          text-transform: capitalize;
+          padding: 5px 20px;
+          border-radius: 5px;
+          color: rgb(37, 240, 10);
+          border: 1px solid rgba(8, 240, 66, 0.596);
+          cursor: pointer;
+          margin-right: 20px;
+          // margin-bottom: 10px;
+        }
+  
+        .delete {
+          text-transform: capitalize;
+          padding: 5px 20px;
+          border-radius: 5px;
+          color: crimson;
+          border: 1px solid rgba(220, 20, 60, 0.6);
+          cursor: pointer;
+        }
+      }
     }
-
-
-    .title{
-        font-size: 24px;
-        font-weight: 500;
-        color: gray;
-        width: 100%;
-        margin-bottom: 5px;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-
-        .addNewField{
-            text-decoration: none;
-            color: #12E86B;
-            font-size: 12px;
-            border: 1px solid rgb(90, 196, 90);
-            border-radius: 5px;
-            padding: 5px;
-        }
-
+  
+    .pagination{
+      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      padding: 10px;
     }
-
-}
+  }
+  
