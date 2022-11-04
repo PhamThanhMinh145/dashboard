@@ -10,6 +10,9 @@ import useTable from "../useTable";
 import ActionButton from "../../form/ActionButton";
 import AuthService from "../../../services/auth.service";
 import ConfirmDialog from "../../form/ConfirmDialog";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 const headCells = [
   { id: "fieldID", label: "ID" },
   { id: "fieldName", label: "Field name" },
@@ -21,7 +24,7 @@ const DatatableField = ({ onError }) => {
   
   const [records, setRecords] = useState([]);
   const [record, setRecord] = useState();
-  const [filterFn, setFilterFn] = useState({
+  const [filterFn] = useState({
     fn: (items) => {
       return items;
     },
@@ -192,29 +195,36 @@ const DatatableField = ({ onError }) => {
                 <TableCell className="cellDes">{item.fieldDescription}</TableCell>
 
                 <TableCell className="action">
-                  <ActionButton
-                    color="edit"
-                    onClick={() => {
-                      openInPopup(item);
-                    }}
-                  >
-                    Edit
-                  </ActionButton>
-                  <ActionButton
-                    color="delete"
-                    onClick={() => {
-                      setConfirmDialog({
-                        isOpen: true,
-                        title: "Are you sure to delete this record?",
-                        subTitle: "You can't undo this operation",
-                        onConfirm: () => {
-                          onDelete(item.fieldID);
-                        },
-                      });
-                    }}
-                  >
-                    Delete
-                  </ActionButton>
+                <div className="tip">
+                    <TooltipComponent content="Edit" position="BottomCenter" >
+                      <ActionButton
+                        
+                        color="edit"
+                        onClick={() => {
+                          openInPopup(item);
+                        }}
+                      >
+                        <EditIcon fontSize="small" />
+                      </ActionButton>
+                    </TooltipComponent>
+                    <TooltipComponent content="Delete" position="BottomCenter">
+                      <ActionButton
+                        color="delete"
+                        onClick={() => {
+                          setConfirmDialog({
+                            isOpen: true,
+                            title: "Are you sure to delete this record?",
+                            subTitle: "You can't undo this operation",
+                            onConfirm: () => {
+                              onDelete(item.fieldID);
+                            },
+                          });
+                        }}
+                      >
+                        <DeleteIcon />
+                      </ActionButton>
+                    </TooltipComponent>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

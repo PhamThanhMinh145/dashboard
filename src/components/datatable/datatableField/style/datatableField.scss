@@ -38,24 +38,30 @@
         }
       .action {
   
-        .edit {
-          text-transform: capitalize;
-          padding: 5px 20px;
-          border-radius: 5px;
-          color: rgb(37, 240, 10);
-          border: 1px solid rgba(8, 240, 66, 0.596);
-          cursor: pointer;
-          margin-right: 20px;
-          // margin-bottom: 10px;
-        }
+        .tip {
+          display: flex;
   
-        .delete {
-          text-transform: capitalize;
-          padding: 5px 20px;
-          border-radius: 5px;
-          color: crimson;
-          border: 1px solid rgba(220, 20, 60, 0.6);
-          cursor: pointer;
+        
+          .edit {
+            text-transform: capitalize;
+            padding: 8px 25px;
+            border-radius: 5px;
+            background-color: rgb(143, 253, 143);
+            color: rgb(26, 153, 26);
+            border: 1px solid rgba(8, 240, 66, 0.596);
+            cursor: pointer;
+            margin-right: 20px;
+          }
+  
+          .delete {
+            text-transform: capitalize;
+            padding: 5px 25px;
+            border-radius: 5px;
+            background-color: rgb(255, 194, 203);
+            color: red;
+            border: 1px solid  rgb(255, 178, 190);
+            cursor: pointer;
+          }
         }
       }
     }
