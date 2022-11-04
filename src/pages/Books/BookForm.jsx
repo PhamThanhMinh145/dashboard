@@ -41,7 +41,6 @@ const config = {
 
 const BookForm = ({ title }) => {
   const [file, setFile] = useState("");
-  const [value, setValue] = useState("");
   const [values, setValues] = useState(initialFValues);
   const [errors, setErrors] = useState({});
 

@@ -8,7 +8,7 @@ import { SiAffinitypublisher  } from 'react-icons/si';
 import { BiCategory, BiDollar  } from 'react-icons/bi';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 
-import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
+import { BsBoxSeam, BsCurrencyDollar} from 'react-icons/bs';
 import { FiBarChart, FiCreditCard } from 'react-icons/fi';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import avatar from './avatar.jpg';

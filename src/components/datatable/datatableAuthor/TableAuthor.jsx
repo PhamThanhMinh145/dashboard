@@ -23,7 +23,7 @@ const headCells = [
 const TableAuthor = ({ onError }) => {
   const [records, setRecords] = useState([]);
   const [record, setRecord] = useState();
-  const [filterFn, setFilterFn] = useState({
+  const [filterFn] = useState({
     fn: (items) => {
       return items;
     },
