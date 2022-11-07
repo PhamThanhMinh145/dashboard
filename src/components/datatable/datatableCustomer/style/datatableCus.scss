@@ -1,78 +1,68 @@
 .ag-theme-alpine {
-    
-    .ag-header {
-        --ag-header-background-color: #0ba933;   
-    }
+  .ag-header {
+    --ag-header-background-color: #0ba933;
+  }
 
-    .ag-row {
-       vertical-align: middle;
-    }
+  .ag-header-cell {
+    padding-left: 10px;
+  }
 
-    .ag-ltr {
-        .ag-cell {
-            justify-content: center;
-            align-items: center;
-            display: flex-start;
-            // margin-left: 5px;
+  .ag-row {
+    vertical-align: middle;
+  }
 
-            font-family: "Roboto","Helvetica","Arial",sans-serif;
-            font-weight: 400;
-            font-size: 0.875rem;
-            line-height: 1.43;
-            letter-spacing: 0.01071em;
-            padding: 10px;
-        }
+  .ag-ltr {
+    .ag-cell {
+      justify-content: center;
+      align-items: center;
+      display: flex-start;
+      // margin-left: 5px;
+
+      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+      font-weight: 400;
+      font-size: 0.875rem;
+      line-height: 1.43;
+      letter-spacing: 0.01071em;
+      padding: 10px;
     }
+  }
 }
 
-
 .ag-header-cell-text {
-    color: white;
-    font-weight: 750;
-    font-size: large;
+  color: white;
+  font-weight: 750;
+  font-size: large;
 }
 
 .title {
-    font-size: 24px;
-    font-weight: 500;
-    color: gray;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 500;
+  color: gray;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-.ag-root  {
-
-    .ag-unselectable {
-
-        .ag-layout-normal {
-
-            .ag-header {
-    
-                .ag-pivot-off {
-            
-                    .ag-header-viewport {
-            
-                        .ag-header-container {
-            
-                            .ag-header-row {
-                                
-                                .ag-header-row-column {
-                                    
-                                    .ag-header-cell {
-                                        
-                                        .ag-focus-managed {
-    
-                                        }
-                                    }
-                                }
-                            }
-                        }
+.ag-root {
+  .ag-unselectable {
+    .ag-layout-normal {
+      .ag-header {
+        .ag-pivot-off {
+          .ag-header-viewport {
+            .ag-header-container {
+              .ag-header-row {
+                .ag-header-row-column {
+                  .ag-header-cell {
+                    .ag-focus-managed {
                     }
+                  }
                 }
-            } 
+              }
+            }
+          }
         }
+      }
     }
-    
-} 
+  }
+}

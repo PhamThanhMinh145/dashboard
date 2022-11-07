@@ -1,42 +1,26 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import axios from "axios";
 import { filter } from "lodash";
-import { styled } from "@mui/material/styles";
 import "./style/datatableCus.scss";
-import { DataGrid } from "@mui/x-data-grid";
+
 import "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import { employeeRows, employeeColums } from "../../../data/datatableSource";
 import { Link } from "react-router-dom";
-
 // material
-import { Stack, Button, Typography } from "@mui/material";
 
 const DatatableCus = () => {
-  const [page, setPage] = useState(0);
-
-  const [order, setOrder] = useState("asc");
-
-  const [selected, setSelected] = useState([]);
-
-  const [orderBy, setOrderBy] = useState("name");
-
   const [filterName, setFilterName] = useState("");
 
-  const [paginationPageSize, setPaginationPageSize] = useState(5);
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  // const [vouchers, setVoucher] = useState([]);
+  const [paginationPageSize, setPaginationPageSize] = useState(10);
 
   const [error, setError] = useState(null);
 
   const defaultColDef = useMemo(() => {
     return {
       flex: 1,
-      minWidth: 150,
+      minWidth: 100,
       filter: true,
     };
   }, []);
@@ -46,9 +30,13 @@ const DatatableCus = () => {
   const [rowData, setRowData] = useState([]);
 
   const [columnDefs, setColumnDefs] = useState([
-    { field: "accountID" },
+    { field: "accountID", filter: "agNumberColumnFilter" },
     { field: "accountEmail" },
     { field: "status" },
+    {
+      field: "Action",
+        
+    },
   ]);
 
   const config = {
@@ -67,7 +55,11 @@ const DatatableCus = () => {
 
   const onGridReady = useCallback((params) => {
     axios
-      .get("http://192.168.137.36:7132/Account/Get", bodyParameters, config)
+      .get(
+        "http://192.168.137.36:7132/Account/GetByRole/2",
+        bodyParameters,
+        config
+      )
       .then((response) => {
         const resData = response.data;
         setRowData([...rowData, ...resData]);
@@ -85,27 +77,50 @@ const DatatableCus = () => {
     setFilterName(event.target.value);
   };
 
+  const actionColumn = [
+    {
+      field: "action",
+      width: 220,
+      renderCell: () => {
+        return (
+          <div className="cellAction">
+            <Link to="test" style={{ textDecoration: "none" }}>
+              <div className="viewButton">View</div>
+            </Link>
+          </div>
+        );
+      },
+    },
+  ];
+
   return (
-    <div style={containerStyle}>
-      <div className="title">List Customer</div>
-      {/* <UserListToolbar
-                filterName={filterName}
-                onFilterName={handleFilterByName}
-                searchName={"Search Customer"}
-            /> */}
-      <div style={gridStyle} className="ag-theme-alpine">
-        <AgGridReact
-          rowData={rowData}
-          columnDefs={columnDefs}
-          defaultColDef={defaultColDef}
-          pagination
-          paginationPageSize={paginationPageSize}
-          cacheBlockSize={10}
-          animateRows
-          onGridReady={onGridReady}
-        />
+    <>
+      <div style={containerStyle}>
+        <div className="title">List Customer</div>
+        <div style={gridStyle} className="ag-theme-alpine">
+          {rowData.map((item) => {
+            //condition 1
+            {
+              if (item.status === true) {
+                item.status = "Active";
+              } else if (item.status === false) {
+                item.status = "Disable";
+              }
+            }
+          })}
+          <AgGridReact
+            rowData={rowData}
+            columnDefs={columnDefs}
+            defaultColDef={defaultColDef}
+            pagination
+            paginationPageSize={paginationPageSize}
+            cacheBlockSize={5}
+            animateRows
+            onGridReady={onGridReady}
+          ></AgGridReact>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

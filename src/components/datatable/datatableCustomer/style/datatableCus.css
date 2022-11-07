@@ -1,6 +1,9 @@
 .ag-theme-alpine .ag-header {
   --ag-header-background-color: #0ba933;
 }
+.ag-theme-alpine .ag-header-cell {
+  padding-left: 10px;
+}
 .ag-theme-alpine .ag-row {
   vertical-align: middle;
 }
