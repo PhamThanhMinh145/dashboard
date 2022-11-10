@@ -1,124 +1,114 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { TableBody, TableCell, TableRow } from "@mui/material";
 import axios from "axios";
-import { filter } from "lodash";
-import "./style/datatableCus.scss";
-
-import "ag-grid-enterprise";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// material
+import ActionButton from "../../form/ActionButton";
+import Notification from "../../Notification";
+import "../datatableCustomer/style/datatableCus.scss";
+import useTable from "../useTable";
+
+const headCells = [
+  { id: "accountID", label: "ID" },
+  { id: "image", label: "Avatar" },
+  { id: "accountEmail", label: "Email" },
+  { id: "phone", label: "Contact" },
+  { id: "status", label: "Status" },
+  { id: "action", label: "Action", disableSorting: true },
+];
 
 const DatatableCus = () => {
-  const [filterName, setFilterName] = useState("");
-
-  const [paginationPageSize, setPaginationPageSize] = useState(10);
-
-  const [error, setError] = useState(null);
-
-  const defaultColDef = useMemo(() => {
-    return {
-      flex: 1,
-      minWidth: 100,
-      filter: true,
-    };
-  }, []);
-
-  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const gridStyle = useMemo(() => ({ height: "70%", width: "100%" }), []);
-  const [rowData, setRowData] = useState([]);
-
-  const [columnDefs, setColumnDefs] = useState([
-    { field: "accountID", filter: "agNumberColumnFilter" },
-    { field: "accountEmail" },
-    { field: "status" },
-    {
-      field: "Action",
-        
+  const [records, setRecords] = useState([]);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
     },
-  ]);
+  });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   const config = {
-    Headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      Accept: "application/json",
     },
   };
-
-  const bodyParameters = {
-    params: {
-      pageNumber: 1,
-      pageSize: paginationPageSize,
-      filterString: "a",
-    },
-  };
-
-  const onGridReady = useCallback((params) => {
-    axios
-      .get(
-        "http://192.168.137.36:7132/Account/GetByRole/2",
-        bodyParameters,
-        config
-      )
-      .then((response) => {
-        const resData = response.data;
-        setRowData([...rowData, ...resData]);
-      })
-      .catch((error) => {
-        setError(error);
-      });
-  }, []);
 
   useEffect(() => {
-    console.log("Changed rowData: ", rowData);
-  }, [rowData]);
+    const onGridReady = async () => {
+      try {
+        await axios
+          .get("http://192.168.137.36:7132/Account/GetByRole/2", config)
+          .then((response) => {
+            const resData = response.data;
+            setRecords([...records, ...resData]);
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    onGridReady();
+  }, []);
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
+  console.log(records);
 
-  const actionColumn = [
-    {
-      field: "action",
-      width: 220,
-      renderCell: () => {
-        return (
-          <div className="cellAction">
-            <Link to="test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
-          </div>
-        );
-      },
-    },
-  ];
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(records, headCells, filterFn);
 
   return (
     <>
-      <div style={containerStyle}>
+      <div className="datatableCustomer">
         <div className="title">List Customer</div>
-        <div style={gridStyle} className="ag-theme-alpine">
-          {rowData.map((item) => {
-            //condition 1
-            {
-              if (item.status === true) {
-                item.status = "Active";
-              } else if (item.status === false) {
-                item.status = "Disable";
-              }
-            }
-          })}
-          <AgGridReact
-            rowData={rowData}
-            columnDefs={columnDefs}
-            defaultColDef={defaultColDef}
-            pagination
-            paginationPageSize={paginationPageSize}
-            cacheBlockSize={5}
-            animateRows
-            onGridReady={onGridReady}
-          ></AgGridReact>
-        </div>
+
+        <TblContainer>
+          <TblHead sx={{ height: "40px" }} />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((item) => (
+              <TableRow key={item.accountID} className="rowCustomer">
+                <TableCell className="cellID">
+                  <div>{item.accountID}</div>
+                </TableCell>
+                <TableCell className="cellImg">
+                  <img
+                    src={
+                      item?.image !== null
+                        ? item?.image
+                        : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                    }
+                    alt=""
+                  />
+                </TableCell>
+                <TableCell className="cellEmail">
+                  <div>{item.accountEmail}</div>
+                </TableCell>
+                <TableCell className="cellName">
+                  <div>{item.phone}</div>
+                </TableCell>
+                <TableCell className="cellStatus">
+                  {item.status === true ? (
+                    <div className="active">Active</div>
+                  ) : (
+                    <div className="disable">Disable</div>
+                  )}
+                </TableCell>
+
+                <TableCell className="action">
+                  <ActionButton color="view" onClick={() => {}}>
+                    View Detail
+                  </ActionButton>
+                  <ActionButton color="changeSta" onClick={() => {}}>
+                    Change Status
+                  </ActionButton>
+                  <ActionButton color="delete">Delete</ActionButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        <TblPagination className="pagination" />
+        <Notification notify={notify} setNotify={setNotify} />
       </div>
     </>
   );

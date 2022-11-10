@@ -1,142 +1,161 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { TableBody, TableCell, TableRow } from "@mui/material";
 import axios from "axios";
-import AddIcon from "@mui/icons-material/Add";
-import Button from "../../form/Button";
-import "ag-grid-enterprise";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import "./style/employee.scss";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import ActionButton from "../../form/ActionButton";
+import Notification from "../../Notification";
+import "../datatableEmployee/style/employee.scss";
+import useTable from "../useTable";
+
+const headCells = [
+  { id: "accountID", label: "ID" },
+  { id: "image", label: "Avatar" },
+  { id: "owner", label: "Full Name" },
+  { id: "roleID", label: "Role" },
+  { id: "accountEmail", label: "Email" },
+  { id: "phone", label: "Contact" },
+  { id: "country", label: "Country" },
+  { id: "status", label: "Status" },
+  { id: "action", label: "Action", disableSorting: true },
+];
 
 const DatatableEmployee = () => {
-  const [filterName, setFilterName] = useState("");
-
-  const [paginationPageSize, setPaginationPageSize] = useState(10);
-
-  const [error, setError] = useState(null);
-
-  const [openPopup, setOpenPopup] = useState(false);
-
-  const [accountEmail, setAccountEmail] = useState();
-  const [password, setPassword] = useState();
-  const [roleID, setRoleID] = useState();
-
-  const employee = {
-    accountEmail,
-    password,
-    roleID,
-  };
-
-  const defaultColDef = useMemo(() => {
-    return {
-      flex: 1,
-      minWidth: 100,
-      filter: true,
-    };
-  }, []);
-
-  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const gridStyle = useMemo(() => ({ height: "70%", width: "100%" }), []);
-  const [rowData, setRowData] = useState([]);
-
-  const [columnDefs, setColumnDefs] = useState([
-    { field: "accountID", filter: "agNumberColumnFilter" },
-    { field: "accountEmail" },
-    { field: "status" },
-  ]);
+  const [records, setRecords] = useState([]);
+  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   const config = {
-    Headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      Accept: "application/json",
     },
   };
 
-  const bodyParameters = {
-    params: {
-      pageNumber: 1,
-      pageSize: paginationPageSize,
-      filterString: "a",
-    },
-  };
-
-  const onGridReady = useCallback((params) => {
-    axios
-      .get(
-        "http://192.168.137.36:7132/Account/GetByRole/3",
-        bodyParameters,
-        config
-      )
-      .then((response) => {
-        const resData = response.data;
-        setRowData([...rowData, ...resData]);
-      })
-      .catch((error) => {
-        setError(error);
-      });
-  }, []);
-
-  async function addEmployee() {
-    try {
-      await axios
-        .post("http://192.168.137.36:7132/Account/Create", employee, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        })
-        .catch((respone) => {
-          {
-            console.log(respone.data);
-          }
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Changed rowData: ", rowData);
-  }, [rowData]);
+    const onGridReady = async () => {
+      try {
+        await axios
+          .get("http://192.168.137.36:7132/Account/GetByRole/1", config)
+          .then((response) => {
+            const resData = response.data;
+            setRecords([...records, ...resData]);
+          });
+      } catch (e) {
+        console.log(e);
+      }
+      try {
+        await axios
+          .get("http://192.168.137.36:7132/Account/GetByRole/3", config)
+          .then((response) => {
+            const resData = response.data;
+            setRecords((records) => [...records, ...resData]);
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    onGridReady();
+  }, [recordForEdit]);
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+  console.log(records);
+
+  const selectEmployeeData = (item) => {
+    setRecordForEdit(item);
   };
+  console.log(recordForEdit);
+
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(records, headCells, filterFn);
 
   return (
     <>
-      <div style={containerStyle}>
+      <div className="datatableEmployee">
         <div className="title">
           List Employees
-          <Button
-            text="Add New"
-            variant="outlined"
-            startIcon={<AddIcon />}
-            size="small"
-            color="addNewEmloyee"
-            
-          />
+          <Link
+            to="newemployee"
+            style={{ textDecoration: "none" }}
+            className="link"
+          >
+            Add New
+          </Link>
         </div>
 
-        <div style={gridStyle} className="ag-theme-alpine">
-          {rowData.map((item) => {
-            //condition 1
-            {
-              if (item.status === true) {
-                item.status = "Active";
-              } else if (item.status === false) {
-                item.status = "Disable";
-              }
-            }
-          })}
-          <AgGridReact
-            rowData={rowData}
-            columnDefs={columnDefs}
-            defaultColDef={defaultColDef}
-            pagination
-            paginationPageSize={paginationPageSize}
-            cacheBlockSize={5}
-            animateRows
-            onGridReady={onGridReady}
-          ></AgGridReact>
-        </div>
+        <TblContainer>
+          <TblHead sx={{ height: "40px" }} />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((item) => (
+              <TableRow key={item.accountID} className="rowEmployee">
+                <TableCell className="cellID">
+                  <div>{item.accountID}</div>
+                </TableCell>
+                <TableCell className="cellImg">
+                  <img
+                    src={
+                      item?.image !== null
+                        ? item?.image
+                        : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                    }
+                    alt=""
+                  />
+                </TableCell>
+                <TableCell className="cellName">
+                  <div>{item.owner}</div>
+                </TableCell>
+
+                <TableCell className="cellRole">
+                  <div>{item.roleID === 1 ? "Admin" : "Staff"}</div>
+                </TableCell>
+
+                <TableCell className="cellEmail">
+                  <div>{item.accountEmail}</div>
+                </TableCell>
+                <TableCell className="cellPhone">
+                  <div>{item.phone}</div>
+                </TableCell>
+                <TableCell className="cellCountry">
+                  <div>{item.country}</div>
+                </TableCell>
+                <TableCell className="cellStatus">
+                  {item.status === true ? (
+                    <div className="active">Active</div>
+                  ) : (
+                    <div className="disable">Disable</div>
+                  )}
+                </TableCell>
+
+                <TableCell className="action">
+                  <ActionButton
+                    color="edit"
+                    onClick={() => {
+                      selectEmployeeData(item);
+                      // directEmployee();
+                      navigate(`/employee/editemployee/${item.accountID}`);
+                    }}
+                  >
+                    Edit
+                  </ActionButton>
+                  <ActionButton color="delete">Delete</ActionButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        <TblPagination className="pagination" />
       </div>
+
+      <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { display } from "@mui/system";
 import Dropdown from "../../components/dropdown/Dropdown";
 
 const NewBook = ({ inputs, title }) => {
@@ -22,6 +21,7 @@ const NewBook = ({ inputs, title }) => {
                 ? URL.createObjectURL(file)
                 : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
             }
+            alt=""
           />
         </div>
         <div className="right">
@@ -51,7 +51,7 @@ const NewBook = ({ inputs, title }) => {
                 />
               </div>
             ))}
-           
+
             <Dropdown selected={selected} setSelected={setSelected} />
             <button>Save</button>
           </form>

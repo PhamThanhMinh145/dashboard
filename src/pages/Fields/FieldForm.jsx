@@ -28,7 +28,7 @@ const FieldForm = ({addField, recordForEdit}) => {
       ...temp,
     });
 
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values) return Object.values(temp).every((x) => x === "");
   };
 
   const handleInputChange = (e) => {
@@ -62,7 +62,7 @@ const FieldForm = ({addField, recordForEdit}) => {
         });
         console.log(recordForEdit);
     },
-    {recordForEdit} 
+    [recordForEdit]
   );
 
   return (

@@ -1,67 +1,94 @@
-.ag-theme-alpine {
-  .ag-header {
-    --ag-header-background-color: #0ba933;
+.table .row .cell:nth-child(2) {
+  text-align: center;
+}
+
+.datatableCustomer {
+  height: 480px;
+  .title {
+    font-size: 24px;
+    font-weight: 500;
+    color: gray;
+    width: 100%;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
   }
 
-  .ag-header-cell {
-    padding-left: 10px;
+  .rowCustomer:nth-child(even) {
+    background-color: #f8f8f8;
   }
 
-  .ag-row {
-    vertical-align: middle;
-  }
-
-  .ag-ltr {
-    .ag-cell {
-      justify-content: center;
-      align-items: center;
-      display: flex-start;
-      // margin-left: 5px;
-
-      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-      font-weight: 400;
-      font-size: 0.875rem;
-      line-height: 1.43;
-      letter-spacing: 0.01071em;
-      padding: 10px;
+  .rowCustomer {
+    .cellID {
+      width: 70px;
     }
-  }
-}
 
-.ag-header-cell-text {
-  color: white;
-  font-weight: 750;
-  font-size: large;
-}
+    .cellName {
+      width: 250px;
+    }
 
-.title {
-  font-size: 24px;
-  font-weight: 500;
-  color: gray;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
+    .cellEmail {
+      width: 250px;
+    }
 
-.ag-root {
-  .ag-unselectable {
-    .ag-layout-normal {
-      .ag-header {
-        .ag-pivot-off {
-          .ag-header-viewport {
-            .ag-header-container {
-              .ag-header-row {
-                .ag-header-row-column {
-                  .ag-header-cell {
-                    .ag-focus-managed {
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+    .cellStatus {
+      width: 120px;
+
+      .active {
+        margin-left: 7px;
+        color: green;
+        font-weight: 600;
+      }
+
+      .disable {
+        margin-left: 7px;
+        color: red;
+        font-weight: 600;
+      }
+    }
+
+    .cellImg {
+      width: 170px;
+
+      img {
+        margin-left: 8px;
+        text-align: center;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+    .action {
+      gap: 20px;
+      .view {
+        text-transform: capitalize;
+        padding: 5px 20px;
+        border-radius: 5px;
+        color: darkblue;
+        border: 1px solid rgba(0, 0, 139, 0.596);
+        cursor: pointer;
+        margin-right: 20px;
+      }
+
+      .changeSta {
+        text-transform: capitalize;
+        padding: 5px 20px;
+        border-radius: 5px;
+        color: rgb(174, 0, 197);
+        border: 1px solid rgba(174, 0, 197, 0.596);
+        cursor: pointer;
+        margin-right: 20px;
+      }
+
+      .delete {
+        text-transform: capitalize;
+        padding: 5px 20px;
+        border-radius: 5px;
+        color: crimson;
+        border: 1px solid rgba(220, 20, 60, 0.6);
+        cursor: pointer;
       }
     }
   }
