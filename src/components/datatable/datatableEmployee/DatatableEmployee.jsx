@@ -21,7 +21,7 @@ const headCells = [
 
 const DatatableEmployee = () => {
   const [records, setRecords] = useState([]);
-  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [record, setRecord] = useState(null);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -66,14 +66,27 @@ const DatatableEmployee = () => {
       }
     };
     onGridReady();
-  }, [recordForEdit]);
+  }, []);
 
   console.log(records);
 
-  const selectEmployeeData = (item) => {
-    setRecordForEdit(item);
+  const deleteEmployee = async () => {
+    try {
+      await axios
+        .delete(`http://192.168.137.36:7132/Account/Delete/${record}`, {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Accept: "application/json",
+          },
+        })
+        .then((respone) => {
+          console.log("Employee Delete", respone.data);
+          window.location.reload();
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
-  console.log(recordForEdit);
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
@@ -139,14 +152,21 @@ const DatatableEmployee = () => {
                   <ActionButton
                     color="edit"
                     onClick={() => {
-                      selectEmployeeData(item);
-                      // directEmployee();
                       navigate(`/employee/editemployee/${item.accountID}`);
                     }}
                   >
                     Edit
                   </ActionButton>
-                  <ActionButton color="delete">Delete</ActionButton>
+                  <ActionButton
+                    color="delete"
+                    onClick={() => {
+                      setRecord(item.accountID);
+                      console.log(record);
+                      deleteEmployee();
+                    }}
+                  >
+                    Delete
+                  </ActionButton>
                 </TableCell>
               </TableRow>
             ))}

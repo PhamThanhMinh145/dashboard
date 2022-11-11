@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { storage } from "../../firebaseconfig/firebase";
 import "./style/new.scss";
 
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/form/Button";
 import Input from "../../components/form/Input";
 import Select from "../../components/form/Select";
@@ -74,7 +75,7 @@ const EmloyeeForm = ({ title }) => {
           },
         })
         .then((respone) => {
-          console.log(respone.data);
+          console.log("Create Employee", respone.data);
         });
     } catch (e) {
       console.log(e);
@@ -116,15 +117,20 @@ const EmloyeeForm = ({ title }) => {
     if (validationOnChange) validation({ [name]: value });
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validation()) {
-      addEmployee();
-    }
+    // if (validation(values)) {
+    //   addEmployee();
+    // }
+    addEmployee();
+    navigate("/employee");
   };
 
   const resetForm = () => {
     setValues(initialFValues);
+    setFile(null);
     setErrors({});
   };
 
@@ -158,9 +164,9 @@ const EmloyeeForm = ({ title }) => {
                     className="size"
                     name="owner"
                     label="Full name"
-                    value={values.fullname}
+                    value={values.owner}
                     onChange={handleInputChange}
-                    error={errors.fullname}
+                    error={errors.owner}
                   />
                 </div>
               </Grid>
@@ -171,9 +177,9 @@ const EmloyeeForm = ({ title }) => {
                     className="size"
                     name="accountEmail"
                     label="Email"
-                    value={values.email}
+                    value={values.accountEmail}
                     onChange={handleInputChange}
-                    error={errors.email}
+                    error={errors.accountEmail}
                   />
                 </div>
               </Grid>
@@ -198,10 +204,9 @@ const EmloyeeForm = ({ title }) => {
                     name="roleID"
                     label="Role"
                     value={values.roleID}
-                    defaultValue=""
                     onChange={handleInputChange}
                     options={dummy.getRoleCollection()}
-                    error={errors.role}
+                    error={errors.roleID}
                   />
                 </div>
               </Grid>
