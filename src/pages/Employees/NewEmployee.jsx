@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./style/new.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { display } from "@mui/system";
 import Dropdown from "../../components/dropdown/Dropdown";
 
 const NewEmployee = ({ inputs, title }) => {
@@ -17,6 +16,7 @@ const NewEmployee = ({ inputs, title }) => {
       <div className="bottom">
         <div className="left">
           <img
+          alt=""
             src={
               file
                 ? URL.createObjectURL(file)

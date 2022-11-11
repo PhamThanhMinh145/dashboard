@@ -1,9 +1,28 @@
-import React from 'react'
-
-const Notification = () => {
+import React from "react";
+import { Alert, Snackbar } from '@mui/material'
+const Notification = ({ notify, setNotify }) => {
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setNotify({
+      ...notify,
+      isOpen: false,
+    });
+  };
   return (
-    <div>Notification</div>
-  )
-}
+    <Snackbar
+      style={{ marginTop:'60px'}}
+      open={notify.isOpen}
+      autoHideDuration={2000}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      onClose={handleClose}
+    >
+      <Alert severity={notify.type} onClose={handleClose}>
+        {notify.message}
+      </Alert>
+    </Snackbar>
+  );
+};
 
-export default Notification
+export default Notification;

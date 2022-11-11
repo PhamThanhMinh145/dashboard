@@ -8,7 +8,7 @@ import { SiAffinitypublisher  } from 'react-icons/si';
 import { BiCategory, BiDollar  } from 'react-icons/bi';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 
-import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
+import { BsBoxSeam, BsCurrencyDollar} from 'react-icons/bs';
 import { FiBarChart, FiCreditCard } from 'react-icons/fi';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import avatar from './avatar.jpg';
@@ -150,6 +150,39 @@ export const links = [
       name: 'orange-theme',
     },
   ];
+
+  export const getRoleCollection = () => (
+    [
+        {id: '1' , title: 'Admin'},
+        {id: '2' , title: 'Staff'},
+        
+    ]
+)
+
+export const getAuthorCollection = () => (
+  [
+      {id: '1' , title: 'Nguyen Nhat Anh'},
+      {id: '2' , title: 'To Huu'},
+      
+  ]
+)
+
+export const getPublisherCollection = () => (
+  [
+      {id: '1' , title: 'NXB Kim Dong'},
+      {id: '2' , title: 'NXB Anh trang'},
+      
+  ]
+)
+
+export const getFieldCollection = () => (
+  [
+      {id: '1' , title: 'Thiller'},
+      {id: '2' , title: 'Science and fiction'},
+      
+  ]
+)
+
 
 
 
