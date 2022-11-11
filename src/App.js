@@ -9,7 +9,6 @@ import { Home } from "./pages";
 
 import { useStateContext } from "./contexts/ContextProvider";
 import ListEmployees from "./pages/Employees/ListEmployees";
-import EditEmployee from "./pages/Employees/EditEmployee";
 import ListCustomers from "./pages/Customers/ListCustomers";
 import ListBook from "./pages/Books/listBook";
 import ListAuthor from "./pages/Authors/ListAuthor";
@@ -25,6 +24,8 @@ import BookFormUpdate from './pages/Books/BookFormUpdate'
 // import SignInConnect from "./pages/SignIn/SignInConnect";
 import Login from "./pages/SignIn/Login";
 import AuthService from "./services/auth.service";
+import EditEmployee from "./pages/Employees/EditEmployee";
+import EmployeeForm from "./pages/Employees/EmployeeForm"; 
 
 const App = () => {
   const {
@@ -114,14 +115,19 @@ const App = () => {
                     </Route>
 
                     {/* Accounts */}
-                    <Route path="employee">
-                      <Route index element={<ListEmployees />} />
-                      <Route
-                        path="new"
-                        element={<NewTest title="Add new Employee" />}
-                      />
-                      <Route path=":userId" element={<EditEmployee />} />
-                    </Route>
+                   
+                      
+                <Route path="employee"> 
+                  <Route index element={<ListEmployees />} />
+                  <Route
+                    path="newemployee"
+                    element={<EmployeeForm title="Add new Employee" />}
+                  />
+                  <Route
+                    path="editemployee/:accountID"
+                    element={<EditEmployee />}
+                  />
+                </Route>
 
                     <Route path="customer">
                       <Route index element={<ListCustomers />} />
