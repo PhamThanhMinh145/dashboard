@@ -165,6 +165,7 @@ const TableAuthor = ({ onError }) => {
     setRecordForEdit(item);
     setOpenPopup(true);
   };
+  console.log(records)
 
   return (
     <>

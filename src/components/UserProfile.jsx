@@ -1,7 +1,6 @@
 import React from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import Logout from "./Logout";
-import { userProfileData } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
 import AuthService from "../services/auth.service";
 import Button from "./Button";
@@ -25,7 +24,7 @@ const UserProfile = () => {
           />
         </div>
         <div className="flex gap-5 items-center mt-6 border-color border-b-1 pb-6">
-          {currentUser.image === null ? (
+          {currentUser.image === '' ? (
             <img
               className="rounded-full h-24 w-24"
               src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
@@ -34,7 +33,7 @@ const UserProfile = () => {
           ) : (
             <img
               className="rounded-full h-24 w-24"
-              src={currentUser.image}
+              src= {`${currentUser.image}`}
               alt="user-profile"
             />
           )}
@@ -46,7 +45,7 @@ const UserProfile = () => {
             </p>
             <p className="text-gray-500 text-sm dark:text-gray-400">
               {" "}
-              {currentUser.roleID === 1 ? "Administrator" : "Employee"}
+              {currentUser.role}
             </p>
             <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
               {" "}
@@ -54,7 +53,7 @@ const UserProfile = () => {
             </p>
           </div>
         </div>
-        <div>
+        {/* <div>
           {userProfileData.map((item, index) => (
             <div
               key={index}
@@ -79,7 +78,7 @@ const UserProfile = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
         <div className="mt-5">
           <Link to="/login" style={{ textDecoration: "none" }}>
             <Logout

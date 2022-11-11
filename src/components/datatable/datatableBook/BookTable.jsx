@@ -1,9 +1,19 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import "./style/booktable.scss";
 import { bookColums , bookRows } from "../../../data/datatableSource";
+import { useDispatch, useSelector } from "react-redux";
+import { getBooks } from "../../../redux/apiCalls";
+
 const BookTable = () => {
+
+  const books = useSelector((state) => state.book.products);
+  console.log(books)
+  const dispatch = useDispatch();
+  useEffect(() => {
+      getBooks(dispatch);
+  },[dispatch])
 
   
   const actionColumn = [

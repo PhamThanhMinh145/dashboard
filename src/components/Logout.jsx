@@ -25,7 +25,7 @@ const Logout = ({
     }).then((response) => {
       return response.data;
     });
-    localStorage.removeItem("user");
+    localStorage?.removeItem("user");
 
     // .catch(() => onError());
   };

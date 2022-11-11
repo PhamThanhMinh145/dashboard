@@ -13,7 +13,7 @@ const DatePickers = ({name, label, value, onChange, size }) => {
   });
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}  >
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker 
           className={size}
           name = {name}
@@ -24,11 +24,6 @@ const DatePickers = ({name, label, value, onChange, size }) => {
           onChange={date => onChange(convertToDefEventPara(name, date))}
         />
     </LocalizationProvider>
-    
-
-
-
-    
   );
 };
 

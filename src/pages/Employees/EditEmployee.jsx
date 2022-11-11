@@ -227,7 +227,7 @@ const EditEmployee = () => {
                   <Select
                     name="role"
                     label="Role"
-                    value={values.roleId}
+                    value={values.role}
                     onChange={handleInputChange}
                     options={dummy.getRoleCollection()}
                     error={errors.role}

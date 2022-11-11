@@ -1,27 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style/bookForm.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { Grid } from "@mui/material";
 import Input from "../../components/form/Input";
 import Select from "../../components/form/Select";
-
+import AuthService from "../../services/auth.service";
 import Button from "../../components/form/Button";
-import * as dummy from "../../data/dummy";
 import DatePickers from "../../components/form/DatePicker";
 import Editor from "../../components/form/Editor";
-import parse from "html-react-parser";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import app from "../../firebase2";
+import { addBook } from "../../redux/apiCalls";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const initialFValues = {
-  id: 0,
-  name: "",
-  price: "",
-  quantity: "",
-  image: "",
-  describe: "",
-  date: new Date(),
-  field: "",
-  publisher: "",
-  author: "",
+  authorID: 0,
+  bookID: 0,
+  bookName: "",
+  dateOfPublished: new Date(),
+  description: "",
+  fieldID: 0,
+  price: 0,
+  publisherID: 0,
+  quantity: 0,
+  stripeID: "",
 };
 
 const config = {
@@ -40,16 +48,16 @@ const config = {
 };
 
 const BookForm = ({ title }) => {
+  const history = useNavigate();
   const [file, setFile] = useState("");
   const [values, setValues] = useState(initialFValues);
   const [errors, setErrors] = useState({});
-
+  const dispatch = useDispatch();
   const validationOnChange = true;
-
   const validation = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("name" in fieldValues)
-      temp.name = fieldValues.name ? "" : "This field is required";
+    if ("bookName" in fieldValues)
+      temp.bookName = fieldValues.bookName ? "" : "This field is required";
     if ("price" in fieldValues)
       temp.price = /^[0-9]{1,10}$/.test(fieldValues.price)
         ? ""
@@ -60,22 +68,23 @@ const BookForm = ({ title }) => {
         ? ""
         : "quantity is required";
 
-    if ("field" in fieldValues)
+    if ("fieldID" in fieldValues)
       temp.field =
-        fieldValues.field.length !== 0 ? "" : "This field is required";
+        fieldValues.fieldID.length !== 1 ? "" : "This field is required";
 
-    if ("publisher" in fieldValues)
-      temp.publisher =
-        fieldValues.publisher.length !== 0 ? "" : "This field is required";
+    if ("publisherID" in fieldValues)
+      temp.publisherID =
+        fieldValues.publisherID.length !== 1 ? "" : "This field is required";
 
-    if ("author" in fieldValues)
-      temp.author =
-        fieldValues.author.length !== 0 ? "" : "This field is required";
+    if ("authorID" in fieldValues)
+      temp.authorID =
+        fieldValues.authorID.length !== 1 ? "" : "This field is required";
     setErrors({
       ...temp,
     });
 
-    if (fieldValues === values) return Object.values(temp).every((x) => x === "");
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
   };
 
   const handleInputChange = (e) => {
@@ -88,10 +97,126 @@ const BookForm = ({ title }) => {
     if (validationOnChange) validation({ [name]: value });
   };
 
+  const [recordsField, setRecordsField] = useState([]);
+  const [recordsPublisher, setRecordsPubliser] = useState([]);
+  const [recordsAuthor, setRecordsAuthor] = useState([]);
+  const user = AuthService.getCurrentUser();
+  const urlAuthor = "https://localhost:7091/Author/Get";
+  const urlField = "https://localhost:7091/Field/GetAll";
+  const urlPublisher = "https://localhost:7091/Publisher/Get";
+  // get data author
+  const fetchAuthor = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + user.token);
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      //redirect: "follow",
+    };
+    fetch(urlAuthor, requestOptions)
+      .then((response) => response.json())
+      .then((json) => {
+        // sort data
+        json = json.sort((a, b) => {
+          return a.authorName < b.authorName ? -1 : 1;
+        });
+
+        setRecordsAuthor(json);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  // get data field
+  const fetchField = () => {
+    fetch(urlField)
+      .then((response) => response.json())
+      .then((json) => {
+        // console.log("result", json);
+        // sort data
+        json = json.sort((a, b) => {
+          return a.fieldName < b.fieldName ? -1 : 1;
+        });
+        setRecordsField(json);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  // get daya publisher
+  const fetchPublisher = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + user.token);
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      //redirect: "follow",
+    };
+
+    fetch(urlPublisher, requestOptions)
+      .then((response) => response.json())
+      .then((json) => {
+        // console.log("publisher", json);
+        json = json.sort((a, b) => {
+          return a.publisherName < b.publisherName ? -1 : 1;
+        });
+        setRecordsPubliser(json);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    fetchAuthor();
+    fetchField();
+    fetchPublisher();
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (validation()) {
-      // addOrEdit(values, resetForm);
+      if (values.bookID === 0) {
+        // const date = JSON.stringify(values.dateOfPublished);
+        // setValues(() => (values.dateOfPublished = date));
+        const fileName = file.name;
+        const storage = getStorage(app);
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+              default:
+            }
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+          },
+          () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              //  const product = { ...inputs, img: downloadURL, categories: cat };
+              // addProduct(product, dispatch);
+              const book = { ...values, image: downloadURL };
+              addBook(book, dispatch);
+              history("/books");
+              resetForm();
+            });
+          }
+        );
+      }
     }
   };
 
@@ -99,6 +224,8 @@ const BookForm = ({ title }) => {
     setValues(initialFValues);
     setErrors({});
   };
+
+  console.log(file);
 
   return (
     <div className="newContainer">
@@ -110,7 +237,7 @@ const BookForm = ({ title }) => {
         <div className="left">
           <div className="i">
             <img
-            alt=""
+              alt=""
               src={
                 file
                   ? URL.createObjectURL(file)
@@ -125,7 +252,6 @@ const BookForm = ({ title }) => {
               <Grid item xs={6} className="gridInput">
                 <div className="imageUpload">
                   <label htmlFor="file">
-                    {" "}
                     Image: <DriveFolderUploadOutlinedIcon className="icon" />
                   </label>
                   <input
@@ -140,11 +266,11 @@ const BookForm = ({ title }) => {
                 <div className="input">
                   <Input
                     className="size"
-                    name="name"
+                    name="bookName"
                     label="Book name"
-                    value={values.name}
+                    value={values.bookName}
                     onChange={handleInputChange}
-                    error={errors.name}
+                    error={errors.bookName}
                   />
                 </div>
 
@@ -177,55 +303,66 @@ const BookForm = ({ title }) => {
                 <div className="date">
                   <DatePickers
                     size="size"
-                    name="date"
+                    name="dateOfPublished"
                     label="Publish Date"
-                    value={values.date}
+                    value={values.dateOfPublished}
                     onChange={handleInputChange}
                   />
                 </div>
                 <div className="select">
                   <Select
-                    name="author"
+                    name="authorID"
                     label="Author"
-                    value={values.author}
+                    value={values.authorID}
                     onChange={handleInputChange}
-                    options={dummy.getAuthorCollection()}
-                    error={errors.author}
+                    options={recordsAuthor}
+                    error={errors.authorID}
                   />
                 </div>
 
                 <div className="select">
                   <Select
-                    name="publisher"
+                    name="publisherID"
                     label="Publisher"
-                    value={values.publisher}
+                    value={values.publisherID}
                     onChange={handleInputChange}
-                    options={dummy.getPublisherCollection()}
-                    error={errors.publisher}
+                    options={recordsPublisher}
+                    error={errors.publisherID}
                   />
                 </div>
 
                 <div className="select">
                   <Select
-                    name="field"
+                    name="fieldID"
                     label="Field"
-                    value={values.field}
+                    value={values.fieldID}
                     onChange={handleInputChange}
-                    options={dummy.getFieldCollection()}
-                    error={errors.field}
+                    options={recordsField}
+                    error={errors.fieldID}
+                  />
+                </div>
+                <div className="input">
+                  <Input
+                    className="size"
+                    name="stripeID"
+                    label="Stripe ID"
+                    type="text"
+                    value={values.stripeID}
+                    onChange={handleInputChange}
+                    // error={errors.quantity}
                   />
                 </div>
               </Grid>
 
               <Grid item xs={10}>
                 <Editor
-                  name="describe"
-                  value={values.describe}
+                  name="description"
+                  value={values.description}
                   config={config}
                   onChange={handleInputChange}
                 />
 
-                <div>{parse(values.describe)}</div>
+                {/* <div>{parse(values.describe)}</div> */}
               </Grid>
 
               <Grid item xs={10} className="gridInput">

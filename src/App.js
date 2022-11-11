@@ -21,6 +21,7 @@ import NewPublisher from "./pages/Authors/NewAuthor";
 import { userInputsPublisher } from "./data/formSource";
 import NewTest from "./pages/Employees/NewTest";
 import BookForm from "./pages/Books/BookForm";
+import BookFormUpdate from './pages/Books/BookFormUpdate'
 // import SignInConnect from "./pages/SignIn/SignInConnect";
 import Login from "./pages/SignIn/Login";
 import AuthService from "./services/auth.service";
@@ -40,7 +41,6 @@ const App = () => {
   // const [currentUser, setCurrentUser] = useState(undefined);
 
   // useEffect(() => {
-    
 
   //   if (user) {
   //     setCurrentUser(user);
@@ -58,9 +58,9 @@ const App = () => {
             <Route path="login" element={<Login />} />
           </Routes>
         </BrowserRouter>
-      ) }
-      
-       {user && (
+      )}
+
+      {user && (user.role === "Admin" || user.role === "Staff") && (
         <div className={currentMode === "Dark" ? "dark" : ""}>
           <BrowserRouter>
             <div className="flex relative dark:bg-main-dark-bg">
@@ -83,7 +83,7 @@ const App = () => {
               {activeMenu ? (
                 <div
                   className="w-72 fixed sidebar dark:bg-secondary-dark-bg
-             bg-white"
+               bg-white"
                 >
                   <Sidebar />
                 </div>
@@ -94,11 +94,11 @@ const App = () => {
               )}
               <div
                 className={`dark:bg-main-dark-bg bg-main-bg min-h-screen w-full 
-            ${activeMenu ? "md:ml-72" : "flex-2"}`}
+              ${activeMenu ? "md:ml-72" : "flex-2"}`}
               >
                 <div
                   className="fixed md:static bg-main-bg 
-            dark:bg-main-dark-bg navbar "
+              dark:bg-main-dark-bg navbar "
                 >
                   <Navbar />
                 </div>
@@ -134,6 +134,11 @@ const App = () => {
                       <Route
                         path="newbook"
                         element={<BookForm title="Add new Book" />}
+                      />
+
+                      <Route
+                        path=":bookID"
+                        element={<BookFormUpdate title="Update new Book" />}
                       />
                     </Route>
 

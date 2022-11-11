@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ListOrders from '../pages/Orders/ListOrders'
 import { AiOutlineMenu } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 import { BsChatLeft } from "react-icons/bs";
@@ -67,7 +68,7 @@ const Navbar = () => {
       <div className="flex">
         <NavButton
           title="Cart"
-          customFunc={() => handleClick("cart")}
+          customFunc=  {<ListOrders />}
           color={currentColor}
           icon={<FiShoppingCart />}
         />
@@ -120,10 +121,10 @@ const Navbar = () => {
           </div>
         </TooltipComponent>
 
-        {/* {isClicked.cart && <PurchaseOrders/> } */}
+        {/* {isClicked.cart && <ListOrders /> */ }
         {isClicked.chat && <Chat />}
         {isClicked.notification && <Notification />}
-        {isClicked.userProfile && <UserProfile />}
+        {isClicked.userProfile && <UserProfile />} 
       </div>
     </div>
   );

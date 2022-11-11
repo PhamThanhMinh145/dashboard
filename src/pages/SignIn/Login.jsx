@@ -35,6 +35,9 @@ const Login = () => {
         ? ""
         : "This field is required";
 
+    if ("password" in fieldValues)
+      temp.password = fieldValues.password ? "" : "This field is required";
+
     // if ("password" in fieldValues)
     //   temp.password =
     //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{4,10}$/.test(
@@ -60,8 +63,6 @@ const Login = () => {
     if (validationOnChange) validation({ [name]: value });
   };
 
- 
-
   const handleClickSignIn = () => {
     setPanelActive("");
   };
@@ -83,7 +84,7 @@ const Login = () => {
             if (!err?.response) {
               setMessageErr("No Server Response");
             } else if (err.response.status === 400) {
-              setMessageErr("Missing or Mistake Email or Password");
+              setMessageErr("Unauthenticated");
             } else if (!err.response?.status === 401) {
               setMessageErr("Unauthorized");
             } else {
@@ -124,7 +125,7 @@ const Login = () => {
                 label="Password"
                 value={values.password}
                 onChange={handleInputChange}
-                //error={errorsValid.password}
+                error={errorsValid.password}
               />
             </div>
 
