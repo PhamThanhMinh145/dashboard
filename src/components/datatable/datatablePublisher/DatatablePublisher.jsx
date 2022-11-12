@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import "../datatablePublisher/style/datatablePublisher.scss";
-import useTable from "../useTable";
 import AddIcon from "@mui/icons-material/Add";
-import ActionButton from "../../form/ActionButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { TableBody, TableCell, TableRow } from "@mui/material";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import React, { useEffect, useState } from "react";
 import PublisherForm from "../../../pages/Publishers/PushlisherForm";
+import AuthService from "../../../services/auth.service";
+import ActionButton from "../../form/ActionButton";
+import Button from "../../form/Button";
+import ConfirmDialog from "../../form/ConfirmDialog";
 import Popup from "../../form/Popup";
 import Notification from "../../Notification";
-import { TableBody, TableCell, TableRow } from "@mui/material";
-import Button from "../../form/Button";
-import AuthService from "../../../services/auth.service";
-import ConfirmDialog from "../../form/ConfirmDialog";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import "../datatablePublisher/style/datatablePublisher.scss";
+import useTable from "../useTable";
 const headCells = [
   { id: "publisherID", label: "ID" },
   { id: "publisherName", label: "Publisher name" },
@@ -46,7 +46,7 @@ const DatatablePublisher = ({ onError }) => {
 
   const user = AuthService.getCurrentUser();
 
-  const urlGet = "https://localhost:7091/Publisher/Get";
+  const urlGet = "http://192.168.137.36:7132/Publisher/Get";
 
   const fetchPublisher = () => {
     var myHeaders = new Headers();
@@ -67,7 +67,7 @@ const DatatablePublisher = ({ onError }) => {
       .catch(() => onError());
   };
 
-  const urlPost = "https://localhost:7091/Publisher/Create";
+  const urlPost = "http://192.168.137.36:7132/Publisher/Create";
   const postPublisher = (publisher) => {
     fetch(urlPost,
        {
@@ -92,7 +92,7 @@ const DatatablePublisher = ({ onError }) => {
   };
 
   const putPublisher = (publisher) => {
-    fetch(`https://localhost:7091/Publisher/Update/${publisher.publisherID}`, {
+    fetch(`http://192.168.137.36:7132/Publisher/Update/${publisher.publisherID}`, {
       method: "PUT",
       headers: {
         "accept": "*/*",
@@ -114,7 +114,7 @@ const DatatablePublisher = ({ onError }) => {
   };
 
   const deletePublisher = (publisher) => {
-    fetch(`https://localhost:7091/Publisher/Delete/${publisher}`, {
+    fetch(`http://192.168.137.36:7132/Publisher/Delete/${publisher}`, {
       method: "DELETE",
       headers: {
         accept: "*/*",

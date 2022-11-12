@@ -1,30 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteBook, getBooks } from "../../../redux/apiCalls";
-import {
-  TableBody,
-  TableCell,
-  TableRow,
-  Table,
-  TableHead,
-} from "@mui/material";
-import Button from "../../form/Button";
-import useTable from "../useTable";
 import AddIcon from "@mui/icons-material/Add";
-import ActionButton from "../../form/ActionButton";
-import AuthService from "../../../services/auth.service";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import {
+    Table, TableBody,
+    TableCell, TableHead, TableRow
+} from "@mui/material";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import "./style/books.scss";
+import parse from "html-react-parser";
+import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { NumericFormat } from "react-number-format";
-import ConfirmDialog from "../../form/ConfirmDialog";
-import Notification from "../../Notification";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import { deleteBook, getBooks } from "../../../redux/apiCalls";
+import AuthService from "../../../services/auth.service";
+import ActionButton from "../../form/ActionButton";
+import Button from "../../form/Button";
+import ConfirmDialog from "../../form/ConfirmDialog";
 import Popup from "../../form/Popup";
-import parse from "html-react-parser";
+import Notification from "../../Notification";
+import useTable from "../useTable";
+import "./style/books.scss";
 
 const headCells = [
   { id: "bookID", label: "ID" },
@@ -75,7 +72,7 @@ const Books = ({ onError }) => {
   //   console.log("Book: ", books);
 
   const showDetail = (bookID) => {
-    fetch(`https://localhost:7091/Book/GetById/${bookID}`)
+    fetch(`http://192.168.137.36:7132/Book/GetById/${bookID}`)
       .then((response) => response.json())
       .then((json) => {
         // console.log("result", json);

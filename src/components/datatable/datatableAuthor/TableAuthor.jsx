@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import Button from "../../form/Button";
-import useTable from "../useTable";
 import AddIcon from "@mui/icons-material/Add";
-import "./style/tableAuthor.scss";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { TableBody, TableCell, TableRow } from "@mui/material";
-import ActionButton from "../../form/ActionButton";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import React, { useEffect, useState } from "react";
 import AuthorForm from "../../../pages/Authors/AuthorForm";
+import AuthService from "../../../services/auth.service";
+import ActionButton from "../../form/ActionButton";
+import Button from "../../form/Button";
+import ConfirmDialog from "../../form/ConfirmDialog";
 import Popup from "../../form/Popup";
 import Notification from "../../Notification";
-import AuthService from "../../../services/auth.service";
-import ConfirmDialog from "../../form/ConfirmDialog";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import useTable from "../useTable";
+import "./style/tableAuthor.scss";
 
 const headCells = [
   { id: "authorID", label: "ID" },
@@ -46,7 +46,7 @@ const TableAuthor = ({ onError }) => {
     useTable(records, headCells, filterFn);
 
   const user = AuthService.getCurrentUser();
-  const url = "https://localhost:7091/Author/Get";
+  const url = "http://192.168.137.36:7132/Author/Get";
 
   const fetchAuthor = () => {
     var myHeaders = new Headers();
@@ -67,7 +67,7 @@ const TableAuthor = ({ onError }) => {
   };
 
   const postAuthor = (author) => {
-    fetch("https://localhost:7091/Author/Create", {
+    fetch("http://192.168.137.36:7132/Author/Create", {
       method: "POST",
       headers: {
         accept: "*/*",
@@ -88,7 +88,7 @@ const TableAuthor = ({ onError }) => {
   };
 
   const putAuthor = (author) => {
-    fetch(`https://localhost:7091/Author/Update/${author.authorID}`, {
+    fetch(`http://192.168.137.36:7132/Author/Update/${author.authorID}`, {
       method: "PUT",
       headers: {
         accept: "*/*",
@@ -109,7 +109,7 @@ const TableAuthor = ({ onError }) => {
   };
 
   const deleteAuthor = (author) => {
-    fetch(`https://localhost:7091/Author/Delete/${author}`, {
+    fetch(`http://192.168.137.36:7132/Author/Delete/${author}`, {
       method: "DELETE",
       headers: {
         accept: "*/*",

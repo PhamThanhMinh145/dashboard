@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from "react";
-import "./style/bookForm.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { Grid } from "@mui/material";
-import Input from "../../components/form/Input";
-import Select from "../../components/form/Select";
+import {
+    getDownloadURL, getStorage,
+    ref,
+    uploadBytesResumable
+} from "firebase/storage";
+import parse from "html-react-parser";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/form/Button";
 import DatePickers from "../../components/form/DatePicker";
 import Editor from "../../components/form/Editor";
-import parse from "html-react-parser";
-import { useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import AuthService from "../../services/auth.service";
-import { useNavigate } from "react-router-dom";
+import Input from "../../components/form/Input";
+import Select from "../../components/form/Select";
 import Notification from "../../components/Notification";
-import { updateBook } from "../../redux/apiCalls";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
 import app from "../../firebase2";
+import { updateBook } from "../../redux/apiCalls";
+import AuthService from "../../services/auth.service";
+import "./style/bookForm.scss";
 
 const initialFValues = {
   authorID: 0,
@@ -128,9 +126,9 @@ const BookFormUpdate = ({ title }) => {
   const [recordsPublisher, setRecordsPubliser] = useState([]);
   const [recordsAuthor, setRecordsAuthor] = useState([]);
   const user = AuthService.getCurrentUser();
-  const urlAuthor = "https://localhost:7091/Author/Get";
-  const urlField = "https://localhost:7091/Field/GetAll";
-  const urlPublisher = "https://localhost:7091/Publisher/Get";
+  const urlAuthor = "http://192.168.137.36:7132/Author/Get";
+  const urlField = "http://192.168.137.36:7132/Field/GetAll";
+  const urlPublisher = "http://192.168.137.36:7132/Publisher/Get";
   // get data author
   const fetchAuthor = () => {
     var myHeaders = new Headers();

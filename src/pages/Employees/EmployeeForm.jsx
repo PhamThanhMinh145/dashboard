@@ -1,15 +1,20 @@
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { Grid } from "@mui/material";
 import axios from "axios";
-import {getStorage, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable
+} from "firebase/storage";
 import React, { useEffect, useState } from "react";
-import app from "../../firebase2";
-import "./style/new.scss";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/form/Button";
 import Input from "../../components/form/Input";
 import Select from "../../components/form/Select";
 import * as dummy from "../../data/dummy";
+import app from "../../firebase2";
+import "../../pages/Employees/style/new.scss";
 import AuthService from "../../services/auth.service";
 
 const initialFValues = {
@@ -69,11 +74,11 @@ const EmloyeeForm = ({ title }) => {
   const addEmployee = async () => {
     try {
       await axios
-        .post("https://localhost:7091/Account/Create", values, {
+        .post("http://192.168.137.36:7132/Account/Create", values, {
           headers: {
             "Content-Type": "application/json; charset=utf-8",
             Accept: "application/json",
-            "Authorization" : "bearer " + user.token,
+            Authorization: "bearer " + user.token,
           },
         })
         .then((respone) => {
@@ -102,7 +107,8 @@ const EmloyeeForm = ({ title }) => {
           ? ""
           : "4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.";
     if ("roleID" in fieldValues)
-      temp.roleID = fieldValues.roleID !== 0 ? "" : "This field is required";
+      temp.roleID =
+        fieldValues.roleID.length() !== 0 ? "" : "This field is required";
 
     setErrors({
       ...temp,

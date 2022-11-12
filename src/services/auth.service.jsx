@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "https://localhost:7091/Auth/";
+const API_URL = "http://192.168.137.36:7132/Auth/";
 
 const login = (accountEmail, password) => {
   return axios

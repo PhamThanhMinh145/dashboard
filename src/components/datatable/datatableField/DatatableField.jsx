@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import "./style/datatableField.scss"
-import FieldForm from '../../../pages/Fields/FieldForm'
 import AddIcon from "@mui/icons-material/Add";
-import Button from "../../form/Button";
-import Popup from "../../form/Popup";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { TableBody, TableCell, TableRow } from "@mui/material";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import React, { useEffect, useState } from "react";
+import FieldForm from '../../../pages/Fields/FieldForm';
+import AuthService from "../../../services/auth.service";
+import ActionButton from "../../form/ActionButton";
+import Button from "../../form/Button";
+import ConfirmDialog from "../../form/ConfirmDialog";
+import Popup from "../../form/Popup";
 import Notification from "../../Notification";
 import useTable from "../useTable";
-import ActionButton from "../../form/ActionButton";
-import AuthService from "../../../services/auth.service";
-import ConfirmDialog from "../../form/ConfirmDialog";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import "./style/datatableField.scss";
 const headCells = [
   { id: "fieldID", label: "ID" },
   { id: "fieldName", label: "Field name" },
@@ -47,7 +47,7 @@ const DatatableField = ({ onError }) => {
   const user = AuthService.getCurrentUser();
 
 
-  const url = "https://localhost:7091/Field/GetAll";
+  const url = "http://192.168.137.36:7132/Field/GetAll";
 
   const fetchField = () => {
     fetch(url)
@@ -60,7 +60,7 @@ const DatatableField = ({ onError }) => {
   };
 
   const postField = (field) => {
-    fetch("https://localhost:7091/Field", {
+    fetch("http://192.168.137.36:7132/Field", {
       method: "POST",
       headers: {
         "accept" : "*/*",
@@ -82,7 +82,7 @@ const DatatableField = ({ onError }) => {
   };
 
   const putField = (field)  =>{
-    fetch(`https://localhost:7091/Field/Update/${field.fieldID}`, {
+    fetch(`http://192.168.137.36:7132/Field/Update/${field.fieldID}`, {
       method: "PUT",
       headers: {
         "accept" : "*/*",
@@ -104,7 +104,7 @@ const DatatableField = ({ onError }) => {
   }
 
   const deleteField = (field) => {
-    fetch(`https://localhost:7091/Field/Delete/${field}`, {
+    fetch(`http://192.168.137.36:7132/Field/Delete/${field}`, {
       method: "DELETE",
       headers: {
         accept: "*/*",

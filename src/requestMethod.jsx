@@ -1,6 +1,6 @@
 import axios from "axios";
 import AuthService from "./services/auth.service";
-const BASE_URL = "https://localhost:7091/";
+const BASE_URL = "http://192.168.137.36:7132/";
 const user = AuthService.getCurrentUser();
 
 const TOKEN = user?.token;

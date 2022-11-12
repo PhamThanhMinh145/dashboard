@@ -17,7 +17,6 @@ import ListBook from "./pages/Books/listBook";
 import ListCustomers from "./pages/Customers/ListCustomers";
 import Single from "./pages/Customers/Single";
 import ListEmployees from "./pages/Employees/ListEmployees";
-import NewTest from "./pages/Employees/NewTest";
 import ListField from "./pages/Fields/ListField";
 import ListOrders from "./pages/Orders/ListOrders";
 import ListPublisher from "./pages/Publishers/ListPublisher";
@@ -37,18 +36,6 @@ const App = () => {
   } = useStateContext();
 
   const user = AuthService.getCurrentUser();
-  // const [staff, setStaff] = useState(false);
-  // const [admin, setAdmin] = useState(false);
-  // const [currentUser, setCurrentUser] = useState(undefined);
-
-  // useEffect(() => {
-
-  //   if (user) {
-  //     setCurrentUser(user);
-  //     setStaff(user.roleID == 2);
-  //     setAdmin(user.roleID == 1);
-  //   }
-  // });
 
   return (
     <>

@@ -8,19 +8,23 @@ import {
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { Grid } from "@mui/material";
 import axios from "axios";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router";
-import { useNavigate } from "react-router-dom";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable
+} from "firebase/storage";
+import React, { useEffect, useState } from "react";
+
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/form/Button";
 import Input from "../../components/form/Input";
-import RadioGroupp from "../../components/form/RadioGroup";
 import Select from "../../components/form/Select";
 import * as dummy from "../../data/dummy";
 import app from "../../firebase2";
+import "../../pages/Employees/style/edit.scss";
 import AuthService from "../../services/auth.service";
-import "../Employees/style/edit.scss";
-import "./style/edit.scss";
+
 const initialFValues = {
   owner: "",
   accountEmail: "",
@@ -90,10 +94,11 @@ const EditEmployee = () => {
         ? ""
         : "Email is not valid";
     if ("phone" in fieldValues)
-      temp.phone =
-       /^[0-9]{10}$/.test(fieldValues.phone) ? "" : "Maximum 10 numbers required";
-    if ("role" in fieldValues)
-      temp.role = fieldValues.role.length != 0 ? "" : "This field is required";
+      temp.phone = /^[0-9]{10}$/.test(fieldValues.phone)
+        ? ""
+        : "Maximum 10 numbers required";
+    if ("roleID" in fieldValues)
+      temp.roleID = fieldValues.roleID != 0 ? "" : "This field is required";
     setErrors({
       ...temp,
     });
@@ -115,7 +120,7 @@ const EditEmployee = () => {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       Accept: "application/json",
-      "Authorization" : "bearer " + user.token
+      Authorization: "bearer " + user.token,
     },
   };
 
@@ -124,7 +129,7 @@ const EditEmployee = () => {
       try {
         await axios
           .get(
-            `https://localhost:7091/Account/GetById/${accountID}`,
+            `http://192.168.137.36:7132/Account/GetById/${accountID}`,
             config
           )
           .then((response) => {
@@ -143,11 +148,11 @@ const EditEmployee = () => {
   const editEmployee = async () => {
     try {
       await axios
-        .put(`https://localhost:7091/Account/Update/${accountID}`, values, {
+        .put(`http://192.168.137.36:7132/Account/Update/${accountID}`, values, {
           headers: {
             "Content-Type": "application/json; charset=utf-8",
             Accept: "application/json",
-            "Authorization" : "bearer " + user.token,
+            Authorization: "bearer " + user.token,
           },
         })
         .then((respone) => {
@@ -165,11 +170,6 @@ const EditEmployee = () => {
       navigate("/employee");
     }
   };
-
-  // const resetForm = () => {
-  //   setValues(initialFValues);
-  //   setErrors({});
-  // };
 
   return (
     <div className="employee">
@@ -281,7 +281,6 @@ const EditEmployee = () => {
                     error={errors.accountAddress}
                   />
                 </div>
-              </Grid>
 
                 <div className="input">
                   <Input
@@ -310,7 +309,7 @@ const EditEmployee = () => {
                   <Select
                     name="roleID"
                     label="Role"
-                    value={values.roleId}
+                    value={values.roleID}
                     onChange={handleInputChange}
                     options={dummy.getRoleCollection()}
                     error={errors.roleID}

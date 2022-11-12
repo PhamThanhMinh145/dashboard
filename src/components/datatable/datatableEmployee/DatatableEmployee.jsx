@@ -49,7 +49,7 @@ const DatatableEmployee = () => {
     const onGridReady = async () => {
       try {
         await axios
-          .get("https://localhost:7091/Account/GetByRole/1", config)
+          .get("http://192.168.137.36:7132/Account/GetByRole/1", config)
           .then((response) => {
             const resData = response.data;
             setRecords([...records, ...resData]);
@@ -59,7 +59,7 @@ const DatatableEmployee = () => {
       }
       try {
         await axios
-          .get("https://localhost:7091/Account/GetByRole/3", config)
+          .get("http://192.168.137.36:7132/Account/GetByRole/3", config)
           .then((response) => {
             const resData = response.data;
             setRecords((records) => [...records, ...resData]);
@@ -76,7 +76,7 @@ const DatatableEmployee = () => {
   const deleteEmployee = async () => {
     try {
       await axios
-        .delete(`https://localhost:7091/Account/Delete/${record}`, {
+        .delete(`http://192.168.137.36:7132/Account/Delete/${record}`, {
           headers: {
             "Content-Type": "application/json; charset=utf-8",
             Accept: "application/json",
