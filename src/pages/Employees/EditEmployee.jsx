@@ -1,73 +1,104 @@
 import {
   BrightnessAuto,
-  Event,
   LocationSearching,
   MailOutline,
   PermIdentity,
-  PhoneAndroid,
+  PhoneAndroid
 } from "@mui/icons-material";
-import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import "../Employees/style/editForm.scss";
 import { Grid } from "@mui/material";
-import Input from "../../components/form/Input"; 
+import axios from "axios";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
+import Button from "../../components/form/Button";
+import Input from "../../components/form/Input";
 import RadioGroupp from "../../components/form/RadioGroup";
 import Select from "../../components/form/Select";
-import Checkbox from "../../components/form/Checkbox";
-import Button from "../../components/form/Button";
 import * as dummy from "../../data/dummy";
-
+import app from "../../firebase2";
+import AuthService from "../../services/auth.service";
+import "../Employees/style/edit.scss";
+import "./style/edit.scss";
 const initialFValues = {
-  id: 0,
-  fullname: "",
-  email: "",
-  password: "",
-  image: "",
+  owner: "",
+  accountEmail: "",
   phone: "",
-  gender: "male",
-  role: "",
+  accountAddress: "",
+  image: "",
   country: "",
-  status: false,
+  roleID: 0,
 };
 
-const genderItems = [
-  { id: "male", title: "Male" },
-  { id: "female", title: "Female" },
-  { id: "other", title: "Other" },
-];
-
 const EditEmployee = () => {
+  const user = AuthService.getCurrentUser();
   const [file, setFile] = useState("");
   const [values, setValues] = useState(initialFValues);
+  const [per, setPerc] = useState(null);
+  const { accountID } = useParams();
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const uploadFile = () => {
+      const name = new Date().getTime() + file.name;
+      console.log(name);
+      const storage = getStorage(app);
+      const storageRef = ref(storage, file.name);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          setPerc(progress);
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setValues((prev) => ({ ...prev, image: downloadURL }));
+          });
+        }
+      );
+    };
+    file && uploadFile();
+  }, [file]);
 
   const validationOnChange = true;
 
   const validation = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("fullname" in fieldValues)
-      temp.fullname = fieldValues.fullname ? "" : "This field is required";
-    if ("email" in fieldValues)
-      temp.email = /$^|.+@.+..+/.test(fieldValues.email)
+    if ("owner" in fieldValues)
+      temp.owner = fieldValues.owner ? "" : "This field is required";
+    if ("accountEmail" in fieldValues)
+      temp.accountEmail = /$^|.+@.+..+/.test(fieldValues.accountEmail)
         ? ""
         : "Email is not valid";
-    if ("password" in fieldValues)
-      temp.password =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,20}$/.test(
-          fieldValues.password
-        )
-          ? ""
-          : "4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.";
     if ("phone" in fieldValues)
       temp.phone =
        /^[0-9]{10}$/.test(fieldValues.phone) ? "" : "Maximum 10 numbers required";
     if ("role" in fieldValues)
-      temp.role = fieldValues.role.length !== 0 ? "" : "This field is required";
+      temp.role = fieldValues.role.length != 0 ? "" : "This field is required";
     setErrors({
       ...temp,
     });
 
-    if (fieldValues === values) return Object.values(temp).every((x) => x === "");
+    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
   };
 
   const handleInputChange = (e) => {
@@ -80,10 +111,58 @@ const EditEmployee = () => {
     if (validationOnChange) validation({ [name]: value });
   };
 
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      Accept: "application/json",
+      "Authorization" : "bearer " + user.token
+    },
+  };
+
+  useEffect(() => {
+    const getEmployee = async () => {
+      try {
+        await axios
+          .get(
+            `https://localhost:7091/Account/GetById/${accountID}`,
+            config
+          )
+          .then((response) => {
+            const resData = response.data;
+            setValues(resData);
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getEmployee();
+  }, [accountID]);
+
+  console.log(values);
+
+  const editEmployee = async () => {
+    try {
+      await axios
+        .put(`https://localhost:7091/Account/Update/${accountID}`, values, {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Accept: "application/json",
+            "Authorization" : "bearer " + user.token,
+          },
+        })
+        .then((respone) => {
+          console.log("Employee Update", respone.data);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validation()) {
-      // addOrEdit(values, resetForm);
+      editEmployee();
+      navigate("/employee");
     }
   };
 
@@ -96,21 +175,28 @@ const EditEmployee = () => {
     <div className="employee">
       <div className="employeeTitleContainer">
         <h1 className="employeeTitle">Edit Employee</h1>
-        <button className="employeeAddButton">Create</button>
       </div>
 
       <div className="employeeContainer">
         <div className="show">
           <div className="showTop">
             <img
-              src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+              src={
+                values?.image !== null
+                  ? values?.image
+                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+              }
               alt="avatar"
               className="employeeShowImg"
             />
 
             <div className="showTopTitle">
-              <span className="showUserName">Anna Becker</span>
-              <span className="showRole">Admin</span>
+              <span className="showUserName">
+                {values.owner !== null ? values.owner : "Unknown"}
+              </span>
+              <span className="showRole">
+                {values.roleID === 1 ? "Admin" : "Staff"}
+              </span>
             </div>
           </div>
 
@@ -119,34 +205,41 @@ const EditEmployee = () => {
 
             <div className="showInfo">
               <PermIdentity className="showIcon" />
-              <span className="showInfoTitle">annabeck99</span>
-            </div>
-
-            <div className="showInfo">
-              <Event className="showIcon" />
-              <span className="showInfoTitle">10.12.1999</span>
+              <span className="showInfoTitle">
+                {values.owner !== null ? values.owner : "Unknown"}
+              </span>
             </div>
 
             <span className="showTitle">Contact Details</span>
 
             <div className="showInfo">
               <MailOutline className="showIcon" />
-              <span className="showInfoTitle">annabeck99@gmail.com</span>
+              <span className="showInfoTitle">
+                {values.accountEmail !== null ? values.accountEmail : "Unknown"}
+              </span>
             </div>
 
             <div className="showInfo">
               <PhoneAndroid className="showIcon" />
-              <span className="showInfoTitle">0963153985</span>
+              <span className="showInfoTitle">
+                {values.phone !== null ? values.phone : "Unknown"}
+              </span>
             </div>
 
             <div className="showInfo">
               <LocationSearching className="showIcon" />
-              <span className="showInfoTitle">District 9</span>
+              <span className="showInfoTitle">
+                {values.accountAddress !== null
+                  ? values.accountAddress
+                  : "Unknown"}
+              </span>
             </div>
 
             <div className="showInfo">
               <BrightnessAuto className="showIcon" />
-              <span className="showInfoTitle">active</span>
+              <span className="showInfoTitle">
+                {values.status ? "Active" : "Disable"}
+              </span>
             </div>
           </div>
         </div>
@@ -158,41 +251,41 @@ const EditEmployee = () => {
               <Grid item xs={6} className="gridInput">
                 <div className="input">
                   <Input
-                  className="size"
-                    name="fullname"
+                    className="size"
+                    name="owner"
                     label="Full name"
-                    value={values.fullname}
+                    value={values.owner}
                     onChange={handleInputChange}
-                    error={errors.fullname}
+                    error={errors.owner}
                   />
                 </div>
 
                 <div className="input">
                   <Input
-                  className="size"
-                    name="email"
+                    className="size"
+                    name="accountEmail"
                     label="Email"
-                    value={values.email}
+                    value={values.accountEmail}
                     onChange={handleInputChange}
-                    error={errors.email}
+                    error={errors.accountEmail}
                   />
                 </div>
 
                 <div className="input">
                   <Input
-                  className="size"
-                    name="password"
-                    label="Password"
-                    type="password"
-                    value={values.password}
+                    className="size"
+                    name="accountAddress"
+                    label="Address"
+                    value={values.accountAddress}
                     onChange={handleInputChange}
-                    error={errors.password}
+                    error={errors.accountAddress}
                   />
                 </div>
+              </Grid>
 
                 <div className="input">
                   <Input
-                  className="size"
+                    className="size"
                     name="phone"
                     label="Phone"
                     value={values.phone}
@@ -203,7 +296,7 @@ const EditEmployee = () => {
 
                 <div className="input">
                   <Input
-                  className="size"
+                    className="size"
                     name="country"
                     label="Country"
                     value={values.country}
@@ -213,43 +306,23 @@ const EditEmployee = () => {
               </Grid>
 
               <Grid item xs={6} className="gridInput">
-                <div className="radio">
-                  <RadioGroupp
-                    name="gender"
-                    label="Gender"
-                    value={values.gender}
-                    onChange={handleInputChange}
-                    items={genderItems}
-                  />
-                </div>
-
                 <div className="select">
                   <Select
-                    name="role"
+                    name="roleID"
                     label="Role"
-                    value={values.role}
+                    value={values.roleId}
                     onChange={handleInputChange}
                     options={dummy.getRoleCollection()}
-                    error={errors.role}
-                  />
-                </div>
-
-                <div className="checkbox">
-                  <Checkbox
-                    name="status"
-                    label="Status employee"
-                    value={values.status}
-                    onChange={handleInputChange}
+                    error={errors.roleID}
                   />
                 </div>
 
                 <div className="imgUpload">
                   <div className="image">
                     <img
-                    alt=""
                       src={
-                        file
-                          ? URL.createObjectURL(file)
+                        values?.image !== null
+                          ? values?.image
                           : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                       }
                     />
@@ -276,6 +349,7 @@ const EditEmployee = () => {
                     size="large"
                     text="Submit"
                     className="submit"
+                    disabled={per !== null && per < 100}
                   />
                 </div>
               </Grid>

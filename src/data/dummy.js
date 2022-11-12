@@ -1,14 +1,14 @@
 
 import { AiFillHome } from 'react-icons/ai';
-import { IoIosPeople  } from 'react-icons/io';
-import { MdOutlinePeopleAlt  } from 'react-icons/md';
-import { BsBookHalf, BsPersonLinesFill, BsFillCartCheckFill  } from 'react-icons/bs';
-import { SiAffinitypublisher  } from 'react-icons/si';
+import { BsBookHalf, BsFillCartCheckFill, BsPersonLinesFill } from 'react-icons/bs';
+import { IoIosPeople } from 'react-icons/io';
+import { MdOutlinePeopleAlt } from 'react-icons/md';
+import { SiAffinitypublisher } from 'react-icons/si';
 
-import { BiCategory, BiDollar  } from 'react-icons/bi';
+import { BiCategory, BiDollar } from 'react-icons/bi';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 
-import { BsBoxSeam, BsCurrencyDollar} from 'react-icons/bs';
+import { BsBoxSeam, BsCurrencyDollar } from 'react-icons/bs';
 import { FiBarChart, FiCreditCard } from 'react-icons/fi';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import avatar from './avatar.jpg';
@@ -154,7 +154,7 @@ export const links = [
   export const getRoleCollection = () => (
     [
         {id: '1' , title: 'Admin'},
-        {id: '2' , title: 'Staff'},
+        {id: '3' , title: 'Staff'},
         
     ]
 )

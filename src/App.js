@@ -1,28 +1,29 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import React from "react";
+import { FiSettings } from "react-icons/fi";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Navbar, Sidebar, ThemeSetting } from "./components";
 
 import { Home } from "./pages";
 
 import { useStateContext } from "./contexts/ContextProvider";
-import ListEmployees from "./pages/Employees/ListEmployees";
-import EditEmployee from "./pages/Employees/EditEmployee";
-import ListCustomers from "./pages/Customers/ListCustomers";
-import ListBook from "./pages/Books/listBook";
+import { userInputsPublisher } from "./data/formSource";
 import ListAuthor from "./pages/Authors/ListAuthor";
-import ListPublisher from "./pages/Publishers/ListPublisher";
+import NewPublisher from "./pages/Authors/NewAuthor";
+import BookForm from "./pages/Books/BookForm";
+import BookFormUpdate from './pages/Books/BookFormUpdate';
+import ListBook from "./pages/Books/listBook";
+import ListCustomers from "./pages/Customers/ListCustomers";
+import Single from "./pages/Customers/Single";
+import ListEmployees from "./pages/Employees/ListEmployees";
+import NewTest from "./pages/Employees/NewTest";
 import ListField from "./pages/Fields/ListField";
 import ListOrders from "./pages/Orders/ListOrders";
-import Single from "./pages/Customers/Single";
-import NewPublisher from "./pages/Authors/NewAuthor";
-import { userInputsPublisher } from "./data/formSource";
-import NewTest from "./pages/Employees/NewTest";
-import BookForm from "./pages/Books/BookForm";
-import BookFormUpdate from './pages/Books/BookFormUpdate'
+import ListPublisher from "./pages/Publishers/ListPublisher";
 // import SignInConnect from "./pages/SignIn/SignInConnect";
+import EditEmployee from "./pages/Employees/EditEmployee";
+import EmployeeForm from "./pages/Employees/EmployeeForm";
 import Login from "./pages/SignIn/Login";
 import AuthService from "./services/auth.service";
 
@@ -114,14 +115,19 @@ const App = () => {
                     </Route>
 
                     {/* Accounts */}
-                    <Route path="employee">
-                      <Route index element={<ListEmployees />} />
-                      <Route
-                        path="new"
-                        element={<NewTest title="Add new Employee" />}
-                      />
-                      <Route path=":userId" element={<EditEmployee />} />
-                    </Route>
+                   
+                      
+                <Route path="employee"> 
+                  <Route index element={<ListEmployees />} />
+                  <Route
+                    path="newemployee"
+                    element={<EmployeeForm title="Add new Employee" />}
+                  />
+                  <Route
+                    path="editemployee/:accountID"
+                    element={<EditEmployee />}
+                  />
+                </Route>
 
                     <Route path="customer">
                       <Route index element={<ListCustomers />} />

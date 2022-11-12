@@ -1,106 +1,121 @@
-import { useState, useEffect, useMemo, useCallback, useRef, React } from 'react';
-import axios from 'axios';
-import './style/datatableCus.scss';
-import { styled } from '@mui/material/styles';
-import { DataGrid } from '@mui/x-data-grid';
-import { employeeRows, employeeColums } from '../../../data/datatableSource';
-import { Link }  from "react-router-dom"
+import { TableBody, TableCell, TableRow } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import AuthService from "../../../services/auth.service";
+import ActionButton from "../../form/ActionButton";
+import Notification from "../../Notification";
+import "../datatableCustomer/style/datatableCus.scss";
+import useTable from "../useTable";
 
-
+const headCells = [
+  { id: "accountID", label: "ID" },
+  { id: "image", label: "Avatar" },
+  { id: "accountEmail", label: "Email" },
+  { id: "phone", label: "Contact" },
+  { id: "status", label: "Status" },
+  { id: "action", label: "Action", disableSorting: true },
+];
 
 const DatatableCus = () => {
+  
+  const user = AuthService.getCurrentUser();
+  const [records, setRecords] = useState([]);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
-  const [page, setPage] = useState(0);
-
-  const [order, setOrder] = useState('asc');
-
-  const [selected, setSelected] = useState([]);
-
-  const [orderBy, setOrderBy] = useState('name');
-
-  const [filterName, setFilterName] = useState('');
-
-  const [paginationPageSize, setPaginationPageSize] = useState(10);
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const [error, setError] = useState(null);
-
-  const defaultColDef = useMemo(() => {
-    return {
-      flex: 1,
-      minWidth: 150,
-      filter: true,
-    };
-  }, []);
-
-  const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
-  const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
-  const [rowData, setRowData] = useState([]);
-
-
-  const [columnDefs, setColumnDefs] = useState([
-    { field: 'Id' },
-    { field: 'Name' },
-    { field: 'Email'},
-    {
-      field: 'age', filter: 'agNumberColumnFilter'},
-    { field: 'status' },
-  ]);
-
-  const bodyParameters = {
-    params: {
-      pageNumber: 1,
-      pageSize: paginationPageSize,
-      filterString: 'a',
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      Accept: "application/json",
+      "Authorization" : "bearer " + user.token
     },
   };
 
-  const onGridReady = useCallback((params) => {
-    axios
-      .get('', bodyParameters, config)
-      .then((response) => {
-        setRowData(response.data);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+  useEffect(() => {
+    const onGridReady = async () => {
+      try {
+        await axios
+          .get("https://localhost:7091/Account/GetByRole/2", config)
+          .then((response) => {
+            const resData = response.data;
+            setRecords([...records, ...resData]);
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    onGridReady();
   }, []);
 
-  console.log(rowData);
-    // const actionColumn = [
-    //     {field: "action" , headerName:"Action", width:220, 
-    //         renderCell: () => {
-    //             return (
-    //                 <div className='cellAction'>
-    //                     <Link to="test" style={{textDecoration:"none"}}>
-    //                         <div className='viewButton'>View</div>
+  console.log(records);
 
-    //                     </Link>
-    //                     <div className='deleteButton'>Delete</div>
-
-    //                 </div>
-    //             )
-    //         }
-    //     }
-    // ]
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(records, headCells, filterFn);
 
   return (
-    <div className='datatable'>
-        <div className='datatableTitle'>
-            List Customers
-        </div>
-        <DataGrid
-            rows={employeeRows}
-            columns={employeeColums.concat(actionColumn)}
-            pageSize={7}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
-            
-            
-        />
-    </div>
-  )
-}
+    <>
+      <div className="datatableCustomer">
+        <div className="title">List Customer</div>
 
-export default DatatableCus
+        <TblContainer>
+          <TblHead sx={{ height: "40px" }} />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((item) => (
+              <TableRow key={item.accountID} className="rowCustomer">
+                <TableCell className="cellID">
+                  <div>{item.accountID}</div>
+                </TableCell>
+                <TableCell className="cellImg">
+                  <img
+                    src={
+                      item?.image !== null
+                        ? item?.image
+                        : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                    }
+                    alt=""
+                  />
+                </TableCell>
+                <TableCell className="cellEmail">
+                  <div>{item.accountEmail}</div>
+                </TableCell>
+                <TableCell className="cellName">
+                  <div>{item.phone}</div>
+                </TableCell>
+                <TableCell className="cellStatus">
+                  {item.status === true ? (
+                    <div className="active">Active</div>
+                  ) : (
+                    <div className="disable">Disable</div>
+                  )}
+                </TableCell>
+
+                <TableCell className="action">
+                  <ActionButton color="view" onClick={() => {}}>
+                    View Detail
+                  </ActionButton>
+                  <ActionButton color="changeSta" onClick={() => {}}>
+                    Change Status
+                  </ActionButton>
+                  <ActionButton color="delete">Delete</ActionButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        <TblPagination className="pagination" />
+        <Notification notify={notify} setNotify={setNotify} />
+      </div>
+    </>
+  );
+};
+
+export default DatatableCus;
