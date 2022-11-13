@@ -1,3 +1,7 @@
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import LoopIcon from "@mui/icons-material/Loop";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -24,6 +28,8 @@ const DatatableEmployee = () => {
   const user = AuthService.getCurrentUser();
   const [records, setRecords] = useState([]);
   const [record, setRecord] = useState(null);
+  const [recordStatus, setRecordStatus] = useState();
+  const [changeStatus, setchangeStatus] = useState(true);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -73,16 +79,27 @@ const DatatableEmployee = () => {
 
   console.log(records);
 
+  const changeStatusEmployee = async () => {
+    try {
+      await axios
+        .put(
+          `http://192.168.137.36:7132/Account/ChangeStatus?id=${recordStatus}`,
+          { status: changeStatus },
+          config
+        )
+        .then((respone) => {
+          console.log("Status changed", respone.data);
+          window.location.reload();
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const deleteEmployee = async () => {
     try {
       await axios
-        .delete(`http://192.168.137.36:7132/Account/Delete/${record}`, {
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            Accept: "application/json",
-            Authorization: "bearer " + user.token,
-          },
-        })
+        .delete(`http://192.168.137.36:7132/Account/Delete/${record}`, config)
         .then((respone) => {
           console.log("Employee Delete", respone.data);
           window.location.reload();
@@ -105,7 +122,8 @@ const DatatableEmployee = () => {
             style={{ textDecoration: "none" }}
             className="link"
           >
-            Add New
+            <AddIcon />
+            ADD NEW
           </Link>
         </div>
 
@@ -159,18 +177,38 @@ const DatatableEmployee = () => {
                       navigate(`/employee/editemployee/${item.accountID}`);
                     }}
                   >
-                    Edit
+                    <EditIcon />
                   </ActionButton>
                   <ActionButton
-                    color="delete"
+                    onMouseOver={() => {
+                      setRecordStatus(item.accountID);
+                      setchangeStatus(!item.status);
+                    }}
+                    color="changeSta"
                     onClick={() => {
-                      setRecord(item.accountID);
-                      console.log(record);
-                      deleteEmployee();
+                      changeStatusEmployee();
                     }}
                   >
-                    Delete
+                    <LoopIcon />
                   </ActionButton>
+                  {item.status === true ? (
+                    <ActionButton color="disable" disabled={true}>
+                      <DeleteIcon />
+                    </ActionButton>
+                  ) : (
+                    <ActionButton
+                      onMouseOver={() => {
+                        setRecord(item.accountID);
+                      }}
+                      disabled={false}
+                      color="delete"
+                      onClick={() => {
+                        deleteEmployee();
+                      }}
+                    >
+                      <DeleteIcon />
+                    </ActionButton>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

@@ -98,12 +98,13 @@ const EditEmployee = () => {
         ? ""
         : "Maximum 10 numbers required";
     if ("roleID" in fieldValues)
-      temp.roleID = fieldValues.roleID != 0 ? "" : "This field is required";
+      temp.roleID = fieldValues.roleID !== 0 ? "" : "This field is required";
     setErrors({
       ...temp,
     });
 
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
   };
 
   const handleInputChange = (e) => {
@@ -148,13 +149,11 @@ const EditEmployee = () => {
   const editEmployee = async () => {
     try {
       await axios
-        .put(`http://192.168.137.36:7132/Account/Update/${accountID}`, values, {
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            Accept: "application/json",
-            Authorization: "bearer " + user.token,
-          },
-        })
+        .put(
+          `http://192.168.137.36:7132/Account/Update/${accountID}`,
+          values,
+          config
+        )
         .then((respone) => {
           console.log("Employee Update", respone.data);
         });

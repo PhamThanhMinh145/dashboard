@@ -12,10 +12,10 @@ import { userInputsPublisher } from "./data/formSource";
 import ListAuthor from "./pages/Authors/ListAuthor";
 import NewPublisher from "./pages/Authors/NewAuthor";
 import BookForm from "./pages/Books/BookForm";
-import BookFormUpdate from './pages/Books/BookFormUpdate';
+import BookFormUpdate from "./pages/Books/BookFormUpdate";
 import ListBook from "./pages/Books/listBook";
+import DetailCustomer from "./pages/Customers/DetailCustomer";
 import ListCustomers from "./pages/Customers/ListCustomers";
-import Single from "./pages/Customers/Single";
 import ListEmployees from "./pages/Employees/ListEmployees";
 import ListField from "./pages/Fields/ListField";
 import ListOrders from "./pages/Orders/ListOrders";
@@ -102,23 +102,22 @@ const App = () => {
                     </Route>
 
                     {/* Accounts */}
-                   
-                      
-                <Route path="employee"> 
-                  <Route index element={<ListEmployees />} />
-                  <Route
-                    path="newemployee"
-                    element={<EmployeeForm title="Add new Employee" />}
-                  />
-                  <Route
-                    path="editemployee/:accountID"
-                    element={<EditEmployee />}
-                  />
-                </Route>
+
+                    <Route path="employee">
+                      <Route index element={<ListEmployees />} />
+                      <Route
+                        path="newemployee"
+                        element={<EmployeeForm title="Add new Employee" />}
+                      />
+                      <Route
+                        path="editemployee/:accountID"
+                        element={<EditEmployee />}
+                      />
+                    </Route>
 
                     <Route path="customer">
                       <Route index element={<ListCustomers />} />
-                      <Route path=":userId" element={<Single />} />
+                      <Route path=":accountID" element={<DetailCustomer />} />
                     </Route>
 
                     {/* Products */}
@@ -150,7 +149,7 @@ const App = () => {
                           />
                         }
                       />
-                      <Route path=":userId" element={<Single />} />
+                      <Route path=":accountID" element={<DetailCustomer />} />
                     </Route>
 
                     <Route path="Fields">

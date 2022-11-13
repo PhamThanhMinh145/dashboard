@@ -1,7 +1,10 @@
+import DeleteIcon from "@mui/icons-material/Delete";
+import LoopIcon from "@mui/icons-material/Loop";
+import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthService from "../../../services/auth.service";
 import ActionButton from "../../form/ActionButton";
 import Notification from "../../Notification";
@@ -12,15 +15,16 @@ const headCells = [
   { id: "accountID", label: "ID" },
   { id: "image", label: "Avatar" },
   { id: "accountEmail", label: "Email" },
-  { id: "phone", label: "Contact" },
   { id: "status", label: "Status" },
   { id: "action", label: "Action", disableSorting: true },
 ];
 
 const DatatableCus = () => {
-  
   const user = AuthService.getCurrentUser();
   const [records, setRecords] = useState([]);
+  const [recordForDelete, setRecordForDelete] = useState(null);
+  const [recordStatus, setRecordStatus] = useState();
+  const [changeStatus, setchangeStatus] = useState(true);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -32,11 +36,13 @@ const DatatableCus = () => {
     type: "",
   });
 
+  const navigate = useNavigate();
+
   const config = {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       Accept: "application/json",
-      "Authorization" : "bearer " + user.token
+      Authorization: "bearer " + user.token,
     },
   };
 
@@ -57,6 +63,39 @@ const DatatableCus = () => {
   }, []);
 
   console.log(records);
+
+  const changeStatusCustomer = async () => {
+    try {
+      await axios
+        .put(
+          `http://192.168.137.36:7132/Account/ChangeStatus?id=${recordStatus}`,
+          { status: changeStatus },
+          config
+        )
+        .then((respone) => {
+          console.log("Status changed", respone.data);
+          window.location.reload();
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const deleteCustomer = async () => {
+    try {
+      await axios
+        .delete(
+          `http://192.168.137.36:7132/Account/Delete/${recordForDelete}`,
+          config
+        )
+        .then((respone) => {
+          console.log("Customer Delete", respone.data);
+          window.location.reload();
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
@@ -87,9 +126,7 @@ const DatatableCus = () => {
                 <TableCell className="cellEmail">
                   <div>{item.accountEmail}</div>
                 </TableCell>
-                <TableCell className="cellName">
-                  <div>{item.phone}</div>
-                </TableCell>
+
                 <TableCell className="cellStatus">
                   {item.status === true ? (
                     <div className="active">Active</div>
@@ -99,13 +136,44 @@ const DatatableCus = () => {
                 </TableCell>
 
                 <TableCell className="action">
-                  <ActionButton color="view" onClick={() => {}}>
-                    View Detail
+                  <ActionButton
+                    color="view"
+                    onClick={() => {
+                      navigate(`/customer/${item.accountID}`);
+                    }}
+                  >
+                    <PermContactCalendarIcon />
                   </ActionButton>
-                  <ActionButton color="changeSta" onClick={() => {}}>
-                    Change Status
+                  <ActionButton
+                    onMouseOver={() => {
+                      setRecordStatus(item.accountID);
+                      setchangeStatus(!item.status);
+                    }}
+                    color="changeSta"
+                    onClick={() => {
+                      changeStatusCustomer();
+                    }}
+                  >
+                    <LoopIcon />
                   </ActionButton>
-                  <ActionButton color="delete">Delete</ActionButton>
+                  {item.status === true ? (
+                    <ActionButton color="disable" disabled={true}>
+                      <DeleteIcon />
+                    </ActionButton>
+                  ) : (
+                    <ActionButton
+                      onMouseOver={() => {
+                        setRecordForDelete(item.accountID);
+                      }}
+                      color="delete"
+                      disabled={false}
+                      onClick={() => {
+                        deleteCustomer();
+                      }}
+                    >
+                      <DeleteIcon />
+                    </ActionButton>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

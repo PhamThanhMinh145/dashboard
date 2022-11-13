@@ -1,8 +1,12 @@
-import React from "react";
 import { Button } from "@mui/material";
-const ActionButton = ({ color, children, onClick, disabled}) => {
+import React from "react";
+const ActionButton = ({ color, children, onClick, disabled, onMouseOver }) => {
   return (
-    <Button onClick={onClick} className={color} disabled={disabled}
+    <Button
+      onClick={onClick}
+      className={color}
+      disabled={disabled}
+      onMouseOver={onMouseOver}
     >
       {children}
     </Button>
