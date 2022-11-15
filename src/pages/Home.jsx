@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { publicRequest, userRequest } from "../requestMethod";
-import { NumericFormat } from "react-number-format";
-import { MdOutlineSupervisorAccount } from "react-icons/md";
-import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
-import ViewInArTwoToneIcon from "@mui/icons-material/ViewInArTwoTone";
-import { Link } from "react-router-dom";
-import ShoppingCartCheckoutTwoToneIcon from "@mui/icons-material/ShoppingCartCheckoutTwoTone";
 import CheckIcon from "@mui/icons-material/Check";
+import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
+import ShoppingCartCheckoutTwoToneIcon from "@mui/icons-material/ShoppingCartCheckoutTwoTone";
+import ViewInArTwoToneIcon from "@mui/icons-material/ViewInArTwoTone";
+import React, { useEffect, useState } from "react";
+import { MdOutlineSupervisorAccount } from "react-icons/md";
+import { NumericFormat } from "react-number-format";
+import { Link } from "react-router-dom";
+import { publicRequest, userRequest } from "../requestMethod";
 import AuthService from "../services/auth.service";
 const Home = () => {
   const currentUser = AuthService.getCurrentUser();
@@ -277,7 +277,7 @@ const Home = () => {
               }}
               className="text-2xl opacity-0.9 rounded-full p-3 hover:drop-shadow-xl"
             >
-              <CheckIcon fontSize="medium"  />
+              <CheckIcon fontSize="medium" />
             </button>
             <p className="mt-3">
               <span className="text-lg font-semibold">

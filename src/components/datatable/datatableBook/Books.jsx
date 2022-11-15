@@ -3,8 +3,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import {
-    Table, TableBody,
-    TableCell, TableHead, TableRow
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
 } from "@mui/material";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import parse from "html-react-parser";
@@ -36,7 +39,6 @@ const headCells = [
   { id: "quantity", label: "Quantity" },
   { id: "action", label: "Action", disableSorting: true },
 ];
-
 
 const Books = ({ onError }) => {
   const books = useSelector((state) => state.book.products);
@@ -195,7 +197,7 @@ const Books = ({ onError }) => {
 
                     <TooltipComponent content="Delete" position="BottomCenter">
                       <ActionButton
-                        disabled={item.orderDetails.length !== 0 ? true : false}
+                        // disabled={item.orderDetails.length !== 0 ? true : false}
                         color="delete"
                         onClick={() => {
                           setConfirmDialog({
@@ -223,7 +225,7 @@ const Books = ({ onError }) => {
       </div>
 
       {/* SHOW DETAIL */}
-      { detailData.map((item) => (
+      {detailData.map((item) => (
         <Popup
           title={`Detail ID: ${item.bookID}  `}
           openPopup={openPopup}

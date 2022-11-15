@@ -78,47 +78,50 @@
     }
     .action {
       gap: 20px;
+      .tip {
+        display: flex;
 
-      .edit {
-        text-transform: capitalize;
-        padding: 8px 25px;
-        border-radius: 5px;
-        background-color: rgb(143, 253, 143);
-        color: rgb(26, 153, 26);
-        border: 1px solid rgba(143, 253, 143, 0.596);
-        cursor: pointer;
-        margin-right: 20px;
-      }
+        .edit {
+          text-transform: capitalize;
+          padding: 8px 25px;
+          border-radius: 5px;
+          background-color: rgb(143, 253, 143);
+          color: rgb(26, 153, 26);
+          border: 1px solid rgba(143, 253, 143, 0.596);
+          cursor: pointer;
+          margin-right: 20px;
+        }
 
-      .changeSta {
-        text-transform: capitalize;
-        padding: 8px 25px;
-        border-radius: 5px;
-        background-color: rgb(200, 118, 255);
-        color: rgb(79, 20, 119);
-        border: 1px solid rgba(200, 118, 255, 0.596);
-        cursor: pointer;
-        margin-right: 20px;
-      }
+        .changeSta {
+          text-transform: capitalize;
+          padding: 8px 25px;
+          border-radius: 5px;
+          background-color: rgb(200, 118, 255);
+          color: rgb(79, 20, 119);
+          border: 1px solid rgba(200, 118, 255, 0.596);
+          cursor: pointer;
+          margin-right: 20px;
+        }
 
-      .delete {
-        text-transform: capitalize;
-        padding: 8px 25px;
-        border-radius: 5px;
-        background-color: rgb(255, 194, 203);
-        color: red;
-        border: 1px solid rgb(255, 178, 190);
-        cursor: pointer;
-      }
-      .disable {
-        text-transform: capitalize;
-        padding: 8px 25px;
-        border-radius: 5px;
-        background-color: rgb(255, 194, 203);
-        color: rgba(255, 0, 0, 0.199);
-        border: 1px solid rgba(255, 178, 190, 0.596);
-        cursor: pointer;
-        margin-right: 20px;
+        .delete {
+          text-transform: capitalize;
+          padding: 8px 25px;
+          border-radius: 5px;
+          background-color: rgb(255, 194, 203);
+          color: red;
+          border: 1px solid rgb(255, 178, 190);
+          cursor: pointer;
+        }
+        .disable {
+          text-transform: capitalize;
+          padding: 8px 25px;
+          border-radius: 5px;
+          background-color: rgb(255, 194, 203);
+          color: rgba(255, 0, 0, 0.199);
+          border: 1px solid rgba(255, 178, 190, 0.596);
+          cursor: pointer;
+          margin-right: 20px;
+        }
       }
     }
   }

@@ -153,8 +153,8 @@ export const themeColors = [
 ];
 
 export const getRoleCollection = () => [
-  { id: 1, title: "Admin" },
-  { id: 3, title: "Staff" },
+  { roleID: 1, role: "Admin" },
+  { roleID: 3, role: "Staff" },
 ];
 
 export const getAuthorCollection = () => [

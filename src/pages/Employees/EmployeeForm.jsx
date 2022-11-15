@@ -22,7 +22,7 @@ const initialFValues = {
   password: "",
   owner: "",
   image: "",
-  roleID: "",
+  roleID: 0,
 };
 
 const EmloyeeForm = ({ title }) => {
@@ -100,19 +100,15 @@ const EmloyeeForm = ({ title }) => {
         ? ""
         : "Email is not valid";
     if ("password" in fieldValues)
-      temp.password =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,20}$/.test(
-          fieldValues.password
-        )
-          ? ""
-          : "4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.";
+      temp.password = fieldValues.password ? "" : "This field is required";
     if ("roleID" in fieldValues)
-      temp.roleID =
-        fieldValues.roleID.length() !== 0 ? "" : "This field is required";
+      temp.roleID = fieldValues.roleID !== 0 ? "" : "This field is required";
 
     setErrors({
       ...temp,
     });
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
   };
 
   const handleInputChange = (e) => {
@@ -129,11 +125,10 @@ const EmloyeeForm = ({ title }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (validation(values)) {
-    //   addEmployee();
-    // }
-    addEmployee();
-    navigate("/employee");
+    if (validation()) {
+      addEmployee();
+      navigate("/employee");
+    }
   };
 
   const resetForm = () => {

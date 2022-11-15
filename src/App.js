@@ -23,6 +23,8 @@ import ListPublisher from "./pages/Publishers/ListPublisher";
 // import SignInConnect from "./pages/SignIn/SignInConnect";
 import EditEmployee from "./pages/Employees/EditEmployee";
 import EmployeeForm from "./pages/Employees/EmployeeForm";
+import ViewOrderDetailTable from "./pages/Orders/ViewOrderDetailTable";
+import ViewOrderTable from "./pages/Orders/ViewOrderTable";
 import Login from "./pages/SignIn/Login";
 import AuthService from "./services/auth.service";
 
@@ -160,6 +162,11 @@ const App = () => {
 
                     <Route path="orders">
                       <Route index element={<ListOrders />} />
+                      <Route path=":accountID" element={<ViewOrderTable />} />
+                      <Route
+                        path=":accountID/:orderID"
+                        element={<ViewOrderDetailTable />}
+                      />
                     </Route>
                   </Routes>
                 </div>

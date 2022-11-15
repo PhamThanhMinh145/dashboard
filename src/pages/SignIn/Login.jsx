@@ -104,7 +104,7 @@ const Login = () => {
       <div className={"container " + isActive} id="container">
         <div className="form-container sign-in-container">
           <Form onSubmit={handleLogin} ref={form}>
-            <h1>Đăng nhập</h1>
+            <h2>Sign In</h2>
 
             <div style={{ width: "100%" }}>
               <Input
@@ -173,16 +173,7 @@ const Login = () => {
               </button>
             </div>
             <div className="overlay-panel overlay-right">
-              <div className="logo">
-                <a href="/">
-                  <img
-                    src={require("../../data/logo.gif")}
-                    alt=""
-                    className="img-logo"
-                  />
-                </a>
-              </div>
-              <h1>Bookly here!</h1>
+              <h1>Bookly</h1>
             </div>
           </div>
         </div>

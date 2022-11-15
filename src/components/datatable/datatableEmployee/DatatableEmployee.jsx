@@ -3,11 +3,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import LoopIcon from "@mui/icons-material/Loop";
 import { TableBody, TableCell, TableRow } from "@mui/material";
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../../../services/auth.service";
 import ActionButton from "../../form/ActionButton";
+import ConfirmDialog from "../../form/ConfirmDialog";
 import Notification from "../../Notification";
 import "../datatableEmployee/style/employee.scss";
 import useTable from "../useTable";
@@ -30,7 +32,7 @@ const DatatableEmployee = () => {
   const [record, setRecord] = useState(null);
   const [recordStatus, setRecordStatus] = useState();
   const [changeStatus, setchangeStatus] = useState(true);
-  const [filterFn, setFilterFn] = useState({
+  const [filterFn] = useState({
     fn: (items) => {
       return items;
     },
@@ -39,6 +41,12 @@ const DatatableEmployee = () => {
     isOpen: false,
     message: "",
     type: "",
+  });
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
   });
 
   const config = {
@@ -171,44 +179,55 @@ const DatatableEmployee = () => {
                 </TableCell>
 
                 <TableCell className="action">
-                  <ActionButton
-                    color="edit"
-                    onClick={() => {
-                      navigate(`/employee/editemployee/${item.accountID}`);
-                    }}
-                  >
-                    <EditIcon />
-                  </ActionButton>
-                  <ActionButton
-                    onMouseOver={() => {
-                      setRecordStatus(item.accountID);
-                      setchangeStatus(!item.status);
-                    }}
-                    color="changeSta"
-                    onClick={() => {
-                      changeStatusEmployee();
-                    }}
-                  >
-                    <LoopIcon />
-                  </ActionButton>
-                  {item.status === true ? (
-                    <ActionButton color="disable" disabled={true}>
-                      <DeleteIcon />
-                    </ActionButton>
-                  ) : (
+                  <div className="tip">
                     <ActionButton
-                      onMouseOver={() => {
-                        setRecord(item.accountID);
-                      }}
-                      disabled={false}
-                      color="delete"
+                      color="edit"
                       onClick={() => {
-                        deleteEmployee();
+                        navigate(`/employee/editemployee/${item.accountID}`);
                       }}
                     >
-                      <DeleteIcon />
+                      <EditIcon />
                     </ActionButton>
-                  )}
+
+                    <ActionButton
+                      onMouseOver={() => {
+                        setRecordStatus(item.accountID);
+                        setchangeStatus(!item.status);
+                      }}
+                      color="changeSta"
+                      onClick={() => {
+                        changeStatusEmployee();
+                      }}
+                    >
+                      <LoopIcon />
+                    </ActionButton>
+
+                    {item.status === true ? (
+                      <ActionButton color="disable" disabled={true}>
+                        <DeleteIcon />
+                      </ActionButton>
+                    ) : (
+                      <ActionButton
+                        onMouseOver={() => {
+                          setRecord(item.accountID);
+                        }}
+                        disabled={false}
+                        color="delete"
+                        onClick={() => {
+                          setConfirmDialog({
+                            isOpen: true,
+                            title: "Are you sure to delete this record?",
+                            subTitle: "You can't undo this operation",
+                            onConfirm: () => {
+                              deleteEmployee();
+                            },
+                          });
+                        }}
+                      >
+                        <DeleteIcon />
+                      </ActionButton>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -216,7 +235,10 @@ const DatatableEmployee = () => {
         </TblContainer>
         <TblPagination className="pagination" />
       </div>
-
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
       <Notification notify={notify} setNotify={setNotify} />
     </>
   );

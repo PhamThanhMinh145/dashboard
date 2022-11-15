@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../../services/auth.service";
 import ActionButton from "../../form/ActionButton";
+import ConfirmDialog from "../../form/ConfirmDialog";
 import Notification from "../../Notification";
 import "../datatableCustomer/style/datatableCus.scss";
 import useTable from "../useTable";
@@ -25,15 +26,22 @@ const DatatableCus = () => {
   const [recordForDelete, setRecordForDelete] = useState(null);
   const [recordStatus, setRecordStatus] = useState();
   const [changeStatus, setchangeStatus] = useState(true);
-  const [filterFn, setFilterFn] = useState({
+  const [filterFn] = useState({
     fn: (items) => {
       return items;
     },
   });
+
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
+  });
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
   });
 
   const navigate = useNavigate();
@@ -136,50 +144,65 @@ const DatatableCus = () => {
                 </TableCell>
 
                 <TableCell className="action">
-                  <ActionButton
-                    color="view"
-                    onClick={() => {
-                      navigate(`/customer/${item.accountID}`);
-                    }}
-                  >
-                    <PermContactCalendarIcon />
-                  </ActionButton>
-                  <ActionButton
-                    onMouseOver={() => {
-                      setRecordStatus(item.accountID);
-                      setchangeStatus(!item.status);
-                    }}
-                    color="changeSta"
-                    onClick={() => {
-                      changeStatusCustomer();
-                    }}
-                  >
-                    <LoopIcon />
-                  </ActionButton>
-                  {item.status === true ? (
-                    <ActionButton color="disable" disabled={true}>
-                      <DeleteIcon />
-                    </ActionButton>
-                  ) : (
+                  <div className="tip">
                     <ActionButton
-                      onMouseOver={() => {
-                        setRecordForDelete(item.accountID);
-                      }}
-                      color="delete"
-                      disabled={false}
+                      color="view"
                       onClick={() => {
-                        deleteCustomer();
+                        navigate(`/customer/${item.accountID}`);
                       }}
                     >
-                      <DeleteIcon />
+                      <PermContactCalendarIcon />
                     </ActionButton>
-                  )}
+
+                    <ActionButton
+                      onMouseOver={() => {
+                        setRecordStatus(item.accountID);
+                        setchangeStatus(!item.status);
+                      }}
+                      color="changeSta"
+                      onClick={() => {
+                        changeStatusCustomer();
+                      }}
+                    >
+                      <LoopIcon />
+                    </ActionButton>
+
+                    {item.status === true ? (
+                      <ActionButton color="disable" disabled={true}>
+                        <DeleteIcon />
+                      </ActionButton>
+                    ) : (
+                      <ActionButton
+                        onMouseOver={() => {
+                          setRecordForDelete(item.accountID);
+                        }}
+                        color="delete"
+                        disabled={false}
+                        onClick={() => {
+                          setConfirmDialog({
+                            isOpen: true,
+                            title: "Are you sure to delete this record?",
+                            subTitle: "You can't undo this operation",
+                            onConfirm: () => {
+                              deleteCustomer();
+                            },
+                          });
+                        }}
+                      >
+                        <DeleteIcon />
+                      </ActionButton>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </TblContainer>
         <TblPagination className="pagination" />
+        <ConfirmDialog
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
         <Notification notify={notify} setNotify={setNotify} />
       </div>
     </>

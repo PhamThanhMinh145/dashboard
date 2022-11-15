@@ -1,9 +1,10 @@
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { Grid } from "@mui/material";
 import {
-    getDownloadURL, getStorage,
-    ref,
-    uploadBytesResumable
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable
 } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -69,15 +70,15 @@ const BookForm = ({ title }) => {
 
     if ("fieldID" in fieldValues)
       temp.field =
-        fieldValues.fieldID.length !== 1 ? "" : "This field is required";
+        fieldValues.fieldID.length !== 0 ? "" : "This field is required";
 
     if ("publisherID" in fieldValues)
       temp.publisherID =
-        fieldValues.publisherID.length !== 1 ? "" : "This field is required";
+        fieldValues.publisherID.length !== 0 ? "" : "This field is required";
 
     if ("authorID" in fieldValues)
       temp.authorID =
-        fieldValues.authorID.length !== 1 ? "" : "This field is required";
+        fieldValues.authorID.length !== 0 ? "" : "This field is required";
     setErrors({
       ...temp,
     });

@@ -18,10 +18,17 @@ const Select = ({ name, label, value, error = null, onChange, options }) => {
         <MenuItem value="">None</MenuItem>
         {options.map((item) => (
           <MenuItem
-            key={item.authorID || item.fieldID || item.publisherID}
-            value={item.authorID || item.fieldID || item.publisherID}
+            key={
+              item.roleID || item.authorID || item.fieldID || item.publisherID
+            }
+            value={
+              item.roleID || item.authorID || item.fieldID || item.publisherID
+            }
           >
-            {item.authorName || item.publisherName || item.fieldName}
+            {item.role ||
+              item.authorName ||
+              item.publisherName ||
+              item.fieldName}
           </MenuItem>
         ))}
       </MuiSelect>
