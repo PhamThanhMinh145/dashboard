@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import List from "../../components/table/Table";
+
 import AuthService from "../../services/auth.service";
+
+import ViewOrderTable from "../Orders/ViewOrderTable";
 import "./style/detailCus.scss";
 
 const initialFValues = {
@@ -71,20 +73,12 @@ const DetailCustomer = () => {
                     : "Unknown"}
                 </span>
               </div>
-              <div className="detailItem">
-                <span className="itemKey">Phone:</span>
-                <span className="itemValue">
-                  {values.phone !== null ? values.phone : "Unknown"}
-                </span>
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="bottom">
-        <h1 className="title">Last Transactions</h1>
-        <List />
-      </div>
+
+      <ViewOrderTable />
     </div>
   );
 };

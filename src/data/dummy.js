@@ -8,7 +8,7 @@ import { IoIosPeople } from "react-icons/io";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { SiAffinitypublisher } from "react-icons/si";
 
-import { BiCategory, BiDollar } from "react-icons/bi";
+import { BiCategory } from "react-icons/bi";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
 
 import { BsBoxSeam, BsCurrencyDollar } from "react-icons/bs";
@@ -72,10 +72,6 @@ export const links = [
       {
         name: "orders",
         icon: <BsFillCartCheckFill />,
-      },
-      {
-        name: "Sale",
-        icon: <BiDollar />,
       },
     ],
   },

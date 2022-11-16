@@ -77,6 +77,7 @@ const DatatableEmployee = () => {
           .then((response) => {
             const resData = response.data;
             setRecords((records) => [...records, ...resData]);
+         
           });
       } catch (e) {
         console.log(e);
