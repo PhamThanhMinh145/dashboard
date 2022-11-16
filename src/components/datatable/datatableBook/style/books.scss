@@ -18,6 +18,7 @@
       border: 1px solid rgb(90, 196, 90);
       border-radius: 5px;
       padding: 5px;
+      margin-right: 10px;
     }
   }
 
@@ -27,7 +28,7 @@
 
   .rowBook {
     .cellID {
-      width: 150px;
+      width: 75px;
       height: 10px;
     }
 
@@ -37,12 +38,18 @@
 
     .cellImg {
       width: 300px;
-      img {
-        width: 120px;
-        height: 150px;
-        border-radius: 20px;
-        object-fit: cover;
+      .image{
+        // display: flex;
+        // justify-content: center;
+        img {
+          width: 120px;
+          height: 150px;
+          border-radius: 20px;
+          object-fit: cover;
+        }
+
       }
+     
     }
 
     .cellDate {
@@ -57,6 +64,18 @@
     .action {
       .tip {
         display: flex;
+
+        .detail{
+          text-transform: capitalize;
+          padding: 8px 25px;
+          border-radius: 5px;
+          background-color:#fcfc7c;
+          color: #FFD700;
+          border: 1px solid #FFFF00;
+          cursor: pointer;
+          margin-right: 20px;
+
+        }
 
         .edit {
           text-transform: capitalize;
@@ -77,6 +96,17 @@
           color: red;
           border: 1px solid rgb(255, 178, 190);
           cursor: pointer;
+        }
+
+        .disable{
+          text-transform: capitalize;
+          padding: 5px 25px;
+          border-radius: 5px;
+          background-color: rgb(255, 194, 203);
+          color: red;
+          border: 1px solid rgb(255, 178, 190);
+          cursor: pointer;
+          opacity: 0.4;
         }
       }
     }

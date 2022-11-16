@@ -67,7 +67,7 @@ const DatatableCus = () => {
         <div className="title">List Customer</div>
 
         <TblContainer>
-          <TblHead sx={{ height: "40px" }} />
+          <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.accountID} className="rowCustomer">

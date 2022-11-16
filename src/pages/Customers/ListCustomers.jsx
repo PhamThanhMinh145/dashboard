@@ -3,7 +3,7 @@ import DatatableCustomer from '../../components/datatable/datatableCustomer/Data
 
 const ListCustomers = () => {
   return (
-    <div className='m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-xl h-screen'>
+    <div className='m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-xl'>
       <DatatableCustomer/>
     </div>
   )

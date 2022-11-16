@@ -7,7 +7,7 @@ import CheckButton from "react-validation/build/button";
 import Form from "react-validation/build/form";
 const initialFValues = {
   accountEmail: "",
-  password: "",
+  password: "", 
 };
 const Login = () => {
   const checkRef = useRef();

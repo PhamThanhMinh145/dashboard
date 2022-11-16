@@ -12,7 +12,7 @@ import Button from "../../form/Button";
 import useTable from "../useTable";
 import AddIcon from "@mui/icons-material/Add";
 import ActionButton from "../../form/ActionButton";
-import AuthService from "../../../services/auth.service";
+// import AuthService from "../../../services/auth.service";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
@@ -25,6 +25,7 @@ import { Link } from "react-router-dom";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import Popup from "../../form/Popup";
 import parse from "html-react-parser";
+import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
 
 const headCells = [
   { id: "bookID", label: "ID" },
@@ -39,7 +40,6 @@ const headCells = [
   { id: "quantity", label: "Quantity" },
   { id: "action", label: "Action", disableSorting: true },
 ];
-
 
 const Books = ({ onError }) => {
   const books = useSelector((state) => state.book.products);
@@ -65,7 +65,7 @@ const Books = ({ onError }) => {
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(books, headCells, filterFn);
 
-  const user = AuthService.getCurrentUser();
+  // const user = AuthService.getCurrentUser();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -107,15 +107,26 @@ const Books = ({ onError }) => {
       <div className="datatableBooks">
         <div className="title">
           List Books
-          <Link to={"/books/newbook"}>
-            <Button
-              text="Add New"
-              variant="outlined"
-              startIcon={<AddIcon />}
-              size="small"
-              color="addNewBook"
-            />
-          </Link>
+          <div>
+            <Link to={"/books/newbook"}>
+              <Button
+                text="Add New"
+                variant="outlined"
+                startIcon={<AddIcon />}
+                size="small"
+                color="addNewBook"
+              />
+            </Link>
+            <Link to={"/books/import"}>
+              <Button
+                text="Import"
+                variant="outlined"
+                startIcon={<ImportExportOutlinedIcon />}
+                size="small"
+                color="addNewBook"
+              />
+            </Link>
+          </div>
         </div>
 
         <TblContainer>
@@ -126,17 +137,21 @@ const Books = ({ onError }) => {
                 <TableCell className="cellID">{item.bookID}</TableCell>
                 <TableCell className="cellImg">
                   {item.image === "" ? (
-                    <img
+                   <div className="image">
+                     <img
                       className="rounded-full h-24 w-24"
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CJmdN6MPlykajhKOifHiPudu3nSgspz0FGd3UPHXdXcBRak4nWbuTuJh4O2eJFhc86I&usqp=CAU"
                       alt="Book"
                     />
+                   </div>
                   ) : (
-                    <img
+                   <div className="image">
+                     <img
                       className="rounded-full h-24 w-24"
                       src={`${item.image}`}
                       alt="Book"
                     />
+                   </div>
                   )}
                 </TableCell>
                 <TableCell className="cellName">{item.bookName}</TableCell>
@@ -173,7 +188,7 @@ const Books = ({ onError }) => {
                   <div className="tip">
                     <TooltipComponent content="Detail" position="BottomCenter">
                       <ActionButton
-                        color="edit"
+                        color="detail"
                         onClick={() => openInPopup(item.bookID)}
                       >
                         <LibraryBooksIcon fontSize="small" />
@@ -186,8 +201,8 @@ const Books = ({ onError }) => {
                           onClick={() => {
                             setNotify({
                               isOpen: true,
-                              message: "Deleted Successfully",
-                              type: "error",
+                              message: "Edit Successfully",
+                              type: "success",
                             });
                           }}
                         >
@@ -197,8 +212,11 @@ const Books = ({ onError }) => {
                     </TooltipComponent>
 
                     <TooltipComponent content="Delete" position="BottomCenter">
+
+                    {item.orderDetails.length === 0 ?
+                     (
                       <ActionButton
-                        disabled={item.orderDetails.length !== 0 ? true : false}
+                        // disabled={item.orderDetails.length !== 0 ? true : false}
                         color="delete"
                         onClick={() => {
                           setConfirmDialog({
@@ -213,6 +231,25 @@ const Books = ({ onError }) => {
                       >
                         <DeleteIcon />
                       </ActionButton>
+                     ) 
+                    : (
+                      <ActionButton
+                        // disabled={item.orderDetails.length !== 0 ? true : false}
+                        color="disable"
+                        onClick={() => {
+                          setNotify({
+                            isOpen: true,
+                            message: "This book has been ordered",
+                            type: "warning",
+                          });
+                        }}
+                      >
+                        <DeleteIcon />
+                      </ActionButton>
+                    ) 
+                    
+                    }
+                      
                     </TooltipComponent>
                   </div>
                 </TableCell>
@@ -226,7 +263,7 @@ const Books = ({ onError }) => {
       </div>
 
       {/* SHOW DETAIL */}
-      { detailData.map((item) => (
+      {detailData.map((item) => (
         <Popup
           title={`Detail ID: ${item.bookID}  `}
           openPopup={openPopup}

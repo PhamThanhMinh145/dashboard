@@ -20,14 +20,14 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const initialFValues = {
-  authorID: 0,
+  authorID: "",
   bookID: 0,
   bookName: "",
   dateOfPublished: new Date(),
   description: "",
-  fieldID: 0,
+  fieldID: "",
   price: 0,
-  publisherID: 0,
+  publisherID: "",
   quantity: 0,
   stripeID: "",
 };
@@ -70,15 +70,15 @@ const BookForm = ({ title }) => {
 
     if ("fieldID" in fieldValues)
       temp.field =
-        fieldValues.fieldID.length !== 1 ? "" : "This field is required";
+        fieldValues.fieldID.length !== 0 ? "" : "This field is required";
 
     if ("publisherID" in fieldValues)
       temp.publisherID =
-        fieldValues.publisherID.length !== 1 ? "" : "This field is required";
+        fieldValues.publisherID.length !== 0 ? "" : "This field is required";
 
     if ("authorID" in fieldValues)
       temp.authorID =
-        fieldValues.authorID.length !== 1 ? "" : "This field is required";
+        fieldValues.authorID.length !== 0 ? "" : "This field is required";
     setErrors({
       ...temp,
     });

@@ -64,7 +64,7 @@ const AuthorForm = ({addAuthor, recordForEdit}) => {
 
     
   return (
-    <div className="container">
+    <div className="containerAuthor">
       <form autoComplete="off" onSubmit={handleSubmit}>
         <Grid container className="gridInput">
           <Grid item xs={6} className="grid">
@@ -79,7 +79,7 @@ const AuthorForm = ({addAuthor, recordForEdit}) => {
           </Grid>
 
           <Grid item xs={6} className="grid">
-            <div className="btn">
+            <div className="btnAuthor">
               <Button
                 type="submit"
                 size="small"

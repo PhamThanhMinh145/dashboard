@@ -66,7 +66,7 @@ const FieldForm = ({addField, recordForEdit}) => {
   );
 
   return (
-    <div className="container">
+    <div className="containerField">
       <form autoComplete="off" onSubmit={handleSubmit}>
         <Grid container className="grid">
           <div className="gridInput">
@@ -92,7 +92,7 @@ const FieldForm = ({addField, recordForEdit}) => {
             </div>
           </div>
 
-          <div className="btn">
+          <div className="btnField">
             <Button
               type="submit"
               size="small"

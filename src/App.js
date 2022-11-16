@@ -18,14 +18,14 @@ import ListOrders from "./pages/Orders/ListOrders";
 import Single from "./pages/Customers/Single";
 import NewPublisher from "./pages/Authors/NewAuthor";
 import { userInputsPublisher } from "./data/formSource";
-import NewTest from "./pages/Employees/NewTest";
 import BookForm from "./pages/Books/BookForm";
-import BookFormUpdate from './pages/Books/BookFormUpdate'
-// import SignInConnect from "./pages/SignIn/SignInConnect";
+import BookFormUpdate from "./pages/Books/BookFormUpdate";
+
 import Login from "./pages/SignIn/Login";
 import AuthService from "./services/auth.service";
 import EditEmployee from "./pages/Employees/EditEmployee";
-import EmployeeForm from "./pages/Employees/EmployeeForm"; 
+import EmployeeForm from "./pages/Employees/EmployeeForm";
+import Import from "./pages/Import/Import";
 
 const App = () => {
   const {
@@ -64,7 +64,7 @@ const App = () => {
       {user && (user.role === "Admin" || user.role === "Staff") && (
         <div className={currentMode === "Dark" ? "dark" : ""}>
           <BrowserRouter>
-            <div className="flex relative dark:bg-main-dark-bg">
+            <div className="flex relative dark:bg-main-dark-bg ">
               <div
                 className="fixed right-4 bottom-4"
                 style={{ zIndex: "1000" }}
@@ -98,8 +98,8 @@ const App = () => {
               ${activeMenu ? "md:ml-72" : "flex-2"}`}
               >
                 <div
-                  className="fixed md:static bg-main-bg 
-              dark:bg-main-dark-bg navbar "
+                  className="sticky md:sticky left-0 top-0 right-0  bg-main-bg 
+              dark:bg-main-dark-bg navbar shadow-inner z-50"
                 >
                   <Navbar />
                 </div>
@@ -115,19 +115,18 @@ const App = () => {
                     </Route>
 
                     {/* Accounts */}
-                   
-                      
-                <Route path="employee"> 
-                  <Route index element={<ListEmployees />} />
-                  <Route
-                    path="newemployee"
-                    element={<EmployeeForm title="Add new Employee" />}
-                  />
-                  <Route
-                    path="editemployee/:accountID"
-                    element={<EditEmployee />}
-                  />
-                </Route>
+
+                    <Route path="employee">
+                      <Route index element={<ListEmployees />} />
+                      <Route
+                        path="newemployee"
+                        element={<EmployeeForm title="Add new Employee" />}
+                      />
+                      <Route
+                        path="editemployee/:accountID"
+                        element={<EditEmployee />}
+                      />
+                    </Route>
 
                     <Route path="customer">
                       <Route index element={<ListCustomers />} />
@@ -146,6 +145,7 @@ const App = () => {
                         path=":bookID"
                         element={<BookFormUpdate title="Update new Book" />}
                       />
+                      <Route path="import" element={<Import />} />
                     </Route>
 
                     <Route path="authors">

@@ -1,4 +1,4 @@
-.container {
+.containerPublisher {
   .grid {
     display: flex;
     flex-direction: column;
@@ -13,11 +13,12 @@
       }
     }
 
-    .btn {
+    .btnAction {
       display: flex;
       flex-direction: row;
       justify-content: center;
       margin-top: 20px;
+
       .submit {
         background: green;
         margin-top: 0;
