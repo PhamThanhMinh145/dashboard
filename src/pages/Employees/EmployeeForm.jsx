@@ -2,10 +2,10 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { Grid } from "@mui/material";
 import axios from "axios";
 import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytesResumable
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable
 } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

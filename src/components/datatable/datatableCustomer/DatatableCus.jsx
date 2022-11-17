@@ -2,6 +2,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import LoopIcon from "@mui/icons-material/Loop";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import { TableBody, TableCell, TableRow } from "@mui/material";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -150,52 +151,65 @@ const DatatableCus = () => {
 
                 <TableCell className="action">
                   <div className="tip">
-                    <ActionButton
-                      color="view"
-                      onClick={() => {
-                        navigate(`/customer/${item.accountID}`);
-                      }}
+                    <TooltipComponent
+                      content="Detail Info"
+                      position="BottomCenter"
                     >
-                      <PermContactCalendarIcon />
-                    </ActionButton>
-
-                    <ActionButton
-                      onMouseOver={() => {
-                        setRecordStatus(item.accountID);
-                        setchangeStatus(!item.status);
-                      }}
-                      color="changeSta"
-                      onClick={() => {
-                        changeStatusCustomer();
-                      }}
+                      <ActionButton
+                        color="view"
+                        onClick={() => {
+                          navigate(`/customer/${item.accountID}`);
+                        }}
+                      >
+                        <PermContactCalendarIcon />
+                      </ActionButton>
+                    </TooltipComponent>
+                    <TooltipComponent
+                      content="Change Status"
+                      position="BottomCenter"
                     >
-                      <LoopIcon />
-                    </ActionButton>
-
+                      <ActionButton
+                        onMouseOver={() => {
+                          setRecordStatus(item.accountID);
+                          setchangeStatus(!item.status);
+                        }}
+                        color="changeSta"
+                        onClick={() => {
+                          changeStatusCustomer();
+                        }}
+                      >
+                        <LoopIcon />
+                      </ActionButton>
+                    </TooltipComponent>
                     {item.status === true ? (
                       <ActionButton color="disable" disabled={true}>
                         <DeleteIcon />
                       </ActionButton>
                     ) : (
-                      <ActionButton
-                        onMouseOver={() => {
-                          setRecordForDelete(item.accountID);
-                        }}
-                        color="delete"
-                        disabled={false}
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: "Are you sure to delete this record?",
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              deleteCustomer();
-                            },
-                          });
-                        }}
+                      <TooltipComponent
+                        content="Delete"
+                        position="BottomCenter"
                       >
-                        <DeleteIcon />
-                      </ActionButton>
+                        <ActionButton
+                          onMouseOver={() => {
+                            setRecordForDelete(item.accountID);
+                          }}
+                          color="delete"
+                          disabled={false}
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: "Are you sure to delete this record?",
+                              subTitle: "You can't undo this operation",
+                              onConfirm: () => {
+                                deleteCustomer();
+                              },
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      </TooltipComponent>
                     )}
                   </div>
                 </TableCell>
