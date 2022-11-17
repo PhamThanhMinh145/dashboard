@@ -99,6 +99,11 @@ const DatatableCus = () => {
         .then((respone) => {
           console.log("Customer Delete", respone.data);
           window.location.reload();
+          setNotify({
+            isOpen: true,
+            message: "Deleted Successfully",
+            type: "error",
+          });
         });
     } catch (e) {
       console.log(e);

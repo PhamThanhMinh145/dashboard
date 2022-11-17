@@ -38,7 +38,6 @@
       .tip {
         display: flex;
 
-      
         .edit {
           text-transform: capitalize;
           padding: 8px 25px;
@@ -56,8 +55,19 @@
           border-radius: 5px;
           background-color: rgb(255, 194, 203);
           color: red;
-          border: 1px solid  rgb(255, 178, 190);
+          border: 1px solid rgb(255, 178, 190);
           cursor: pointer;
+        }
+
+        .disable {
+          text-transform: capitalize;
+          padding: 5px 25px;
+          border-radius: 5px;
+          background-color: rgb(255, 194, 203);
+          color: red;
+          border: 1px solid rgb(255, 178, 190);
+          cursor: pointer;
+          opacity: 0.4;
         }
       }
     }
@@ -69,5 +79,3 @@
     padding: 10px;
   }
 }
-
-

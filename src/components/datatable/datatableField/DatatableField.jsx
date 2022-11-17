@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import React, { useEffect, useState } from "react";
-import FieldForm from '../../../pages/Fields/FieldForm';
+import FieldForm from "../../../pages/Fields/FieldForm";
 import AuthService from "../../../services/auth.service";
 import ActionButton from "../../form/ActionButton";
 import Button from "../../form/Button";
@@ -21,7 +21,6 @@ const headCells = [
 ];
 
 const DatatableField = ({ onError }) => {
-  
   const [records, setRecords] = useState([]);
   const [record, setRecord] = useState();
   const [filterFn] = useState({
@@ -43,9 +42,7 @@ const DatatableField = ({ onError }) => {
     subTitle: "",
   });
 
-
   const user = AuthService.getCurrentUser();
-
 
   const url = "http://192.168.137.36:7132/Field/GetAll";
 
@@ -54,7 +51,7 @@ const DatatableField = ({ onError }) => {
       .then((response) => response.json())
       .then((json) => {
         console.log("result", json);
-        setRecords(json);   
+        setRecords(json);
       })
       .catch(() => onError());
   };
@@ -63,14 +60,14 @@ const DatatableField = ({ onError }) => {
     fetch("http://192.168.137.36:7132/Field", {
       method: "POST",
       headers: {
-        "accept" : "*/*",
-        "Authorization" : "bearer " + user.token,
+        accept: "*/*",
+        Authorization: "bearer " + user.token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         fieldID: field.fieldID,
         fieldName: field.fieldName,
-        fieldDescription: field.fieldDescription
+        fieldDescription: field.fieldDescription,
       }),
     })
       .then((response) => response.json())
@@ -81,27 +78,27 @@ const DatatableField = ({ onError }) => {
       .catch(() => onError());
   };
 
-  const putField = (field)  =>{
+  const putField = (field) => {
     fetch(`http://192.168.137.36:7132/Field/Update/${field.fieldID}`, {
       method: "PUT",
       headers: {
-        "accept" : "*/*",
-        "Authorization" : "bearer " + user.token,
+        accept: "*/*",
+        Authorization: "bearer " + user.token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         fieldID: field.fieldID,
-        fieldName:  field.fieldName,
-        fieldDescription: field.fieldDescription
+        fieldName: field.fieldName,
+        fieldDescription: field.fieldDescription,
       }),
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log("field update",json);
+        console.log("field update", json);
         setRecordForEdit(json);
       })
       .catch((e) => console.log(e));
-  }
+  };
 
   const deleteField = (field) => {
     fetch(`http://192.168.137.36:7132/Field/Delete/${field}`, {
@@ -112,25 +109,25 @@ const DatatableField = ({ onError }) => {
       },
       body: JSON.stringify({
         fieldID: field.fieldID,
-        fieldName:  field.fieldName,
-        fieldDescription: field.fieldDescription
+        fieldName: field.fieldName,
+        fieldDescription: field.fieldDescription,
       }),
     })
-    .then(() => {
-      setRecord( fetchField())
-    } )
-    
-    .catch((e) => console.log(e));
+      .then(() => {
+        setRecord(fetchField());
+      })
+
+      .catch((e) => console.log(e));
   };
 
   const addField = (field, resetForm) => {
     if (field.fieldID === 0) {
       postField(field);
-    }else{
-      putField(field)
+    } else {
+      putField(field);
     }
     resetForm();
-    setRecordForEdit(null)
+    setRecordForEdit(null);
     setOpenPopup(false);
     setNotify({
       isOpen: true,
@@ -140,7 +137,7 @@ const DatatableField = ({ onError }) => {
   };
 
   const onDelete = (field) => {
-    deleteField(field)
+    deleteField(field);
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
@@ -153,8 +150,6 @@ const DatatableField = ({ onError }) => {
     });
   };
 
-
-
   useEffect(() => {
     fetchField();
   }, [record, recordForEdit]);
@@ -163,7 +158,6 @@ const DatatableField = ({ onError }) => {
     setRecordForEdit(item);
     setOpenPopup(true);
   };
-
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
@@ -179,7 +173,7 @@ const DatatableField = ({ onError }) => {
             size="small"
             onClick={() => {
               setOpenPopup(true);
-              //setRecordForEdit(null);
+              setRecordForEdit(null);
             }}
             color="addNewAuthor"
           />
@@ -192,13 +186,14 @@ const DatatableField = ({ onError }) => {
               <TableRow key={item.fieldID} className="rowAuthor">
                 <TableCell className="cellID">{item.fieldID}</TableCell>
                 <TableCell className="cellName">{item.fieldName}</TableCell>
-                <TableCell className="cellDes">{item.fieldDescription}</TableCell>
+                <TableCell className="cellDes">
+                  {item.fieldDescription}
+                </TableCell>
 
                 <TableCell className="action">
-                <div className="tip">
-                    <TooltipComponent content="Edit" position="BottomCenter" >
+                  <div className="tip">
+                    <TooltipComponent content="Edit" position="BottomCenter">
                       <ActionButton
-                        
                         color="edit"
                         onClick={() => {
                           openInPopup(item);
@@ -208,21 +203,36 @@ const DatatableField = ({ onError }) => {
                       </ActionButton>
                     </TooltipComponent>
                     <TooltipComponent content="Delete" position="BottomCenter">
-                      <ActionButton
-                        color="delete"
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: "Are you sure to delete this record?",
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              onDelete(item.fieldID);
-                            },
-                          });
-                        }}
-                      >
-                        <DeleteIcon />
-                      </ActionButton>
+                      {item.books.length === 0 ? (
+                        <ActionButton
+                          color="delete"
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: "Are you sure to delete this record?",
+                              subTitle: "You can't undo this operation",
+                              onConfirm: () => {
+                                onDelete(item.fieldID);
+                              },
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      ) : (
+                        <ActionButton
+                          color="disable"
+                          onClick={() => {
+                            setNotify({
+                              isOpen: true,
+                              message: "This book has been ordered",
+                              type: "warning",
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      )}
                     </TooltipComponent>
                   </div>
                 </TableCell>

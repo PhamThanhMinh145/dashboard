@@ -165,7 +165,7 @@ const TableAuthor = ({ onError }) => {
     setRecordForEdit(item);
     setOpenPopup(true);
   };
-  console.log(records)
+  console.log(records);
 
   return (
     <>
@@ -179,7 +179,7 @@ const TableAuthor = ({ onError }) => {
             size="small"
             onClick={() => {
               setOpenPopup(true);
-              //setRecordForEdit(null);
+              setRecordForEdit(null);
             }}
             color="addNewAuthor"
           />
@@ -194,9 +194,8 @@ const TableAuthor = ({ onError }) => {
                 <TableCell className="cellName">{item.authorName}</TableCell>
                 <TableCell className="action">
                   <div className="tip">
-                    <TooltipComponent content="Edit" position="BottomCenter" >
+                    <TooltipComponent content="Edit" position="BottomCenter">
                       <ActionButton
-                        
                         color="edit"
                         onClick={() => {
                           openInPopup(item);
@@ -206,21 +205,36 @@ const TableAuthor = ({ onError }) => {
                       </ActionButton>
                     </TooltipComponent>
                     <TooltipComponent content="Delete" position="BottomCenter">
-                      <ActionButton
-                        color="delete"
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: "Are you sure to delete this record?",
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              onDelete(item.authorID);
-                            },
-                          });
-                        }}
-                      >
-                        <DeleteIcon />
-                      </ActionButton>
+                      {item.books.length === 0 ? (
+                        <ActionButton
+                          color="delete"
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: "Are you sure to delete this record?",
+                              subTitle: "You can't undo this operation",
+                              onConfirm: () => {
+                                onDelete(item.authorID);
+                              },
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      ) : (
+                        <ActionButton
+                          color="disable"
+                          onClick={() => {
+                            setNotify({
+                              isOpen: true,
+                              message: "This book has been ordered",
+                              type: "warning",
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      )}
                     </TooltipComponent>
                   </div>
                 </TableCell>

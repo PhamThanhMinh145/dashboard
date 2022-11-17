@@ -69,12 +69,11 @@ const DatatablePublisher = ({ onError }) => {
 
   const urlPost = "http://192.168.137.36:7132/Publisher/Create";
   const postPublisher = (publisher) => {
-    fetch(urlPost,
-       {
+    fetch(urlPost, {
       method: "POST",
       headers: {
-        "accept": "*/*",
-        "Authorization" : "bearer " + user.token,
+        accept: "*/*",
+        Authorization: "bearer " + user.token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -92,19 +91,22 @@ const DatatablePublisher = ({ onError }) => {
   };
 
   const putPublisher = (publisher) => {
-    fetch(`http://192.168.137.36:7132/Publisher/Update/${publisher.publisherID}`, {
-      method: "PUT",
-      headers: {
-        "accept": "*/*",
-        "Authorization" : "bearer " + user.token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        publisherID: publisher.publisherID,
-        publisherName: publisher.publisherName,
-        fieldAddress: publisher.fieldAddress,
-      }),
-    })
+    fetch(
+      `http://192.168.137.36:7132/Publisher/Update/${publisher.publisherID}`,
+      {
+        method: "PUT",
+        headers: {
+          accept: "*/*",
+          Authorization: "bearer " + user.token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          publisherID: publisher.publisherID,
+          publisherName: publisher.publisherName,
+          fieldAddress: publisher.fieldAddress,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((json) => {
         console.log("publisher update", json);
@@ -126,11 +128,11 @@ const DatatablePublisher = ({ onError }) => {
         fieldAddress: publisher.fieldAddress,
       }),
     })
-    .then(() => {
-      setRecord( fetchPublisher())
-    } )
-    
-    .catch((e) => console.log(e));
+      .then(() => {
+        setRecord(fetchPublisher());
+      })
+
+      .catch((e) => console.log(e));
   };
 
   const addOrEditPublisher = (publisher, resetForm) => {
@@ -199,10 +201,9 @@ const DatatablePublisher = ({ onError }) => {
                 <TableCell className="cellName">{item.publisherName}</TableCell>
                 <TableCell className="cellAdd">{item.fieldAddress}</TableCell>
                 <TableCell className="action">
-                <div className="tip">
-                    <TooltipComponent content="Edit" position="BottomCenter" >
+                  <div className="tip">
+                    <TooltipComponent content="Edit" position="BottomCenter">
                       <ActionButton
-                        
                         color="edit"
                         onClick={() => {
                           openInPopup(item);
@@ -212,21 +213,36 @@ const DatatablePublisher = ({ onError }) => {
                       </ActionButton>
                     </TooltipComponent>
                     <TooltipComponent content="Delete" position="BottomCenter">
-                      <ActionButton
-                        color="delete"
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: "Are you sure to delete this record?",
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              onDelete(item.authorID);
-                            },
-                          });
-                        }}
-                      >
-                        <DeleteIcon />
-                      </ActionButton>
+                      {item.books.length === 0 ? (
+                        <ActionButton
+                          color="delete"
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: "Are you sure to delete this record?",
+                              subTitle: "You can't undo this operation",
+                              onConfirm: () => {
+                                onDelete(item.publisherID);
+                              },
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      ) : (
+                        <ActionButton
+                          color="disable"
+                          onClick={() => {
+                            setNotify({
+                              isOpen: true,
+                              message: "This book has been ordered",
+                              type: "warning",
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      )}
                     </TooltipComponent>
                   </div>
                 </TableCell>

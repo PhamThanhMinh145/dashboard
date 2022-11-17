@@ -1,7 +1,10 @@
 import AddIcon from "@mui/icons-material/Add";
 import {
-    Table, TableBody,
-    TableCell, TableHead, TableRow
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -131,21 +134,21 @@ const Books = ({ onError }) => {
                 <TableCell className="cellID">{item.bookID}</TableCell>
                 <TableCell className="cellImg">
                   {item.image === "" ? (
-                   <div className="image">
-                     <img
-                      className="rounded-full h-24 w-24"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CJmdN6MPlykajhKOifHiPudu3nSgspz0FGd3UPHXdXcBRak4nWbuTuJh4O2eJFhc86I&usqp=CAU"
-                      alt="Book"
-                    />
-                   </div>
+                    <div className="image">
+                      <img
+                        className="rounded-full h-24 w-24"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CJmdN6MPlykajhKOifHiPudu3nSgspz0FGd3UPHXdXcBRak4nWbuTuJh4O2eJFhc86I&usqp=CAU"
+                        alt="Book"
+                      />
+                    </div>
                   ) : (
-                   <div className="image">
-                     <img
-                      className="rounded-full h-24 w-24"
-                      src={`${item.image}`}
-                      alt="Book"
-                    />
-                   </div>
+                    <div className="image">
+                      <img
+                        className="rounded-full h-24 w-24"
+                        src={`${item.image}`}
+                        alt="Book"
+                      />
+                    </div>
                   )}
                 </TableCell>
                 <TableCell className="cellName">{item.bookName}</TableCell>
@@ -206,44 +209,36 @@ const Books = ({ onError }) => {
                     </TooltipComponent>
 
                     <TooltipComponent content="Delete" position="BottomCenter">
-
-                    {item.orderDetails.length === 0 ?
-                     (
-                      <ActionButton
-               
-                        color="delete"
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: "Are you sure to delete this record?",
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              handleDelete(item.bookID);
-                            },
-                          });
-                        }}
-                      >
-                        <DeleteIcon />
-                      </ActionButton>
-                     ) 
-                    : (
-                      <ActionButton
-                
-                        color="disable"
-                        onClick={() => {
-                          setNotify({
-                            isOpen: true,
-                            message: "This book has been ordered",
-                            type: "warning",
-                          });
-                        }}
-                      >
-                        <DeleteIcon />
-                      </ActionButton>
-                    ) 
-                    
-                    }
-                      
+                      {item.orderDetails.length === 0 ? (
+                        <ActionButton
+                          color="delete"
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: "Are you sure to delete this record?",
+                              subTitle: "You can't undo this operation",
+                              onConfirm: () => {
+                                handleDelete(item.bookID);
+                              },
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      ) : (
+                        <ActionButton
+                          color="disable"
+                          onClick={() => {
+                            setNotify({
+                              isOpen: true,
+                              message: "This book has been ordered",
+                              type: "warning",
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      )}
                     </TooltipComponent>
                   </div>
                 </TableCell>
@@ -268,7 +263,7 @@ const Books = ({ onError }) => {
               <TableRow className="rowHead">
                 <TableCell className="cell">Author name</TableCell>
                 <TableCell className="cell">Publisher Name</TableCell>
-                <TableCell className="cell">Field</TableCell>
+                <TableCell className="cell">Field Name</TableCell>
                 <TableCell className="cell">Description</TableCell>
               </TableRow>
             </TableHead>
@@ -276,7 +271,7 @@ const Books = ({ onError }) => {
               <TableRow key={item.bookID}>
                 <TableCell>{item.author.authorName}</TableCell>
                 <TableCell>{item.publisher.publisherName}</TableCell>
-                <TableCell>{item.fieldID}</TableCell>
+                <TableCell>{item.field.fieldName}</TableCell>
 
                 <TableCell>{parse(item.description)}</TableCell>
               </TableRow>

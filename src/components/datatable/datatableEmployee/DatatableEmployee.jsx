@@ -111,6 +111,11 @@ const DatatableEmployee = () => {
         .then((respone) => {
           console.log("Employee Delete", respone.data);
           window.location.reload();
+          setNotify({
+            isOpen: true,
+            message: "Deleted Successfully",
+            type: "error",
+          });
         });
     } catch (e) {
       console.log(e);
@@ -136,7 +141,7 @@ const DatatableEmployee = () => {
         </div>
 
         <TblContainer>
-          <TblHead sx={{ height: "40px" }} />
+          <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.accountID} className="rowEmployee">

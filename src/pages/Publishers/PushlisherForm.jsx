@@ -23,6 +23,7 @@ const PublisherForm = ({ addOrEditPublisher, recordForEdit }) => {
         ? ""
         : "This field is required";
 
+        
     setErrors({
       ...temp,
     });

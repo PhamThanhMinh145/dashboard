@@ -140,8 +140,8 @@ const Import = () => {
 
   return (
     <>
-      <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-xl h-screen">
-        <div className="container">
+      <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-xl">
+        <div className="containerImport">
           <div className="title">Import File</div>
 
           <div className="flex-input">
@@ -162,7 +162,7 @@ const Import = () => {
           </div>
           {fileExtentions === "xlsx" && file !== null ? (
             <>
-              <div className="overflow-auto md:overflow-x-scroll ">
+              <div className="overflow-auto md:overflow-x-scroll">
                 <TblContainer>
                   <TblHead />
                   <TableBody>
@@ -205,8 +205,8 @@ const Import = () => {
                             />
                           </div>
                         </TableCell>
-                        <TableCell className="cellName">
-                          {item.Description}
+                        <TableCell className="cellDescription">
+                          <div className="content">{item.Description}</div>
                         </TableCell>
                         <TableCell className="cellName">
                           {item.FieldName}
@@ -222,8 +222,8 @@ const Import = () => {
                           {item.DateOfPublisher}
                         </TableCell>
 
-                        <TableCell className="cellDate">
-                          {item.StripID}
+                        <TableCell className="cellStripID">
+                          <div className="contentStrip">{item.StripID}</div>
                         </TableCell>
                       </TableRow>
 
