@@ -163,7 +163,7 @@ const App = () => {
                           />
                         }
                       />
-                      <Route path=":userId" element={<Single />} />
+                      
                     </Route>
 
                     <Route path="Fields">

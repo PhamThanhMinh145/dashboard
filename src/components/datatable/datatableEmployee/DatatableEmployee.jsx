@@ -110,7 +110,7 @@ const DatatableEmployee = () => {
         </div>
 
         <TblContainer>
-          <TblHead sx={{ height: "40px" }} />
+          <TblHead  />
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.accountID} className="rowEmployee">

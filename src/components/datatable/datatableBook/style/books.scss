@@ -37,10 +37,10 @@
     }
 
     .cellImg {
-      width: 300px;
+      width: 200px;
       .image{
-        // display: flex;
-        // justify-content: center;
+        display: flex;
+        justify-content: start;
         img {
           width: 120px;
           height: 150px;
