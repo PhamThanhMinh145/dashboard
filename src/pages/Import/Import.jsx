@@ -9,13 +9,13 @@ import ActionButton from "../../components/form/ActionButton";
 import { addExcel } from "../../redux/apiCalls";
 import AuthService from "../../services/auth.service";
 import "./style/import.scss";
-
+import { useNavigate } from "react-router-dom";
 // import { DataGrid } from "@mui/x-data-grid";
 const EXTENSIONS = ["xlsx", "xls"];
 
 const Import = () => {
   const user = AuthService.getCurrentUser();
-
+  const nagative = useNavigate()
   const [file, setFile] = useState("");
   const [fileExtentions, setFileExtentions] = useState("");
   const [headCells, setHeadCells] = useState([]);
@@ -131,6 +131,7 @@ const Import = () => {
           console.log(err);
         }
       );
+      nagative("/books")
     } else {
       console.log("Invalid File");
     }

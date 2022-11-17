@@ -4,7 +4,8 @@ import {
     TableBody,
     TableCell,
     TableHead,
-    TableRow
+    TableRow,
+    InputAdornment
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +13,6 @@ import { deleteBook, getBooks } from "../../../redux/apiCalls";
 import ActionButton from "../../form/ActionButton";
 import Button from "../../form/Button";
 import useTable from "../useTable";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
@@ -25,6 +25,8 @@ import { Link } from "react-router-dom";
 import ConfirmDialog from "../../form/ConfirmDialog";
 import Popup from "../../form/Popup";
 import Notification from "../../Notification";
+import { Search } from "@mui/icons-material";
+import Input from '../../form/Input'
 import "./style/books.scss";
 
 const headCells = [
@@ -43,7 +45,7 @@ const Books = ({ onError }) => {
 
   const [openPopup, setOpenPopup] = useState(false);
   const [detailData, setDetailData] = useState([]);
-  const [filterFn] = useState({
+  const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
     },
@@ -98,6 +100,20 @@ const Books = ({ onError }) => {
     });
   };
 
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == "") return items;
+        else
+          return items.filter((x) =>
+            x.bookName.toLowerCase().includes(target.value)
+          );
+      },
+    });
+  };
+
+
   console.log("detail", detailData);
   return (
     <>
@@ -124,6 +140,23 @@ const Books = ({ onError }) => {
               />
             </Link>
           </div>
+        </div>
+
+        <div className="searchBook">
+        <Input
+            className="searchInput"
+            label="Search Book"
+            other={{
+              InputProps: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              },
+            }}
+            onChange={handleSearch}
+          />
         </div>
 
         <TblContainer>

@@ -1,7 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { TableBody, TableCell, TableRow, InputAdornment } from "@mui/material";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import React, { useEffect, useState } from "react";
 import AuthorForm from "../../../pages/Authors/AuthorForm";
@@ -9,11 +9,12 @@ import AuthService from "../../../services/auth.service";
 import ActionButton from "../../form/ActionButton";
 import Button from "../../form/Button";
 import ConfirmDialog from "../../form/ConfirmDialog";
-import Popup from "../../form/Popup";
+import Popup from "../../form/Popup"; 
 import Notification from "../../Notification";
 import useTable from "../useTable";
 import "./style/tableAuthor.scss";
-
+import { Search } from "@mui/icons-material";
+import Input from '../../form/Input'
 const headCells = [
   { id: "authorID", label: "ID" },
   { id: "authorName", label: "Author name" },
@@ -23,7 +24,7 @@ const headCells = [
 const TableAuthor = ({ onError }) => {
   const [records, setRecords] = useState([]);
   const [record, setRecord] = useState();
-  const [filterFn] = useState({
+  const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
     },
@@ -165,6 +166,19 @@ const TableAuthor = ({ onError }) => {
     setRecordForEdit(item);
     setOpenPopup(true);
   };
+
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == "") return items;
+        else
+          return items.filter((x) =>
+            x.authorName.toLowerCase().includes(target.value)
+          );
+      },
+    });
+  };
   console.log(records);
 
   return (
@@ -182,6 +196,23 @@ const TableAuthor = ({ onError }) => {
               setRecordForEdit(null);
             }}
             color="addNewAuthor"
+          />
+        </div>
+
+        <div className="searchAuthor">
+        <Input
+            className="searchInput"
+            label="Search Book"
+            other={{
+              InputProps: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              },
+            }}
+            onChange={handleSearch}
           />
         </div>
 
