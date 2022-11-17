@@ -132,6 +132,7 @@ const Import = () => {
         }
       );
       nagative("/books")
+      window.location.reload()
     } else {
       console.log("Invalid File");
     }
