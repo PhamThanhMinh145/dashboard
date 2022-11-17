@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Grid } from "@mui/material";
-import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";
-import './style/newField.scss'
+import Input from "../../components/form/Input";
+import './style/newField.scss';
 
 const initialFValues = {
   fieldID: 0,
@@ -66,7 +66,7 @@ const FieldForm = ({addField, recordForEdit}) => {
   );
 
   return (
-    <div className="container">
+    <div className="containerField">
       <form autoComplete="off" onSubmit={handleSubmit}>
         <Grid container className="grid">
           <div className="gridInput">
@@ -92,7 +92,7 @@ const FieldForm = ({addField, recordForEdit}) => {
             </div>
           </div>
 
-          <div className="btn">
+          <div className="btnField">
             <Button
               type="submit"
               size="small"

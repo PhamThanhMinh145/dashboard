@@ -1,10 +1,9 @@
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { Grid } from "@mui/material";
 import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable
+    getDownloadURL, getStorage,
+    ref,
+    uploadBytesResumable
 } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -20,14 +19,14 @@ import AuthService from "../../services/auth.service";
 import "./style/bookForm.scss";
 
 const initialFValues = {
-  authorID: 0,
+  authorID: "",
   bookID: 0,
   bookName: "",
   dateOfPublished: new Date(),
   description: "",
-  fieldID: 0,
+  fieldID: "",
   price: 0,
-  publisherID: 0,
+  publisherID: "",
   quantity: 0,
   stripeID: "",
 };

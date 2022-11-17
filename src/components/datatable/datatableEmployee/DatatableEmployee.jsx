@@ -77,7 +77,6 @@ const DatatableEmployee = () => {
           .then((response) => {
             const resData = response.data;
             setRecords((records) => [...records, ...resData]);
-         
           });
       } catch (e) {
         console.log(e);
@@ -145,14 +144,16 @@ const DatatableEmployee = () => {
                   <div>{item.accountID}</div>
                 </TableCell>
                 <TableCell className="cellImg">
-                  <img
-                    src={
-                      item?.image !== null
-                        ? item?.image
-                        : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                    }
-                    alt=""
-                  />
+                  <div className="Img">
+                    <img
+                      src={
+                        item?.image !== null
+                          ? item?.image
+                          : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                      }
+                      alt=""
+                    />
+                  </div>
                 </TableCell>
                 <TableCell className="cellName">
                   <div>{item.owner}</div>

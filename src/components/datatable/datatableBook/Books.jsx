@@ -1,29 +1,27 @@
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
+    Table, TableBody,
+    TableCell, TableHead, TableRow
 } from "@mui/material";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
-import Moment from "react-moment";
-import { NumericFormat } from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { deleteBook, getBooks } from "../../../redux/apiCalls";
-import AuthService from "../../../services/auth.service";
 import ActionButton from "../../form/ActionButton";
 import Button from "../../form/Button";
+import useTable from "../useTable";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import parse from "html-react-parser";
+import Moment from "react-moment";
+import { NumericFormat } from "react-number-format";
+import { Link } from "react-router-dom";
 import ConfirmDialog from "../../form/ConfirmDialog";
 import Popup from "../../form/Popup";
 import Notification from "../../Notification";
-import useTable from "../useTable";
 import "./style/books.scss";
 
 const headCells = [
@@ -31,10 +29,7 @@ const headCells = [
   { id: "image", label: "Image", disableSorting: true },
   { id: "bookName", label: "Book name" },
   { id: "dateOfPublished", label: "Date" },
-  //   { id: "description", label: "Description" },
-  // { id: "fieldID", label: "Field name" },
-  // { id: "publisherID", label: "Publusher name" },
-  // { id: "authorID", label: "Author name" },
+
   { id: "price", label: "Price" },
   { id: "quantity", label: "Quantity" },
   { id: "action", label: "Action", disableSorting: true },
@@ -64,7 +59,7 @@ const Books = ({ onError }) => {
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(books, headCells, filterFn);
 
-  const user = AuthService.getCurrentUser();
+  // const user = AuthService.getCurrentUser();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -106,15 +101,26 @@ const Books = ({ onError }) => {
       <div className="datatableBooks">
         <div className="title">
           List Books
-          <Link to={"/books/newbook"}>
-            <Button
-              text="Add New"
-              variant="outlined"
-              startIcon={<AddIcon />}
-              size="small"
-              color="addNewBook"
-            />
-          </Link>
+          <div>
+            <Link to={"/books/newbook"}>
+              <Button
+                text="Add New"
+                variant="outlined"
+                startIcon={<AddIcon />}
+                size="small"
+                color="addNewBook"
+              />
+            </Link>
+            <Link to={"/books/import"}>
+              <Button
+                text="Import"
+                variant="outlined"
+                startIcon={<ImportExportOutlinedIcon />}
+                size="small"
+                color="addNewBook"
+              />
+            </Link>
+          </div>
         </div>
 
         <TblContainer>
@@ -125,17 +131,21 @@ const Books = ({ onError }) => {
                 <TableCell className="cellID">{item.bookID}</TableCell>
                 <TableCell className="cellImg">
                   {item.image === "" ? (
-                    <img
+                   <div className="image">
+                     <img
                       className="rounded-full h-24 w-24"
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CJmdN6MPlykajhKOifHiPudu3nSgspz0FGd3UPHXdXcBRak4nWbuTuJh4O2eJFhc86I&usqp=CAU"
                       alt="Book"
                     />
+                   </div>
                   ) : (
-                    <img
+                   <div className="image">
+                     <img
                       className="rounded-full h-24 w-24"
                       src={`${item.image}`}
                       alt="Book"
                     />
+                   </div>
                   )}
                 </TableCell>
                 <TableCell className="cellName">{item.bookName}</TableCell>
@@ -172,7 +182,7 @@ const Books = ({ onError }) => {
                   <div className="tip">
                     <TooltipComponent content="Detail" position="BottomCenter">
                       <ActionButton
-                        color="edit"
+                        color="detail"
                         onClick={() => openInPopup(item.bookID)}
                       >
                         <LibraryBooksIcon fontSize="small" />
@@ -185,8 +195,8 @@ const Books = ({ onError }) => {
                           onClick={() => {
                             setNotify({
                               isOpen: true,
-                              message: "Deleted Successfully",
-                              type: "error",
+                              message: "Edit Successfully",
+                              type: "success",
                             });
                           }}
                         >
@@ -196,8 +206,11 @@ const Books = ({ onError }) => {
                     </TooltipComponent>
 
                     <TooltipComponent content="Delete" position="BottomCenter">
+
+                    {item.orderDetails.length === 0 ?
+                     (
                       <ActionButton
-                        // disabled={item.orderDetails.length !== 0 ? true : false}
+               
                         color="delete"
                         onClick={() => {
                           setConfirmDialog({
@@ -212,6 +225,25 @@ const Books = ({ onError }) => {
                       >
                         <DeleteIcon />
                       </ActionButton>
+                     ) 
+                    : (
+                      <ActionButton
+                
+                        color="disable"
+                        onClick={() => {
+                          setNotify({
+                            isOpen: true,
+                            message: "This book has been ordered",
+                            type: "warning",
+                          });
+                        }}
+                      >
+                        <DeleteIcon />
+                      </ActionButton>
+                    ) 
+                    
+                    }
+                      
                     </TooltipComponent>
                   </div>
                 </TableCell>

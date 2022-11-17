@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import Input from "../../components/form/Input";
+import React, { useEffect, useState } from "react";
 import Button from "../../components/form/Button";
+import Input from "../../components/form/Input";
 import "./style/publisherForm.scss";
 
 const initialFValues = {
   publisherID: 0,
   publisherName: "",
-  fieldAddress: ""
+  fieldAddress: "",
 };
 
-const PublisherForm = ({addOrEditPublisher, recordForEdit}) => {
-
-
+const PublisherForm = ({ addOrEditPublisher, recordForEdit }) => {
   const [values, setValues] = useState(initialFValues);
   const [errors, setErrors] = useState({});
 
@@ -21,13 +19,16 @@ const PublisherForm = ({addOrEditPublisher, recordForEdit}) => {
   const validation = (fieldValues = values) => {
     let temp = { ...errors };
     if ("publisherName" in fieldValues)
-      temp.publisherName = fieldValues.publisherName ? "" : "This field is required";
+      temp.publisherName = fieldValues.publisherName
+        ? ""
+        : "This field is required";
 
     setErrors({
       ...temp,
     });
 
-    if (fieldValues === values) return Object.values(temp).every((x) => x === "");
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
   };
 
   const handleInputChange = (e) => {
@@ -43,7 +44,7 @@ const PublisherForm = ({addOrEditPublisher, recordForEdit}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validation()) {
-       addOrEditPublisher(values, resetForm);
+      addOrEditPublisher(values, resetForm);
     }
   };
 
@@ -52,26 +53,26 @@ const PublisherForm = ({addOrEditPublisher, recordForEdit}) => {
     setErrors({});
   };
 
-   // code for edit
-   useEffect(
+  // code for edit
+  useEffect(
     () => {
       if (recordForEdit != null)
         setValues({
           ...recordForEdit,
         });
-        console.log(recordForEdit);
+      console.log(recordForEdit);
     },
-    {recordForEdit} 
+    { recordForEdit }
   );
 
   return (
-    <div className="container">
+    <div className="containerPublisher">
       <form autoComplete="off" onSubmit={handleSubmit}>
         <Grid container className="grid">
           <div className="gridInput">
             <div>
               <Input
-              className="size"
+                className="size"
                 name="publisherName"
                 label="Publisher name"
                 value={values.publisherName}
@@ -82,7 +83,7 @@ const PublisherForm = ({addOrEditPublisher, recordForEdit}) => {
 
             <div>
               <Input
-              className="size"
+                className="size"
                 name="fieldAddress"
                 label="Address"
                 value={values.fieldAddress}
@@ -91,21 +92,23 @@ const PublisherForm = ({addOrEditPublisher, recordForEdit}) => {
             </div>
           </div>
 
-          <div className="btn">
-            <Button
-              type="submit"
-              size="small"
-              text="Submit"
-              className="submit"
-            />
+          <div className="btnAction">
+           
+              <Button
+                type="submit"
+                size="small"
+                text="Submit"
+                className="submit"
+              />
 
-            <Button
-              text="Reset"
-              size="small"
-              className="reset"
-              onClick={resetForm}
-            />
-          </div>
+              <Button
+                text="Reset"
+                size="small"
+                className="reset"
+                onClick={resetForm}
+              />
+            </div>
+          
         </Grid>
       </form>
     </div>

@@ -20,9 +20,10 @@ import ListEmployees from "./pages/Employees/ListEmployees";
 import ListField from "./pages/Fields/ListField";
 import ListOrders from "./pages/Orders/ListOrders";
 import ListPublisher from "./pages/Publishers/ListPublisher";
-// import SignInConnect from "./pages/SignIn/SignInConnect";
+
 import EditEmployee from "./pages/Employees/EditEmployee";
 import EmployeeForm from "./pages/Employees/EmployeeForm";
+import Import from "./pages/Import/Import.jsx";
 import ViewOrderDetailTable from "./pages/Orders/ViewOrderDetailTable";
 import ViewOrderTable from "./pages/Orders/ViewOrderTable";
 import Login from "./pages/SignIn/Login";
@@ -134,6 +135,7 @@ const App = () => {
                         path=":bookID"
                         element={<BookFormUpdate title="Update new Book" />}
                       />
+                      <Route path="import" element={<Import />} />
                     </Route>
 
                     <Route path="authors">
@@ -151,7 +153,6 @@ const App = () => {
                           />
                         }
                       />
-                      <Route path=":accountID" element={<DetailCustomer />} />
                     </Route>
 
                     <Route path="Fields">

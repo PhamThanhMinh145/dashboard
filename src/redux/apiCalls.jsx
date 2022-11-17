@@ -1,18 +1,14 @@
 import { publicRequest, userRequest } from "../requestMethod";
 
 import {
-  deleteBookFailure,
+  addBookFailure, addBookStart,
+  addBookSuccess, deleteBookFailure,
   deleteBookStart,
   deleteBookSuccess,
   getBookFailure,
   getBookStart,
-  getBookSuccess,
-  updateBookStart,
-  updateBookSuccess,
-  updateBookFailure,
-  addBookStart,
-  addBookSuccess,
-  addBookFailure
+  getBookSuccess, updateBookFailure, updateBookStart,
+  updateBookSuccess
 } from "./bookRedux";
 
 export const getBooks = async (dispatch) => {
@@ -55,6 +51,16 @@ export const getBooks = async (dispatch) => {
       dispatch(addBookFailure());
     }
   };
+
+  // export const addExcel = async (file, dispatch) => {
+  //   dispatch(addBookStart());
+  //   try {
+  //     const res = await userRequest.post(`Book/Import`, file );
+  //     dispatch(addBookSuccess(res.data));
+  //   } catch (err) {
+  //     dispatch(addBookFailure());
+  //   }
+  // };
 
 
   

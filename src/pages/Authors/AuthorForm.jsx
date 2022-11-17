@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import "./style/authorForm.scss";
 import { Grid } from "@mui/material";
-import Input from "../../components/form/Input";
+import React, { useEffect, useState } from "react";
 import Button from "../../components/form/Button";
+import Input from "../../components/form/Input";
+import "./style/authorForm.scss";
 
 const initialFValues = {
   authorID: 0,
@@ -64,7 +64,7 @@ const AuthorForm = ({addAuthor, recordForEdit}) => {
 
     
   return (
-    <div className="container">
+    <div className="containerAuthor">
       <form autoComplete="off" onSubmit={handleSubmit}>
         <Grid container className="gridInput">
           <Grid item xs={6} className="grid">
@@ -79,7 +79,7 @@ const AuthorForm = ({addAuthor, recordForEdit}) => {
           </Grid>
 
           <Grid item xs={6} className="grid">
-            <div className="btn">
+            <div className="btnAuthor">
               <Button
                 type="submit"
                 size="small"

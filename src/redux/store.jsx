@@ -1,16 +1,11 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
+  FLUSH, PAUSE,
+  PERSIST, persistReducer, persistStore, PURGE,
+  REGISTER, REHYDRATE
 } from "redux-persist";
-import bookReducer from "./bookRedux"
 import storage from "redux-persist/lib/storage";
+import bookReducer from "./bookRedux";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +14,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+  
   book: bookReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

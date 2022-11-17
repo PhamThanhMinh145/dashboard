@@ -1,11 +1,17 @@
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import React from "react";
-import { BiBookBookmark } from "react-icons/bi";
-import { MdOutlineCancel } from "react-icons/md";
+import { AiFillHome } from "react-icons/ai";
+import { BiBookBookmark, BiCategory } from "react-icons/bi";
+import {
+  BsBookHalf, BsFillCartCheckFill, BsPersonLinesFill
+} from "react-icons/bs";
+import { IoIosPeople } from "react-icons/io";
+import { MdOutlineCancel, MdOutlinePeopleAlt } from "react-icons/md";
+import { SiAffinitypublisher } from "react-icons/si";
 import { Link, NavLink } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
-import { links } from "../data/dummy";
 
+import AuthService from "../services/auth.service";
 const Sidebar = () => {
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2";
@@ -18,6 +24,8 @@ const Sidebar = () => {
   const handleCloseSideBar = () => {
     if (activeMenu && screenSize <= 900) setActiveMenu(false);
   };
+
+  const user = AuthService.getCurrentUser();
 
   return (
     <div
@@ -51,27 +59,142 @@ const Sidebar = () => {
           </div>
 
           <div className="mt-8">
-            {links.map((item) => (
-              <div key={item.title}>
-                <p className="text-gray-400 m-3 mt-4 uppercase">{item.title}</p>
-                {item.links.map((link) => (
-                  <NavLink
-                    to={`/${link.name}`}
-                    key={link.name}
-                    onClick={handleCloseSideBar}
-                    style={({ isActive }) => ({
-                      backgroundColor: isActive ? currentColor : "",
-                    })}
-                    className={({ isActive }) =>
-                      isActive ? activeLink : normalLink
-                    }
-                  >
-                    {link.icon}
-                    <span className="capitalize">{link.name}</span>
-                  </NavLink>
-                ))}
+            <div>
+              <p className="text-gray-400 m-3 mt-4 uppercase">DASHBOARD</p>
+
+              <NavLink
+                to="/home"
+                key="home"
+                onClick={handleCloseSideBar}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                <AiFillHome />
+                <span className="capitalize">Home</span>
+              </NavLink>
+            </div>
+
+            {/* ACCOUNT */}
+            {user.role === "Admin" && (
+              <div>
+                <p className="text-gray-400 m-3 mt-4 uppercase">ACCOUNTS</p>
+
+                <NavLink
+                  to="/employee"
+                  key="employee"
+                  onClick={handleCloseSideBar}
+                  style={({ isActive }) => ({
+                    backgroundColor: isActive ? currentColor : "",
+                  })}
+                  className={({ isActive }) =>
+                    isActive ? activeLink : normalLink
+                  }
+                >
+                  <IoIosPeople />
+                  <span className="capitalize">Employee</span>
+                </NavLink>
+
+                <NavLink
+                  to="/customer"
+                  key="customer"
+                  onClick={handleCloseSideBar}
+                  style={({ isActive }) => ({
+                    backgroundColor: isActive ? currentColor : "",
+                  })}
+                  className={({ isActive }) =>
+                    isActive ? activeLink : normalLink
+                  }
+                >
+                  <MdOutlinePeopleAlt />
+                  <span className="capitalize">Customer</span>
+                </NavLink>
               </div>
-            ))}
+            )}
+
+            {/* PRODUCTS  */}
+
+            <div>
+              <p className="text-gray-400 m-3 mt-4 uppercase">PRODUCTS</p>
+
+              <NavLink
+                to="/books"
+                key="book"
+                onClick={handleCloseSideBar}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                <BsBookHalf />
+                <span className="capitalize">Book</span>
+              </NavLink>
+
+              <NavLink
+                to="/publishers"
+                onClick={handleCloseSideBar}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                <SiAffinitypublisher />
+                <span className="capitalize">Publisher</span>
+              </NavLink>
+
+              <NavLink
+                to="/authors"
+                onClick={handleCloseSideBar}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                <BsPersonLinesFill />
+                <span className="capitalize">Author</span>
+              </NavLink>
+
+              <NavLink
+                to="/fields"
+                onClick={handleCloseSideBar}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                <BiCategory />
+                <span className="capitalize">Field</span>
+              </NavLink>
+            </div>
+
+            <div>
+              <p className="text-gray-400 m-3 mt-4 uppercase">SALES</p>
+
+              <NavLink
+                to="/orders"
+                onClick={handleCloseSideBar}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                <BsFillCartCheckFill />
+                <span className="capitalize">Orders</span>
+              </NavLink>
+            </div>
           </div>
         </>
       )}

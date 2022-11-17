@@ -14,7 +14,7 @@ import useTable from "../useTable";
 
 const headCells = [
   { id: "accountID", label: "ID" },
-  { id: "image", label: "Avatar" },
+  { id: "image", label: "Avatar", disableSorting: true },
   { id: "accountEmail", label: "Email" },
   { id: "status", label: "Status" },
   { id: "action", label: "Action", disableSorting: true },
