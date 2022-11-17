@@ -211,7 +211,7 @@ const DatatablePublisher = ({ onError }) => {
         <div className="searchPublisher">
         <Input
             className="searchInput"
-            label="Search Book"
+            label="Search Publish name"
             other={{
               InputProps: {
                 startAdornment: (

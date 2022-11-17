@@ -202,7 +202,7 @@ const TableAuthor = ({ onError }) => {
         <div className="searchAuthor">
         <Input
             className="searchInput"
-            label="Search Book"
+            label="Search Author"
             other={{
               InputProps: {
                 startAdornment: (
