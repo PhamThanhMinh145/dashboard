@@ -115,7 +115,7 @@ const Import = () => {
 
     if (fileExtentions.toLowerCase() === "xlsx") {
       axios({
-        url: "http://192.168.137.36:7132/Book/Import",
+        url: "https://localhost:7091/Book/Import",
         method: "POST",
         headers: {
           accept: "text/plain",

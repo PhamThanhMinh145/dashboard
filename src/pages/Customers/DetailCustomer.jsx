@@ -35,7 +35,7 @@ const DetailCustomer = () => {
       try {
         await axios
           .get(
-            `http://192.168.137.36:7132/Account/GetById/${accountID}`,
+            `https://localhost:7091/Account/GetById/${accountID}`,
             config
           )
           .then((response) => {

@@ -1,18 +1,18 @@
 import {
-  BrightnessAuto,
-  LocationSearching,
-  MailOutline,
-  PermIdentity,
-  PhoneAndroid
+    BrightnessAuto,
+    LocationSearching,
+    MailOutline,
+    PermIdentity,
+    PhoneAndroid
 } from "@mui/icons-material";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable
 } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 
@@ -130,7 +130,7 @@ const EditEmployee = () => {
       try {
         await axios
           .get(
-            `http://192.168.137.36:7132/Account/GetById/${accountID}`,
+            `https://localhost:7091/Account/GetById/${accountID}`,
             config
           )
           .then((response) => {
@@ -150,7 +150,7 @@ const EditEmployee = () => {
     try {
       await axios
         .put(
-          `http://192.168.137.36:7132/Account/Update/${accountID}`,
+          `https://localhost:7091/Account/Update/${accountID}`,
           values,
           config
         )

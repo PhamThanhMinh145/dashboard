@@ -46,7 +46,7 @@ const DatatablePublisher = ({ onError }) => {
 
   const user = AuthService.getCurrentUser();
 
-  const urlGet = "http://192.168.137.36:7132/Publisher/Get";
+  const urlGet = "https://localhost:7091/Publisher/Get";
 
   const fetchPublisher = () => {
     var myHeaders = new Headers();
@@ -67,7 +67,7 @@ const DatatablePublisher = ({ onError }) => {
       .catch(() => onError());
   };
 
-  const urlPost = "http://192.168.137.36:7132/Publisher/Create";
+  const urlPost = "https://localhost:7091/Publisher/Create";
   const postPublisher = (publisher) => {
     fetch(urlPost, {
       method: "POST",
@@ -92,7 +92,7 @@ const DatatablePublisher = ({ onError }) => {
 
   const putPublisher = (publisher) => {
     fetch(
-      `http://192.168.137.36:7132/Publisher/Update/${publisher.publisherID}`,
+      `https://localhost:7091/Publisher/Update/${publisher.publisherID}`,
       {
         method: "PUT",
         headers: {
@@ -116,7 +116,7 @@ const DatatablePublisher = ({ onError }) => {
   };
 
   const deletePublisher = (publisher) => {
-    fetch(`http://192.168.137.36:7132/Publisher/Delete/${publisher}`, {
+    fetch(`https://localhost:7091/Publisher/Delete/${publisher}`, {
       method: "DELETE",
       headers: {
         accept: "*/*",

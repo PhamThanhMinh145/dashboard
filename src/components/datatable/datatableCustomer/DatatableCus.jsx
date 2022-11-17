@@ -58,7 +58,7 @@ const DatatableCus = () => {
     const onGridReady = async () => {
       try {
         await axios
-          .get("http://192.168.137.36:7132/Account/GetByRole/2", config)
+          .get("https://localhost:7091/Account/GetByRole/2", config)
           .then((response) => {
             const resData = response.data;
             setRecords([...records, ...resData]);
@@ -76,7 +76,7 @@ const DatatableCus = () => {
     try {
       await axios
         .put(
-          `http://192.168.137.36:7132/Account/ChangeStatus?id=${recordStatus}`,
+          `https://localhost:7091/Account/ChangeStatus?id=${recordStatus}`,
           { status: changeStatus },
           config
         )
@@ -93,7 +93,7 @@ const DatatableCus = () => {
     try {
       await axios
         .delete(
-          `http://192.168.137.36:7132/Account/Delete/${recordForDelete}`,
+          `https://localhost:7091/Account/Delete/${recordForDelete}`,
           config
         )
         .then((respone) => {

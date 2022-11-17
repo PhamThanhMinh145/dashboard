@@ -44,7 +44,7 @@ const DatatableField = ({ onError }) => {
 
   const user = AuthService.getCurrentUser();
 
-  const url = "http://192.168.137.36:7132/Field/GetAll";
+  const url = "https://localhost:7091/Field/GetAll";
 
   const fetchField = () => {
     fetch(url)
@@ -57,7 +57,7 @@ const DatatableField = ({ onError }) => {
   };
 
   const postField = (field) => {
-    fetch("http://192.168.137.36:7132/Field", {
+    fetch("https://localhost:7091/Field", {
       method: "POST",
       headers: {
         accept: "*/*",
@@ -79,7 +79,7 @@ const DatatableField = ({ onError }) => {
   };
 
   const putField = (field) => {
-    fetch(`http://192.168.137.36:7132/Field/Update/${field.fieldID}`, {
+    fetch(`https://localhost:7091/Field/Update/${field.fieldID}`, {
       method: "PUT",
       headers: {
         accept: "*/*",
@@ -101,7 +101,7 @@ const DatatableField = ({ onError }) => {
   };
 
   const deleteField = (field) => {
-    fetch(`http://192.168.137.36:7132/Field/Delete/${field}`, {
+    fetch(`https://localhost:7091/Field/Delete/${field}`, {
       method: "DELETE",
       headers: {
         accept: "*/*",

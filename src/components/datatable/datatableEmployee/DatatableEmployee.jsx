@@ -63,7 +63,7 @@ const DatatableEmployee = () => {
     const onGridReady = async () => {
       try {
         await axios
-          .get("http://192.168.137.36:7132/Account/GetByRole/1", config)
+          .get("https://localhost:7091/Account/GetByRole/1", config)
           .then((response) => {
             const resData = response.data;
             setRecords([...records, ...resData]);
@@ -73,7 +73,7 @@ const DatatableEmployee = () => {
       }
       try {
         await axios
-          .get("http://192.168.137.36:7132/Account/GetByRole/3", config)
+          .get("https://localhost:7091/Account/GetByRole/3", config)
           .then((response) => {
             const resData = response.data;
             setRecords((records) => [...records, ...resData]);
@@ -91,7 +91,7 @@ const DatatableEmployee = () => {
     try {
       await axios
         .put(
-          `http://192.168.137.36:7132/Account/ChangeStatus?id=${recordStatus}`,
+          `https://localhost:7091/Account/ChangeStatus?id=${recordStatus}`,
           { status: changeStatus },
           config
         )
@@ -107,7 +107,7 @@ const DatatableEmployee = () => {
   const deleteEmployee = async () => {
     try {
       await axios
-        .delete(`http://192.168.137.36:7132/Account/Delete/${record}`, config)
+        .delete(`https://localhost:7091/Account/Delete/${record}`, config)
         .then((respone) => {
           console.log("Employee Delete", respone.data);
           window.location.reload();

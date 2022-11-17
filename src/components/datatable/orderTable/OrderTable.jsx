@@ -43,7 +43,7 @@ const OrderTable = () => {
     const onGridReady = async () => {
       try {
         await axios
-          .get("http://192.168.137.36:7132/Account/GetByRole/2", config)
+          .get("https://localhost:7091/Account/GetByRole/2", config)
           .then((response) => {
             const resData = response.data;
             setRecords([...records, ...resData]);

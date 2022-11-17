@@ -46,7 +46,7 @@ const ViewOrderTable = () => {
       try {
         await axios
           .get(
-            `http://192.168.137.36:7132/Order/GetByCustomerId/${accountID}`,
+            `https://localhost:7091/Order/GetByCustomerId/${accountID}`,
             config
           )
           .then((response) => {

@@ -1,10 +1,10 @@
 import AddIcon from "@mui/icons-material/Add";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -72,7 +72,7 @@ const Books = ({ onError }) => {
   //   console.log("Book: ", books);
 
   const showDetail = (bookID) => {
-    fetch(`http://192.168.137.36:7132/Book/GetById/${bookID}`)
+    fetch(`https://localhost:7091/Book/GetById/${bookID}`)
       .then((response) => response.json())
       .then((json) => {
         // console.log("result", json);

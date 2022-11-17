@@ -13,7 +13,7 @@ const Logout = ({
 }) => {
   const { setIsClicked, initialState } = useStateContext();
   const currentUser = AuthService.getCurrentUser();
-  const urlPost = "http://192.168.137.36:7132/Auth/logout";
+  const urlPost = "https://localhost:7091/Auth/logout";
   function logout() {
     fetch(urlPost, {
       method: "POST",

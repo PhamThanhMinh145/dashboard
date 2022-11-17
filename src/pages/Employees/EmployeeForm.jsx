@@ -2,10 +2,10 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { Grid } from "@mui/material";
 import axios from "axios";
 import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable
 } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -74,7 +74,7 @@ const EmloyeeForm = ({ title }) => {
   const addEmployee = async () => {
     try {
       await axios
-        .post("http://192.168.137.36:7132/Account/Create", values, {
+        .post("https://localhost:7091/Account/Create", values, {
           headers: {
             "Content-Type": "application/json; charset=utf-8",
             Accept: "application/json",

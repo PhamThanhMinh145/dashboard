@@ -2,7 +2,7 @@ import axios from "axios";
 import storage from "redux-persist/lib/storage";
 import authHeader from "./auth-header";
 
-const API_URL = "http://192.168.137.36:7132/Auth/";
+const API_URL = "https://localhost:7091/Auth/";
 
 const login = (accountEmail, password) => {
   return axios
@@ -20,23 +20,19 @@ const login = (accountEmail, password) => {
 };
 
 const logout = () => {
-
   localStorage.removeItem("user");
-  storage.removeItem('persist:root')
+  storage.removeItem("persist:root");
 
   return axios.post(API_URL + "logout", authHeader).then((response) => {
     return response.data;
   });
-
- 
-  
 };
 
 const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
-const AuthService =  {
+const AuthService = {
   login,
   logout,
   getCurrentUser,

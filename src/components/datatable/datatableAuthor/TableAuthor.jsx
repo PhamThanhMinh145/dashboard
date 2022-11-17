@@ -46,7 +46,7 @@ const TableAuthor = ({ onError }) => {
     useTable(records, headCells, filterFn);
 
   const user = AuthService.getCurrentUser();
-  const url = "http://192.168.137.36:7132/Author/Get";
+  const url = "https://localhost:7091/Author/Get";
 
   const fetchAuthor = () => {
     var myHeaders = new Headers();
@@ -67,7 +67,7 @@ const TableAuthor = ({ onError }) => {
   };
 
   const postAuthor = (author) => {
-    fetch("http://192.168.137.36:7132/Author/Create", {
+    fetch("https://localhost:7091/Author/Create", {
       method: "POST",
       headers: {
         accept: "*/*",
@@ -88,7 +88,7 @@ const TableAuthor = ({ onError }) => {
   };
 
   const putAuthor = (author) => {
-    fetch(`http://192.168.137.36:7132/Author/Update/${author.authorID}`, {
+    fetch(`https://localhost:7091/Author/Update/${author.authorID}`, {
       method: "PUT",
       headers: {
         accept: "*/*",
@@ -109,7 +109,7 @@ const TableAuthor = ({ onError }) => {
   };
 
   const deleteAuthor = (author) => {
-    fetch(`http://192.168.137.36:7132/Author/Delete/${author}`, {
+    fetch(`https://localhost:7091/Author/Delete/${author}`, {
       method: "DELETE",
       headers: {
         accept: "*/*",

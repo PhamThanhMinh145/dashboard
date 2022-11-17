@@ -100,9 +100,9 @@ const BookForm = ({ title }) => {
   const [recordsPublisher, setRecordsPubliser] = useState([]);
   const [recordsAuthor, setRecordsAuthor] = useState([]);
   const user = AuthService.getCurrentUser();
-  const urlAuthor = "http://192.168.137.36:7132/Author/Get";
-  const urlField = "http://192.168.137.36:7132/Field/GetAll";
-  const urlPublisher = "http://192.168.137.36:7132/Publisher/Get";
+  const urlAuthor = "https://localhost:7091/Author/Get";
+  const urlField = "https://localhost:7091/Field/GetAll";
+  const urlPublisher = "https://localhost:7091/Publisher/Get";
   // get data author
   const fetchAuthor = () => {
     var myHeaders = new Headers();
