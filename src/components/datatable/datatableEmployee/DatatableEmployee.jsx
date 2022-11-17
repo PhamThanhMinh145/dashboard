@@ -4,6 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import LoopIcon from "@mui/icons-material/Loop";
 import { TableBody, TableCell, TableRow, InputAdornment } from "@mui/material";
 
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -219,52 +220,62 @@ const DatatableEmployee = () => {
 
                 <TableCell className="action">
                   <div className="tip">
-                    <ActionButton
-                      color="edit"
-                      onClick={() => {
-                        navigate(`/employee/editemployee/${item.accountID}`);
-                      }}
+                    <TooltipComponent content="Edit" position="BottomCenter">
+                      <ActionButton
+                        color="edit"
+                        onClick={() => {
+                          navigate(`/employee/editemployee/${item.accountID}`);
+                        }}
+                      >
+                        <EditIcon />
+                      </ActionButton>
+                    </TooltipComponent>
+                    <TooltipComponent
+                      content="Change Status"
+                      position="BottomCenter"
                     >
-                      <EditIcon />
-                    </ActionButton>
-
-                    <ActionButton
-                      onMouseOver={() => {
-                        setRecordStatus(item.accountID);
-                        setchangeStatus(!item.status);
-                      }}
-                      color="changeSta"
-                      onClick={() => {
-                        changeStatusEmployee();
-                      }}
-                    >
-                      <LoopIcon />
-                    </ActionButton>
-
+                      <ActionButton
+                        onMouseOver={() => {
+                          setRecordStatus(item.accountID);
+                          setchangeStatus(!item.status);
+                        }}
+                        color="changeSta"
+                        onClick={() => {
+                          changeStatusEmployee();
+                        }}
+                      >
+                        <LoopIcon />
+                      </ActionButton>
+                    </TooltipComponent>
                     {item.status === true ? (
                       <ActionButton color="disable" disabled={true}>
                         <DeleteIcon />
                       </ActionButton>
                     ) : (
-                      <ActionButton
-                        onMouseOver={() => {
-                          setRecord(item.accountID);
-                        }}
-                        disabled={false}
-                        color="delete"
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: "Are you sure to delete this record?",
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              deleteEmployee();
-                            },
-                          });
-                        }}
+                      <TooltipComponent
+                        content="Delete"
+                        position="BottomCenter"
                       >
-                        <DeleteIcon />
-                      </ActionButton>
+                        <ActionButton
+                          onMouseOver={() => {
+                            setRecord(item.accountID);
+                          }}
+                          disabled={false}
+                          color="delete"
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: "Are you sure to delete this record?",
+                              subTitle: "You can't undo this operation",
+                              onConfirm: () => {
+                                deleteEmployee();
+                              },
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </ActionButton>
+                      </TooltipComponent>
                     )}
                   </div>
                 </TableCell>
