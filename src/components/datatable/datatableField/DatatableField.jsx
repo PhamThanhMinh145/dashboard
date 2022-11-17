@@ -1,7 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { TableBody, TableCell, TableRow, InputAdornment } from "@mui/material";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import React, { useEffect, useState } from "react";
 import FieldForm from "../../../pages/Fields/FieldForm";
@@ -13,6 +13,8 @@ import Popup from "../../form/Popup";
 import Notification from "../../Notification";
 import useTable from "../useTable";
 import "./style/datatableField.scss";
+import { Search } from "@mui/icons-material";
+import Input from "../../form/Input";
 const headCells = [
   { id: "fieldID", label: "ID" },
   { id: "fieldName", label: "Field name" },
@@ -23,7 +25,7 @@ const headCells = [
 const DatatableField = ({ onError }) => {
   const [records, setRecords] = useState([]);
   const [record, setRecord] = useState();
-  const [filterFn] = useState({
+  const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
     },
@@ -161,6 +163,19 @@ const DatatableField = ({ onError }) => {
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
+
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == "") return items;
+        else
+          return items.filter((x) =>
+            x.fieldName.toLowerCase().includes(target.value)
+          );
+      },
+    });
+  };
   return (
     <>
       <div className="datatableField">
@@ -176,6 +191,23 @@ const DatatableField = ({ onError }) => {
               setRecordForEdit(null);
             }}
             color="addNewAuthor"
+          />
+        </div>
+
+        <div className="searchField">
+        <Input
+            className="searchInput"
+            label="Search Field"
+            other={{
+              InputProps: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              },
+            }}
+            onChange={handleSearch}
           />
         </div>
 

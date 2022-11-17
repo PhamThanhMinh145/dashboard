@@ -21,6 +21,16 @@
     }
   }
 
+
+  .searchAuthor{
+    width: 80%;
+    margin-bottom: 20px;
+    .searchInput{
+      width: 70%;
+    }
+  }
+
+
   .rowAuthor:nth-child(even) {
     background-color: #f8f8f8;
   }

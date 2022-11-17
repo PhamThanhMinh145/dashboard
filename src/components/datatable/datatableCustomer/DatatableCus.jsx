@@ -1,3 +1,4 @@
+import { Search } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoopIcon from "@mui/icons-material/Loop";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
@@ -9,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../../../services/auth.service";
 import ActionButton from "../../form/ActionButton";
 import ConfirmDialog from "../../form/ConfirmDialog";
+import Input from "../../form/Input";
 import Notification from "../../Notification";
 import "../datatableCustomer/style/datatableCus.scss";
 import useTable from "../useTable";
@@ -27,7 +29,7 @@ const DatatableCus = () => {
   const [recordForDelete, setRecordForDelete] = useState(null);
   const [recordStatus, setRecordStatus] = useState();
   const [changeStatus, setchangeStatus] = useState(true);
-  const [filterFn] = useState({
+  const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
     },
@@ -114,10 +116,39 @@ const DatatableCus = () => {
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
 
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == "") return items;
+        else
+          return items.filter((x) =>
+            x.accountEmail.toLowerCase().includes(target.value)
+          );
+      },
+    });
+  };
+
   return (
     <>
       <div className="datatableCustomer">
         <div className="title">List Customer</div>
+        <div className="searchCus">
+          <Input
+            className="searchInput"
+            label="Search Customer"
+            other={{
+              InputProps: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              },
+            }}
+            onChange={handleSearch}
+          />
+        </div>
 
         <TblContainer>
           <TblHead sx={{ height: "40px" }} />

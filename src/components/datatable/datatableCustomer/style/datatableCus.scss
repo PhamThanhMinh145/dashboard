@@ -10,6 +10,14 @@
     justify-content: space-between;
     margin-bottom: 20px;
   }
+  .searchCus{
+    width: 80%;
+    margin-bottom: 20px;
+    .searchInput{
+      width: 70%;
+    }
+  }
+
 
   .rowCustomer:nth-child(even) {
     background-color: #f8f8f8;

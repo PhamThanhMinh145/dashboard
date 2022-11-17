@@ -1,7 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { TableBody, TableCell, TableRow,  InputAdornment } from "@mui/material";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import React, { useEffect, useState } from "react";
 import PublisherForm from "../../../pages/Publishers/PushlisherForm";
@@ -13,6 +13,8 @@ import Popup from "../../form/Popup";
 import Notification from "../../Notification";
 import "../datatablePublisher/style/datatablePublisher.scss";
 import useTable from "../useTable";
+import { Search } from "@mui/icons-material";
+import Input from '../../form/Input'
 const headCells = [
   { id: "publisherID", label: "ID" },
   { id: "publisherName", label: "Publisher name" },
@@ -23,7 +25,7 @@ const DatatablePublisher = ({ onError }) => {
   const [openPopup, setOpenPopup] = useState(false);
   const [records, setRecords] = useState([]);
   const [record, setRecord] = useState();
-  const [filterFn] = useState({
+  const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
     },
@@ -174,6 +176,20 @@ const DatatablePublisher = ({ onError }) => {
     setOpenPopup(true);
   };
 
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == "") return items;
+        else
+          return items.filter((x) =>
+            x.publisherName.toLowerCase().includes(target.value)
+          );
+      },
+    });
+  };
+
+
   return (
     <>
       <div className="table">
@@ -189,6 +205,23 @@ const DatatablePublisher = ({ onError }) => {
               setRecordForEdit(null);
             }}
             color="addNewPublisher"
+          />
+        </div>
+
+        <div className="searchPublisher">
+        <Input
+            className="searchInput"
+            label="Search Publish name"
+            other={{
+              InputProps: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              },
+            }}
+            onChange={handleSearch}
           />
         </div>
 

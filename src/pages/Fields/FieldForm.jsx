@@ -86,7 +86,7 @@ const FieldForm = ({addField, recordForEdit}) => {
               <Input
               className="size"
                 name="fieldDescription"
-                label="Address"
+                label="Description"
                 value={values.fieldDescription}
                 onChange={handleInputChange}
               />
